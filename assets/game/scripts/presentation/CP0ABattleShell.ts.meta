@@ -1,0 +1,13 @@
+{
+  "ver": "4.0.24",
+  "importer": "typescript",
+  "imported": true,
+  "uuid": "a19f8cb4-eb9a-4f83-badc-7f5f5da56822",
+  "files": [],
+  "subMetas": {},
+  "userData": {
+    "moduleId": "project:///assets/game/scripts/presentation/CP0ABattleShell.js",
+    "importerSettings": 7,
+    "simulateGlobals": []
+  }
+}
