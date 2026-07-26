@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "board": {
+    "rows": 7,
+    "columns": 7,
+    "ingredientTypeCount": 5,
+    "connectionDirections": 8,
+    "minimumLink": 3
+  },
+  "pot": {
+    "baseSlots": 3,
+    "temporarySlots": 1,
+    "minimumThrowsToCook": 2
+  },
+  "longLink": {
+    "fine": 5,
+    "inspiration": 7,
+    "master": 9
+  },
+  "inspiration": {
+    "unitValue": 2,
+    "spawnStrategy": "PATH_END_COLUMN_FIRST_NEW_CELL"
+  },
+  "shuffle": {
+    "algorithm": "fisher-yates-xorshift32-v1",
+    "maximumAttempts": 256
+  },
+  "star": {
+    "quantityDeviationFactor": 12.5,
+    "recipeWeights": {
+      "quantity": 0.7,
+      "ratio": 0.3
+    },
+    "processingScores": {
+      "normal": 60,
+      "fine": 80,
+      "inspiration": 90,
+      "master": 100,
+      "inspirationBonus": 10,
+      "maximum": 100
+    },
+    "efficiencyScores": {
+      "high": 100,
+      "pass": 70,
+      "low": 40
+    },
+    "weights": {
+      "recipe": 0.6,
+      "processing": 0.25,
+      "efficiency": 0.15
+    },
+    "thresholds": {
+      "two": 65,
+      "three": 85
+    }
+  }
+}

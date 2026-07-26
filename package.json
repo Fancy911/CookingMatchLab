@@ -1,7 +1,22 @@
 {
   "name": "CookingMatchLab",
+  "private": true,
+  "type": "module",
   "uuid": "3e3c4e37-a610-41d6-909c-c00b5afd21f4",
   "creator": {
     "version": "3.8.8"
+  },
+  "scripts": {
+    "test": "vitest run && npm run report",
+    "test:unit": "vitest run tests/unit",
+    "test:scenarios": "vitest run tests/scenarios",
+    "typecheck": "tsc -p tsconfig.cp0b.json --noEmit",
+    "report": "tsx scripts/generate-cp0b-report.ts"
+  },
+  "devDependencies": {
+    "@types/node": "24.1.0",
+    "tsx": "4.20.3",
+    "typescript": "5.8.3",
+    "vitest": "3.2.7"
   }
 }

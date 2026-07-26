@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "tutorials": [
+    {
+      "id": "INSPIRATION_UNIT_HINT",
+      "trigger": "FIRST_INSPIRATION_SPAWN",
+      "text": "灵感食材：连接时占1格，入锅时算2份。",
+      "once": true
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 1,
+  "orders": [
+    {
+      "id": "ORD_01",
+      "title": "熟悉一下基础研究锅",
+      "targetRecipeId": "RCP_TOMATO_EGG",
+      "initialSteps": 7,
+      "ingredientPool": ["ING_TOMATO", "ING_EGG", "ING_POTATO", "ING_CARROT", "ING_MUSHROOM"],
+      "orderMode": "TUTORIAL",
+      "clues": ["番茄建议4～6", "鸡蛋建议3～5"],
+      "highEfficiencySteps": 5,
+      "passEfficiencySteps": 3,
+      "defaultScenarioId": "O1_TUTORIAL_001",
+      "tutorialFlags": ["UNIT_VALUE", "STOP_AT_FIVE", "FIRE_AFTER_TWO"]
+    },
+    {
+      "id": "ORD_02",
+      "title": "三份投料，一张香饼",
+      "targetRecipeId": "RCP_SCALLION_POTATO_CAKE",
+      "initialSteps": 8,
+      "ingredientPool": ["ING_POTATO", "ING_EGG", "ING_SCALLION", "ING_TOMATO", "ING_MUSHROOM"],
+      "orderMode": "KNOWN",
+      "clues": ["土豆5～7", "鸡蛋3～4", "香葱3～4", "正好需要三次投料"],
+      "highEfficiencySteps": 5,
+      "passEfficiencySteps": 3,
+      "defaultScenarioId": "O2_STANDARD",
+      "tutorialFlags": []
+    },
+    {
+      "id": "ORD_03",
+      "title": "研究记录：森林里的暖香",
+      "targetRecipeId": "RCP_GARDEN_MUSHROOM_SOUP",
+      "initialSteps": 8,
+      "ingredientPool": ["ING_MUSHROOM", "ING_CARROT", "ING_POTATO", "ING_EGG", "ING_TOMATO"],
+      "orderMode": "RESEARCH",
+      "clues": ["菌香是主角", "需要一种清甜根茎和一种绵密根茎", "菌菇的量应接近另外两种食材总量，但不要超过它们"],
+      "highEfficiencySteps": 5,
+      "passEfficiencySteps": 3,
+      "defaultScenarioId": "O3_STANDARD",
+      "tutorialFlags": ["INSPIRATION_UNIT_HINT"]
+    }
+  ]
+}

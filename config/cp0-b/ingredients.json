@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 1,
+  "ingredients": [
+    {
+      "id": "ING_TOMATO",
+      "symbol": "T",
+      "name": "番茄",
+      "tags": ["酸香", "汁水", "蔬菜"],
+      "normalUnitValue": 1,
+      "boardSprite": "game/art/ingredients/ingredient_tomato",
+      "potLayer": "game/art/pot/pot_tomato",
+      "inspirationOverlay": ["game/art/inspiration/inspiration_star", "game/art/inspiration/inspiration_ring"]
+    },
+    {
+      "id": "ING_EGG",
+      "symbol": "E",
+      "name": "鸡蛋",
+      "tags": ["醇厚", "蛋白", "柔软"],
+      "normalUnitValue": 1,
+      "boardSprite": "game/art/ingredients/ingredient_egg",
+      "potLayer": "game/art/pot/pot_egg",
+      "inspirationOverlay": ["game/art/inspiration/inspiration_star", "game/art/inspiration/inspiration_ring"]
+    },
+    {
+      "id": "ING_POTATO",
+      "symbol": "P",
+      "name": "土豆",
+      "tags": ["淀粉", "绵密", "主料"],
+      "normalUnitValue": 1,
+      "boardSprite": "game/art/ingredients/ingredient_potato",
+      "potLayer": "game/art/pot/pot_potato",
+      "inspirationOverlay": ["game/art/inspiration/inspiration_star", "game/art/inspiration/inspiration_ring"]
+    },
+    {
+      "id": "ING_CARROT",
+      "symbol": "C",
+      "name": "胡萝卜",
+      "tags": ["清甜", "爽脆", "蔬菜"],
+      "normalUnitValue": 1,
+      "boardSprite": "game/art/ingredients/ingredient_carrot",
+      "potLayer": "game/art/pot/pot_carrot",
+      "inspirationOverlay": ["game/art/inspiration/inspiration_star", "game/art/inspiration/inspiration_ring"]
+    },
+    {
+      "id": "ING_MUSHROOM",
+      "symbol": "M",
+      "name": "蘑菇",
+      "tags": ["鲜味", "菌香", "柔嫩"],
+      "normalUnitValue": 1,
+      "boardSprite": "game/art/ingredients/ingredient_mushroom",
+      "potLayer": "game/art/pot/pot_mushroom",
+      "inspirationOverlay": ["game/art/inspiration/inspiration_star", "game/art/inspiration/inspiration_ring"]
+    },
+    {
+      "id": "ING_SCALLION",
+      "symbol": "S",
+      "name": "香葱",
+      "tags": ["葱香", "调味", "点缀"],
+      "normalUnitValue": 1,
+      "boardSprite": "game/art/ingredients/ingredient_scallion",
+      "potLayer": "game/art/pot/pot_scallion",
+      "inspirationOverlay": ["game/art/inspiration/inspiration_star", "game/art/inspiration/inspiration_ring"]
+    }
+  ]
+}

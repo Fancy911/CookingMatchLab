@@ -1,0 +1,3366 @@
+{
+  "reportId": "CP0-B",
+  "generatedAt": "2026-07-26T14:16:41.097Z",
+  "status": "PASS",
+  "environment": {
+    "cocosCreatorVersion": "3.8.8",
+    "nodeVersion": "v22.22.2",
+    "gitBaselineCommit": "cba34c9920be44cb546653635c8a4dab60c5aa14",
+    "configSchemaVersion": 1,
+    "configHash": "8737fa94"
+  },
+  "deterministicRuntime": {
+    "gameplayRngAlgorithm": "xorshift32-v1",
+    "shuffleAlgorithm": "fisher-yates-xorshift32-v1",
+    "fixedScenarioRefill": "COLUMN_QUEUE (PRNG not used)"
+  },
+  "counts": {
+    "ingredients": 6,
+    "recipes": 6,
+    "orders": 3,
+    "scenarios": 5,
+    "unitTests": 24,
+    "scenarioTests": 9
+  },
+  "unitTests": [
+    {
+      "id": "U01",
+      "description": "八方向相邻合法；四方向模式下斜线非法",
+      "status": "PASS",
+      "durationMs": 0.542,
+      "firstDifference": null
+    },
+    {
+      "id": "U02",
+      "description": "少于3连取消且所有状态不变",
+      "status": "PASS",
+      "durationMs": 0.95,
+      "firstDifference": null
+    },
+    {
+      "id": "U03",
+      "description": "路径不可重复；返回倒数第二格只撤销最后格",
+      "status": "PASS",
+      "durationMs": 0.23,
+      "firstDifference": null
+    },
+    {
+      "id": "U04",
+      "description": "普通食材1格等于1入锅单位",
+      "status": "PASS",
+      "durationMs": 0.142,
+      "firstDifference": null
+    },
+    {
+      "id": "U05",
+      "description": "灵感食材连接占1格、入锅等于2单位",
+      "status": "PASS",
+      "durationMs": 0.082,
+      "firstDifference": null
+    },
+    {
+      "id": "U06",
+      "description": "5、7、9长连阈值从配置读取",
+      "status": "PASS",
+      "durationMs": 0.315,
+      "firstDifference": null
+    },
+    {
+      "id": "U07",
+      "description": "7连先完成当前投料，再在补盘生成灵感",
+      "status": "PASS",
+      "durationMs": 0.446,
+      "firstDifference": null
+    },
+    {
+      "id": "U08",
+      "description": "灵感位于路径终点列的第一个新补格",
+      "status": "PASS",
+      "durationMs": 0.208,
+      "firstDifference": null
+    },
+    {
+      "id": "U09",
+      "description": "掉落保持同列原有相对顺序",
+      "status": "PASS",
+      "durationMs": 0.17,
+      "firstDifference": null
+    },
+    {
+      "id": "U10",
+      "description": "补盘不自动消除、不自动入锅",
+      "status": "PASS",
+      "durationMs": 0.318,
+      "firstDifference": null
+    },
+    {
+      "id": "U11",
+      "description": "死盘免费洗牌，不改变步数和锅",
+      "status": "PASS",
+      "durationMs": 0.38,
+      "firstDifference": null
+    },
+    {
+      "id": "U12",
+      "description": "一次合法连线只占一个投料位",
+      "status": "PASS",
+      "durationMs": 0.05,
+      "firstDifference": null
+    },
+    {
+      "id": "U13",
+      "description": "至少两次投料才能开火；第三次后不自动开火",
+      "status": "PASS",
+      "durationMs": 0.101,
+      "firstDifference": null
+    },
+    {
+      "id": "U14",
+      "description": "投料顺序不同但最终输入相同，生成同一道料理",
+      "status": "PASS",
+      "durationMs": 0.064,
+      "firstDifference": null
+    },
+    {
+      "id": "U15",
+      "description": "G2冲突表C01～C12全部通过",
+      "status": "PASS",
+      "durationMs": 0.137,
+      "firstDifference": null
+    },
+    {
+      "id": "U16",
+      "description": "0～12全量整数枚举无两道明确配方同时命中",
+      "status": "PASS",
+      "durationMs": 1203.098,
+      "firstDifference": null
+    },
+    {
+      "id": "U17",
+      "description": "五道明确料理理想路径均为3星",
+      "status": "PASS",
+      "durationMs": 0.237,
+      "firstDifference": null
+    },
+    {
+      "id": "U18",
+      "description": "暖锅杂烩总分最高70，因此最多二星",
+      "status": "PASS",
+      "durationMs": 0.041,
+      "firstDifference": null
+    },
+    {
+      "id": "U19",
+      "description": "星级计算不读取当前订单目标身份",
+      "status": "PASS",
+      "durationMs": 0.051,
+      "firstDifference": null
+    },
+    {
+      "id": "U20",
+      "description": "非目标有剩余步数时只清锅并保留棋盘、特殊格、步数和队列",
+      "status": "PASS",
+      "durationMs": 0.674,
+      "firstDifference": null
+    },
+    {
+      "id": "U21",
+      "description": "非目标且剩余0步时进入订单未完成",
+      "status": "PASS",
+      "durationMs": 0.048,
+      "firstDifference": null
+    },
+    {
+      "id": "U22",
+      "description": "订单失败不回滚首次发现和历史最高星级",
+      "status": "PASS",
+      "durationMs": 0.058,
+      "firstDifference": null
+    },
+    {
+      "id": "U23",
+      "description": "配置缺字段、非法食材或固定队列耗尽时明确失败",
+      "status": "PASS",
+      "durationMs": 0.766,
+      "firstDifference": null
+    },
+    {
+      "id": "U24",
+      "description": "同一配置、seed和操作序列生成相同快照hash",
+      "status": "PASS",
+      "durationMs": 1.9,
+      "firstDifference": null
+    }
+  ],
+  "scenarioTests": [
+    {
+      "id": "S01",
+      "description": "O1番茄5连＋鸡蛋4连生成番茄炒蛋，剩5步",
+      "status": "PASS",
+      "durationMs": 3.48,
+      "firstDifference": null
+    },
+    {
+      "id": "S02",
+      "description": "O2_STANDARD生成香葱土豆饼，剩5步",
+      "status": "PASS",
+      "durationMs": 1.9,
+      "firstDifference": null
+    },
+    {
+      "id": "S03",
+      "description": "O2_BLACK第一锅生成黏糊番茄薯团，剩5步",
+      "status": "PASS",
+      "durationMs": 2.859,
+      "firstDifference": null
+    },
+    {
+      "id": "S04",
+      "description": "O2_BLACK清锅后继续生成订单目标，剩2步",
+      "status": "PASS",
+      "durationMs": 1.78,
+      "firstDifference": null
+    },
+    {
+      "id": "S05",
+      "description": "O3_STANDARD生成田园菌菇汤，剩5步",
+      "status": "PASS",
+      "durationMs": 1.032,
+      "firstDifference": null
+    },
+    {
+      "id": "S06",
+      "description": "O3_INSPIRATION灵感固定在r2c4，后续3格加入4单位",
+      "status": "PASS",
+      "durationMs": 1.582,
+      "firstDifference": null
+    },
+    {
+      "id": "S07",
+      "description": "O3_INSPIRATION第一锅生成星辉菌菇蛋盅，剩5步",
+      "status": "PASS",
+      "durationMs": 1.504,
+      "firstDifference": null
+    },
+    {
+      "id": "S08",
+      "description": "O3_INSPIRATION清锅后继续生成订单目标，剩2步",
+      "status": "PASS",
+      "durationMs": 1.372,
+      "firstDifference": null
+    },
+    {
+      "id": "S09",
+      "description": "O3_INSPIRATION重跑时首次提示不重复且料理不变",
+      "status": "PASS",
+      "durationMs": 3.069,
+      "firstDifference": null
+    }
+  ],
+  "scenarioRuns": [
+    {
+      "engineVersion": "3.8.8",
+      "gitBaselineCommit": "cba34c9920be44cb546653635c8a4dab60c5aa14",
+      "configSchemaVersion": 1,
+      "configHash": "8737fa94",
+      "scenarioId": "O1_TUTORIAL_001",
+      "rng": {
+        "algorithm": "xorshift32-v1",
+        "seed": "0x43503042",
+        "fixedRefillUsesPrng": false
+      },
+      "actions": [
+        {
+          "index": 0,
+          "type": "LINK",
+          "path": [
+            "r1c1",
+            "r1c2",
+            "r2c2",
+            "r2c3",
+            "r3c3"
+          ],
+          "before": {
+            "remainingSteps": 7,
+            "potUnits": {},
+            "usedThrowSlots": 0,
+            "processingTags": [],
+            "queueCursors": {
+              "0": 0,
+              "1": 0,
+              "2": 0,
+              "3": 0,
+              "4": 0,
+              "5": 0,
+              "6": 0
+            },
+            "boardHash": "7fc599cf",
+            "snapshotHash": "2346cdd4"
+          },
+          "after": {
+            "remainingSteps": 6,
+            "potUnits": {
+              "ING_TOMATO": 5
+            },
+            "usedThrowSlots": 1,
+            "processingTags": [
+              "FINE"
+            ],
+            "queueCursors": {
+              "0": 1,
+              "1": 2,
+              "2": 2,
+              "3": 0,
+              "4": 0,
+              "5": 0,
+              "6": 0
+            },
+            "boardHash": "f13cf916",
+            "snapshotHash": "262f329a"
+          },
+          "committed": true,
+          "inspirationHintShown": false
+        },
+        {
+          "index": 1,
+          "type": "LINK",
+          "path": [
+            "r7c4",
+            "r7c5",
+            "r7c6",
+            "r7c7"
+          ],
+          "before": {
+            "remainingSteps": 6,
+            "potUnits": {
+              "ING_TOMATO": 5
+            },
+            "usedThrowSlots": 1,
+            "processingTags": [
+              "FINE"
+            ],
+            "queueCursors": {
+              "0": 1,
+              "1": 2,
+              "2": 2,
+              "3": 0,
+              "4": 0,
+              "5": 0,
+              "6": 0
+            },
+            "boardHash": "f13cf916",
+            "snapshotHash": "262f329a"
+          },
+          "after": {
+            "remainingSteps": 5,
+            "potUnits": {
+              "ING_TOMATO": 5,
+              "ING_EGG": 4
+            },
+            "usedThrowSlots": 2,
+            "processingTags": [
+              "FINE"
+            ],
+            "queueCursors": {
+              "0": 1,
+              "1": 2,
+              "2": 2,
+              "3": 1,
+              "4": 1,
+              "5": 1,
+              "6": 1
+            },
+            "boardHash": "4171fbe4",
+            "snapshotHash": "3b63ab8f"
+          },
+          "committed": true,
+          "inspirationHintShown": false
+        },
+        {
+          "index": 2,
+          "type": "FIRE",
+          "path": [],
+          "before": {
+            "remainingSteps": 5,
+            "potUnits": {
+              "ING_TOMATO": 5,
+              "ING_EGG": 4
+            },
+            "usedThrowSlots": 2,
+            "processingTags": [
+              "FINE"
+            ],
+            "queueCursors": {
+              "0": 1,
+              "1": 2,
+              "2": 2,
+              "3": 1,
+              "4": 1,
+              "5": 1,
+              "6": 1
+            },
+            "boardHash": "4171fbe4",
+            "snapshotHash": "3b63ab8f"
+          },
+          "after": {
+            "remainingSteps": 5,
+            "potUnits": {
+              "ING_TOMATO": 5,
+              "ING_EGG": 4
+            },
+            "usedThrowSlots": 2,
+            "processingTags": [
+              "FINE"
+            ],
+            "queueCursors": {
+              "0": 1,
+              "1": 2,
+              "2": 2,
+              "3": 1,
+              "4": 1,
+              "5": 1,
+              "6": 1
+            },
+            "boardHash": "4171fbe4",
+            "snapshotHash": "cf0280c2"
+          },
+          "recipeId": "RCP_TOMATO_EGG",
+          "stars": 3,
+          "orderResult": "SUCCESS"
+        }
+      ],
+      "fireResults": [
+        {
+          "recipeId": "RCP_TOMATO_EGG",
+          "stars": 3,
+          "score": 92.5,
+          "orderResult": "SUCCESS",
+          "isNewDiscovery": true
+        }
+      ],
+      "finalSnapshot": {
+        "remainingSteps": 5,
+        "board": [
+          [
+            {
+              "ingredientId": "ING_MUSHROOM",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_CARROT",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_MUSHROOM",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_TOMATO",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_POTATO",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_CARROT",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_MUSHROOM",
+              "inspiration": false
+            }
+          ],
+          [
+            {
+              "ingredientId": "ING_CARROT",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_POTATO",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_CARROT",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_CARROT",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_EGG",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_MUSHROOM",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_POTATO",
+              "inspiration": false
+            }
+          ],
+          [
+            {
+              "ingredientId": "ING_POTATO",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_EGG",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_POTATO",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_EGG",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_POTATO",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_MUSHROOM",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_CARROT",
+              "inspiration": false
+            }
+          ],
+          [
+            {
+              "ingredientId": "ING_EGG",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_POTATO",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_CARROT",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_CARROT",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_MUSHROOM",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_POTATO",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_EGG",
+              "inspiration": false
+            }
+          ],
+          [
+            {
+              "ingredientId": "ING_MUSHROOM",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_CARROT",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_POTATO",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_EGG",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_MUSHROOM",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_CARROT",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_POTATO",
+              "inspiration": false
+            }
+          ],
+          [
+            {
+              "ingredientId": "ING_CARROT",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_MUSHROOM",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_EGG",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_TOMATO",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_EGG",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_MUSHROOM",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_CARROT",
+              "inspiration": false
+            }
+          ],
+          [
+            {
+              "ingredientId": "ING_POTATO",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_CARROT",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_MUSHROOM",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_POTATO",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_CARROT",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_EGG",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_MUSHROOM",
+              "inspiration": false
+            }
+          ]
+        ],
+        "pot": {
+          "units": {
+            "ING_TOMATO": 5,
+            "ING_EGG": 4
+          },
+          "throws": [
+            {
+              "ingredientId": "ING_TOMATO",
+              "pathLength": 5,
+              "units": 5,
+              "processingScore": 80,
+              "containsInspiration": false
+            },
+            {
+              "ingredientId": "ING_EGG",
+              "pathLength": 4,
+              "units": 4,
+              "processingScore": 60,
+              "containsInspiration": false
+            }
+          ],
+          "tags": [
+            "FINE"
+          ]
+        },
+        "queueCursors": {
+          "0": 1,
+          "1": 2,
+          "2": 2,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1
+        },
+        "orderResult": "SUCCESS",
+        "discovery": {
+          "tutorialFlags": {
+            "inspirationUnitHintShown": false
+          },
+          "discoveredRecipeIds": [
+            "RCP_TOMATO_EGG"
+          ],
+          "bestStarsByRecipe": {
+            "RCP_TOMATO_EGG": 3
+          },
+          "firstResearchRecordIds": [
+            "RCP_TOMATO_EGG"
+          ]
+        },
+        "boardHash": "4171fbe4"
+      },
+      "finalSnapshotHash": "cf0280c2",
+      "finalRecipeId": "RCP_TOMATO_EGG"
+    },
+    {
+      "engineVersion": "3.8.8",
+      "gitBaselineCommit": "cba34c9920be44cb546653635c8a4dab60c5aa14",
+      "configSchemaVersion": 1,
+      "configHash": "8737fa94",
+      "scenarioId": "O2_STANDARD",
+      "rng": {
+        "algorithm": "xorshift32-v1",
+        "seed": "0x43503042",
+        "fixedRefillUsesPrng": false
+      },
+      "actions": [
+        {
+          "index": 0,
+          "type": "LINK",
+          "path": [
+            "r1c1",
+            "r1c2",
+            "r2c2",
+            "r2c3",
+            "r3c3",
+            "r3c4"
+          ],
+          "before": {
+            "remainingSteps": 8,
+            "potUnits": {},
+            "usedThrowSlots": 0,
+            "processingTags": [],
+            "queueCursors": {
+              "0": 0,
+              "1": 0,
+              "2": 0,
+              "3": 0,
+              "4": 0,
+              "5": 0,
+              "6": 0
+            },
+            "boardHash": "487a837d",
+            "snapshotHash": "deacd42f"
+          },
+          "after": {
+            "remainingSteps": 7,
+            "potUnits": {
+              "ING_POTATO": 6
+            },
+            "usedThrowSlots": 1,
+            "processingTags": [
+              "FINE"
+            ],
+            "queueCursors": {
+              "0": 1,
+              "1": 2,
+              "2": 2,
+              "3": 1,
+              "4": 0,
+              "5": 0,
+              "6": 0
+            },
+            "boardHash": "bc886be4",
+            "snapshotHash": "bf445308"
+          },
+          "committed": true,
+          "inspirationHintShown": false
+        },
+        {
+          "index": 1,
+          "type": "LINK",
+          "path": [
+            "r7c1",
+            "r7c2",
+            "r7c3"
+          ],
+          "before": {
+            "remainingSteps": 7,
+            "potUnits": {
+              "ING_POTATO": 6
+            },
+            "usedThrowSlots": 1,
+            "processingTags": [
+              "FINE"
+            ],
+            "queueCursors": {
+              "0": 1,
+              "1": 2,
+              "2": 2,
+              "3": 1,
+              "4": 0,
+              "5": 0,
+              "6": 0
+            },
+            "boardHash": "bc886be4",
+            "snapshotHash": "bf445308"
+          },
+          "after": {
+            "remainingSteps": 6,
+            "potUnits": {
+              "ING_POTATO": 6,
+              "ING_EGG": 3
+            },
+            "usedThrowSlots": 2,
+            "processingTags": [
+              "FINE"
+            ],
+            "queueCursors": {
+              "0": 2,
+              "1": 3,
+              "2": 3,
+              "3": 1,
+              "4": 0,
+              "5": 0,
+              "6": 0
+            },
+            "boardHash": "dead0941",
+            "snapshotHash": "f600b1c7"
+          },
+          "committed": true,
+          "inspirationHintShown": false
+        },
+        {
+          "index": 2,
+          "type": "LINK",
+          "path": [
+            "r7c5",
+            "r7c6",
+            "r7c7"
+          ],
+          "before": {
+            "remainingSteps": 6,
+            "potUnits": {
+              "ING_POTATO": 6,
+              "ING_EGG": 3
+            },
+            "usedThrowSlots": 2,
+            "processingTags": [
+              "FINE"
+            ],
+            "queueCursors": {
+              "0": 2,
+              "1": 3,
+              "2": 3,
+              "3": 1,
+              "4": 0,
+              "5": 0,
+              "6": 0
+            },
+            "boardHash": "dead0941",
+            "snapshotHash": "f600b1c7"
+          },
+          "after": {
+            "remainingSteps": 5,
+            "potUnits": {
+              "ING_POTATO": 6,
+              "ING_EGG": 3,
+              "ING_SCALLION": 3
+            },
+            "usedThrowSlots": 3,
+            "processingTags": [
+              "FINE"
+            ],
+            "queueCursors": {
+              "0": 2,
+              "1": 3,
+              "2": 3,
+              "3": 1,
+              "4": 1,
+              "5": 1,
+              "6": 1
+            },
+            "boardHash": "c0afe88c",
+            "snapshotHash": "2bc08fc4"
+          },
+          "committed": true,
+          "inspirationHintShown": false
+        },
+        {
+          "index": 3,
+          "type": "FIRE",
+          "path": [],
+          "before": {
+            "remainingSteps": 5,
+            "potUnits": {
+              "ING_POTATO": 6,
+              "ING_EGG": 3,
+              "ING_SCALLION": 3
+            },
+            "usedThrowSlots": 3,
+            "processingTags": [
+              "FINE"
+            ],
+            "queueCursors": {
+              "0": 2,
+              "1": 3,
+              "2": 3,
+              "3": 1,
+              "4": 1,
+              "5": 1,
+              "6": 1
+            },
+            "boardHash": "c0afe88c",
+            "snapshotHash": "2bc08fc4"
+          },
+          "after": {
+            "remainingSteps": 5,
+            "potUnits": {
+              "ING_POTATO": 6,
+              "ING_EGG": 3,
+              "ING_SCALLION": 3
+            },
+            "usedThrowSlots": 3,
+            "processingTags": [
+              "FINE"
+            ],
+            "queueCursors": {
+              "0": 2,
+              "1": 3,
+              "2": 3,
+              "3": 1,
+              "4": 1,
+              "5": 1,
+              "6": 1
+            },
+            "boardHash": "c0afe88c",
+            "snapshotHash": "2a2a4535"
+          },
+          "recipeId": "RCP_SCALLION_POTATO_CAKE",
+          "stars": 3,
+          "orderResult": "SUCCESS"
+        }
+      ],
+      "fireResults": [
+        {
+          "recipeId": "RCP_SCALLION_POTATO_CAKE",
+          "stars": 3,
+          "score": 91.66666666666667,
+          "orderResult": "SUCCESS",
+          "isNewDiscovery": true
+        }
+      ],
+      "finalSnapshot": {
+        "remainingSteps": 5,
+        "board": [
+          [
+            {
+              "ingredientId": "ING_EGG",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_MUSHROOM",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_SCALLION",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_MUSHROOM",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_SCALLION",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_TOMATO",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_EGG",
+              "inspiration": false
+            }
+          ],
+          [
+            {
+              "ingredientId": "ING_TOMATO",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_POTATO",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_MUSHROOM",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_MUSHROOM",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_EGG",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_TOMATO",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_MUSHROOM",
+              "inspiration": false
+            }
+          ],
+          [
+            {
+              "ingredientId": "ING_TOMATO",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_EGG",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_POTATO",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_MUSHROOM",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_TOMATO",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_EGG",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_MUSHROOM",
+              "inspiration": false
+            }
+          ],
+          [
+            {
+              "ingredientId": "ING_MUSHROOM",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_TOMATO",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_TOMATO",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_SCALLION",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_EGG",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_TOMATO",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_MUSHROOM",
+              "inspiration": false
+            }
+          ],
+          [
+            {
+              "ingredientId": "ING_EGG",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_MUSHROOM",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_TOMATO",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_TOMATO",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_MUSHROOM",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_EGG",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_TOMATO",
+              "inspiration": false
+            }
+          ],
+          [
+            {
+              "ingredientId": "ING_TOMATO",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_EGG",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_MUSHROOM",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_MUSHROOM",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_EGG",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_MUSHROOM",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_TOMATO",
+              "inspiration": false
+            }
+          ],
+          [
+            {
+              "ingredientId": "ING_MUSHROOM",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_TOMATO",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_EGG",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_TOMATO",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_TOMATO",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_EGG",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_MUSHROOM",
+              "inspiration": false
+            }
+          ]
+        ],
+        "pot": {
+          "units": {
+            "ING_POTATO": 6,
+            "ING_EGG": 3,
+            "ING_SCALLION": 3
+          },
+          "throws": [
+            {
+              "ingredientId": "ING_POTATO",
+              "pathLength": 6,
+              "units": 6,
+              "processingScore": 80,
+              "containsInspiration": false
+            },
+            {
+              "ingredientId": "ING_EGG",
+              "pathLength": 3,
+              "units": 3,
+              "processingScore": 60,
+              "containsInspiration": false
+            },
+            {
+              "ingredientId": "ING_SCALLION",
+              "pathLength": 3,
+              "units": 3,
+              "processingScore": 60,
+              "containsInspiration": false
+            }
+          ],
+          "tags": [
+            "FINE"
+          ]
+        },
+        "queueCursors": {
+          "0": 2,
+          "1": 3,
+          "2": 3,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1
+        },
+        "orderResult": "SUCCESS",
+        "discovery": {
+          "tutorialFlags": {
+            "inspirationUnitHintShown": false
+          },
+          "discoveredRecipeIds": [
+            "RCP_SCALLION_POTATO_CAKE"
+          ],
+          "bestStarsByRecipe": {
+            "RCP_SCALLION_POTATO_CAKE": 3
+          },
+          "firstResearchRecordIds": [
+            "RCP_SCALLION_POTATO_CAKE"
+          ]
+        },
+        "boardHash": "c0afe88c"
+      },
+      "finalSnapshotHash": "2a2a4535",
+      "finalRecipeId": "RCP_SCALLION_POTATO_CAKE"
+    },
+    {
+      "engineVersion": "3.8.8",
+      "gitBaselineCommit": "cba34c9920be44cb546653635c8a4dab60c5aa14",
+      "configSchemaVersion": 1,
+      "configHash": "8737fa94",
+      "scenarioId": "O2_BLACK",
+      "rng": {
+        "algorithm": "xorshift32-v1",
+        "seed": "0x43503042",
+        "fixedRefillUsesPrng": false
+      },
+      "actions": [
+        {
+          "index": 0,
+          "type": "LINK",
+          "path": [
+            "r1c1",
+            "r1c2",
+            "r2c2",
+            "r2c3",
+            "r3c3",
+            "r3c4",
+            "r4c4"
+          ],
+          "before": {
+            "remainingSteps": 8,
+            "potUnits": {},
+            "usedThrowSlots": 0,
+            "processingTags": [],
+            "queueCursors": {
+              "0": 0,
+              "1": 0,
+              "2": 0,
+              "3": 0,
+              "4": 0,
+              "5": 0,
+              "6": 0
+            },
+            "boardHash": "b4d824b1",
+            "snapshotHash": "738c8046"
+          },
+          "after": {
+            "remainingSteps": 7,
+            "potUnits": {
+              "ING_TOMATO": 7
+            },
+            "usedThrowSlots": 1,
+            "processingTags": [
+              "FINE",
+              "LONG_INSPIRATION"
+            ],
+            "queueCursors": {
+              "0": 1,
+              "1": 2,
+              "2": 2,
+              "3": 2,
+              "4": 0,
+              "5": 0,
+              "6": 0
+            },
+            "boardHash": "f8130a82",
+            "snapshotHash": "d1d87a82"
+          },
+          "committed": true,
+          "inspirationAt": "r2c4",
+          "inspirationHintShown": true
+        },
+        {
+          "index": 1,
+          "type": "LINK",
+          "path": [
+            "r1c5",
+            "r1c6",
+            "r2c5",
+            "r2c6",
+            "r3c5",
+            "r3c6",
+            "r4c6"
+          ],
+          "before": {
+            "remainingSteps": 7,
+            "potUnits": {
+              "ING_TOMATO": 7
+            },
+            "usedThrowSlots": 1,
+            "processingTags": [
+              "FINE",
+              "LONG_INSPIRATION"
+            ],
+            "queueCursors": {
+              "0": 1,
+              "1": 2,
+              "2": 2,
+              "3": 2,
+              "4": 0,
+              "5": 0,
+              "6": 0
+            },
+            "boardHash": "f8130a82",
+            "snapshotHash": "d1d87a82"
+          },
+          "after": {
+            "remainingSteps": 6,
+            "potUnits": {
+              "ING_TOMATO": 7,
+              "ING_POTATO": 7
+            },
+            "usedThrowSlots": 2,
+            "processingTags": [
+              "FINE",
+              "LONG_INSPIRATION"
+            ],
+            "queueCursors": {
+              "0": 1,
+              "1": 2,
+              "2": 2,
+              "3": 2,
+              "4": 3,
+              "5": 4,
+              "6": 0
+            },
+            "boardHash": "692a363d",
+            "snapshotHash": "616b3193"
+          },
+          "committed": true,
+          "inspirationAt": "r4c6",
+          "inspirationHintShown": false
+        },
+        {
+          "index": 2,
+          "type": "LINK",
+          "path": [
+            "r4c1",
+            "r4c2",
+            "r5c2",
+            "r5c1"
+          ],
+          "before": {
+            "remainingSteps": 6,
+            "potUnits": {
+              "ING_TOMATO": 7,
+              "ING_POTATO": 7
+            },
+            "usedThrowSlots": 2,
+            "processingTags": [
+              "FINE",
+              "LONG_INSPIRATION"
+            ],
+            "queueCursors": {
+              "0": 1,
+              "1": 2,
+              "2": 2,
+              "3": 2,
+              "4": 3,
+              "5": 4,
+              "6": 0
+            },
+            "boardHash": "692a363d",
+            "snapshotHash": "616b3193"
+          },
+          "after": {
+            "remainingSteps": 5,
+            "potUnits": {
+              "ING_TOMATO": 7,
+              "ING_POTATO": 7,
+              "ING_MUSHROOM": 4
+            },
+            "usedThrowSlots": 3,
+            "processingTags": [
+              "FINE",
+              "LONG_INSPIRATION"
+            ],
+            "queueCursors": {
+              "0": 3,
+              "1": 4,
+              "2": 2,
+              "3": 2,
+              "4": 3,
+              "5": 4,
+              "6": 0
+            },
+            "boardHash": "7d4712ee",
+            "snapshotHash": "63dca0ed"
+          },
+          "committed": true,
+          "inspirationHintShown": false
+        },
+        {
+          "index": 3,
+          "type": "FIRE",
+          "path": [],
+          "before": {
+            "remainingSteps": 5,
+            "potUnits": {
+              "ING_TOMATO": 7,
+              "ING_POTATO": 7,
+              "ING_MUSHROOM": 4
+            },
+            "usedThrowSlots": 3,
+            "processingTags": [
+              "FINE",
+              "LONG_INSPIRATION"
+            ],
+            "queueCursors": {
+              "0": 3,
+              "1": 4,
+              "2": 2,
+              "3": 2,
+              "4": 3,
+              "5": 4,
+              "6": 0
+            },
+            "boardHash": "7d4712ee",
+            "snapshotHash": "63dca0ed"
+          },
+          "after": {
+            "remainingSteps": 5,
+            "potUnits": {
+              "ING_TOMATO": 7,
+              "ING_POTATO": 7,
+              "ING_MUSHROOM": 4
+            },
+            "usedThrowSlots": 3,
+            "processingTags": [
+              "FINE",
+              "LONG_INSPIRATION"
+            ],
+            "queueCursors": {
+              "0": 3,
+              "1": 4,
+              "2": 2,
+              "3": 2,
+              "4": 3,
+              "5": 4,
+              "6": 0
+            },
+            "boardHash": "7d4712ee",
+            "snapshotHash": "d3cf8c27"
+          },
+          "recipeId": "RCP_CHARRED_TOMATO_POTATO_BALL",
+          "stars": 3,
+          "orderResult": "CONTINUE_AFTER_REVEAL"
+        },
+        {
+          "index": 4,
+          "type": "CONTINUE",
+          "path": [],
+          "before": {
+            "remainingSteps": 5,
+            "potUnits": {
+              "ING_TOMATO": 7,
+              "ING_POTATO": 7,
+              "ING_MUSHROOM": 4
+            },
+            "usedThrowSlots": 3,
+            "processingTags": [
+              "FINE",
+              "LONG_INSPIRATION"
+            ],
+            "queueCursors": {
+              "0": 3,
+              "1": 4,
+              "2": 2,
+              "3": 2,
+              "4": 3,
+              "5": 4,
+              "6": 0
+            },
+            "boardHash": "7d4712ee",
+            "snapshotHash": "d3cf8c27"
+          },
+          "after": {
+            "remainingSteps": 5,
+            "potUnits": {},
+            "usedThrowSlots": 0,
+            "processingTags": [],
+            "queueCursors": {
+              "0": 3,
+              "1": 4,
+              "2": 2,
+              "3": 2,
+              "4": 3,
+              "5": 4,
+              "6": 0
+            },
+            "boardHash": "7d4712ee",
+            "snapshotHash": "1388e65c"
+          }
+        },
+        {
+          "index": 5,
+          "type": "LINK",
+          "path": [
+            "r7c1",
+            "r7c2",
+            "r7c3",
+            "r7c4",
+            "r7c5",
+            "r7c6"
+          ],
+          "before": {
+            "remainingSteps": 5,
+            "potUnits": {},
+            "usedThrowSlots": 0,
+            "processingTags": [],
+            "queueCursors": {
+              "0": 3,
+              "1": 4,
+              "2": 2,
+              "3": 2,
+              "4": 3,
+              "5": 4,
+              "6": 0
+            },
+            "boardHash": "7d4712ee",
+            "snapshotHash": "1388e65c"
+          },
+          "after": {
+            "remainingSteps": 4,
+            "potUnits": {
+              "ING_POTATO": 6
+            },
+            "usedThrowSlots": 1,
+            "processingTags": [
+              "FINE"
+            ],
+            "queueCursors": {
+              "0": 4,
+              "1": 5,
+              "2": 3,
+              "3": 3,
+              "4": 4,
+              "5": 5,
+              "6": 0
+            },
+            "boardHash": "65ea7391",
+            "snapshotHash": "c14f6283"
+          },
+          "committed": true,
+          "inspirationHintShown": false
+        },
+        {
+          "index": 6,
+          "type": "LINK",
+          "path": [
+            "r7c1",
+            "r7c2",
+            "r7c3"
+          ],
+          "before": {
+            "remainingSteps": 4,
+            "potUnits": {
+              "ING_POTATO": 6
+            },
+            "usedThrowSlots": 1,
+            "processingTags": [
+              "FINE"
+            ],
+            "queueCursors": {
+              "0": 4,
+              "1": 5,
+              "2": 3,
+              "3": 3,
+              "4": 4,
+              "5": 5,
+              "6": 0
+            },
+            "boardHash": "65ea7391",
+            "snapshotHash": "c14f6283"
+          },
+          "after": {
+            "remainingSteps": 3,
+            "potUnits": {
+              "ING_POTATO": 6,
+              "ING_EGG": 3
+            },
+            "usedThrowSlots": 2,
+            "processingTags": [
+              "FINE"
+            ],
+            "queueCursors": {
+              "0": 5,
+              "1": 6,
+              "2": 4,
+              "3": 3,
+              "4": 4,
+              "5": 5,
+              "6": 0
+            },
+            "boardHash": "43a4228c",
+            "snapshotHash": "87c64a08"
+          },
+          "committed": true,
+          "inspirationHintShown": false
+        },
+        {
+          "index": 7,
+          "type": "LINK",
+          "path": [
+            "r7c5",
+            "r7c6",
+            "r6c7"
+          ],
+          "before": {
+            "remainingSteps": 3,
+            "potUnits": {
+              "ING_POTATO": 6,
+              "ING_EGG": 3
+            },
+            "usedThrowSlots": 2,
+            "processingTags": [
+              "FINE"
+            ],
+            "queueCursors": {
+              "0": 5,
+              "1": 6,
+              "2": 4,
+              "3": 3,
+              "4": 4,
+              "5": 5,
+              "6": 0
+            },
+            "boardHash": "43a4228c",
+            "snapshotHash": "87c64a08"
+          },
+          "after": {
+            "remainingSteps": 2,
+            "potUnits": {
+              "ING_POTATO": 6,
+              "ING_EGG": 3,
+              "ING_SCALLION": 3
+            },
+            "usedThrowSlots": 3,
+            "processingTags": [
+              "FINE"
+            ],
+            "queueCursors": {
+              "0": 5,
+              "1": 6,
+              "2": 4,
+              "3": 3,
+              "4": 5,
+              "5": 6,
+              "6": 1
+            },
+            "boardHash": "2b8f4ea0",
+            "snapshotHash": "b221fa97"
+          },
+          "committed": true,
+          "inspirationHintShown": false
+        },
+        {
+          "index": 8,
+          "type": "FIRE",
+          "path": [],
+          "before": {
+            "remainingSteps": 2,
+            "potUnits": {
+              "ING_POTATO": 6,
+              "ING_EGG": 3,
+              "ING_SCALLION": 3
+            },
+            "usedThrowSlots": 3,
+            "processingTags": [
+              "FINE"
+            ],
+            "queueCursors": {
+              "0": 5,
+              "1": 6,
+              "2": 4,
+              "3": 3,
+              "4": 5,
+              "5": 6,
+              "6": 1
+            },
+            "boardHash": "2b8f4ea0",
+            "snapshotHash": "b221fa97"
+          },
+          "after": {
+            "remainingSteps": 2,
+            "potUnits": {
+              "ING_POTATO": 6,
+              "ING_EGG": 3,
+              "ING_SCALLION": 3
+            },
+            "usedThrowSlots": 3,
+            "processingTags": [
+              "FINE"
+            ],
+            "queueCursors": {
+              "0": 5,
+              "1": 6,
+              "2": 4,
+              "3": 3,
+              "4": 5,
+              "5": 6,
+              "6": 1
+            },
+            "boardHash": "2b8f4ea0",
+            "snapshotHash": "d898fb37"
+          },
+          "recipeId": "RCP_SCALLION_POTATO_CAKE",
+          "stars": 2,
+          "orderResult": "SUCCESS"
+        }
+      ],
+      "fireResults": [
+        {
+          "recipeId": "RCP_CHARRED_TOMATO_POTATO_BALL",
+          "stars": 3,
+          "score": 95,
+          "orderResult": "CONTINUE_AFTER_REVEAL",
+          "isNewDiscovery": true
+        },
+        {
+          "recipeId": "RCP_SCALLION_POTATO_CAKE",
+          "stars": 2,
+          "score": 82.66666666666667,
+          "orderResult": "SUCCESS",
+          "isNewDiscovery": true
+        }
+      ],
+      "finalSnapshot": {
+        "remainingSteps": 2,
+        "board": [
+          [
+            {
+              "ingredientId": "ING_SCALLION",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_EGG",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_TOMATO",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_TOMATO",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_MUSHROOM",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_TOMATO",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_EGG",
+              "inspiration": false
+            }
+          ],
+          [
+            {
+              "ingredientId": "ING_MUSHROOM",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_TOMATO",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_SCALLION",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_SCALLION",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_POTATO",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_SCALLION",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_MUSHROOM",
+              "inspiration": false
+            }
+          ],
+          [
+            {
+              "ingredientId": "ING_POTATO",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_SCALLION",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_MUSHROOM",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_TOMATO",
+              "inspiration": true
+            },
+            {
+              "ingredientId": "ING_EGG",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_MUSHROOM",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_MUSHROOM",
+              "inspiration": false
+            }
+          ],
+          [
+            {
+              "ingredientId": "ING_EGG",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_MUSHROOM",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_POTATO",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_SCALLION",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_TOMATO",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_EGG",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_MUSHROOM",
+              "inspiration": false
+            }
+          ],
+          [
+            {
+              "ingredientId": "ING_TOMATO",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_POTATO",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_EGG",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_SCALLION",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_SCALLION",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_POTATO",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_EGG",
+              "inspiration": false
+            }
+          ],
+          [
+            {
+              "ingredientId": "ING_EGG",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_EGG",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_EGG",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_EGG",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_SCALLION",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_POTATO",
+              "inspiration": true
+            },
+            {
+              "ingredientId": "ING_TOMATO",
+              "inspiration": false
+            }
+          ],
+          [
+            {
+              "ingredientId": "ING_SCALLION",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_EGG",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_SCALLION",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_MUSHROOM",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_TOMATO",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_MUSHROOM",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_TOMATO",
+              "inspiration": false
+            }
+          ]
+        ],
+        "pot": {
+          "units": {
+            "ING_POTATO": 6,
+            "ING_EGG": 3,
+            "ING_SCALLION": 3
+          },
+          "throws": [
+            {
+              "ingredientId": "ING_POTATO",
+              "pathLength": 6,
+              "units": 6,
+              "processingScore": 80,
+              "containsInspiration": false
+            },
+            {
+              "ingredientId": "ING_EGG",
+              "pathLength": 3,
+              "units": 3,
+              "processingScore": 60,
+              "containsInspiration": false
+            },
+            {
+              "ingredientId": "ING_SCALLION",
+              "pathLength": 3,
+              "units": 3,
+              "processingScore": 60,
+              "containsInspiration": false
+            }
+          ],
+          "tags": [
+            "FINE"
+          ]
+        },
+        "queueCursors": {
+          "0": 5,
+          "1": 6,
+          "2": 4,
+          "3": 3,
+          "4": 5,
+          "5": 6,
+          "6": 1
+        },
+        "orderResult": "SUCCESS",
+        "discovery": {
+          "tutorialFlags": {
+            "inspirationUnitHintShown": true
+          },
+          "discoveredRecipeIds": [
+            "RCP_CHARRED_TOMATO_POTATO_BALL",
+            "RCP_SCALLION_POTATO_CAKE"
+          ],
+          "bestStarsByRecipe": {
+            "RCP_CHARRED_TOMATO_POTATO_BALL": 3,
+            "RCP_SCALLION_POTATO_CAKE": 2
+          },
+          "firstResearchRecordIds": [
+            "RCP_CHARRED_TOMATO_POTATO_BALL",
+            "RCP_SCALLION_POTATO_CAKE"
+          ]
+        },
+        "boardHash": "2b8f4ea0"
+      },
+      "finalSnapshotHash": "d898fb37",
+      "finalRecipeId": "RCP_SCALLION_POTATO_CAKE"
+    },
+    {
+      "engineVersion": "3.8.8",
+      "gitBaselineCommit": "cba34c9920be44cb546653635c8a4dab60c5aa14",
+      "configSchemaVersion": 1,
+      "configHash": "8737fa94",
+      "scenarioId": "O3_STANDARD",
+      "rng": {
+        "algorithm": "xorshift32-v1",
+        "seed": "0x43503042",
+        "fixedRefillUsesPrng": false
+      },
+      "actions": [
+        {
+          "index": 0,
+          "type": "LINK",
+          "path": [
+            "r1c1",
+            "r1c2",
+            "r2c2",
+            "r2c3",
+            "r3c3"
+          ],
+          "before": {
+            "remainingSteps": 8,
+            "potUnits": {},
+            "usedThrowSlots": 0,
+            "processingTags": [],
+            "queueCursors": {
+              "0": 0,
+              "1": 0,
+              "2": 0,
+              "3": 0,
+              "4": 0,
+              "5": 0,
+              "6": 0
+            },
+            "boardHash": "84650f13",
+            "snapshotHash": "29c15418"
+          },
+          "after": {
+            "remainingSteps": 7,
+            "potUnits": {
+              "ING_MUSHROOM": 5
+            },
+            "usedThrowSlots": 1,
+            "processingTags": [
+              "FINE"
+            ],
+            "queueCursors": {
+              "0": 1,
+              "1": 2,
+              "2": 2,
+              "3": 0,
+              "4": 0,
+              "5": 0,
+              "6": 0
+            },
+            "boardHash": "4f411d73",
+            "snapshotHash": "a4c5cfcd"
+          },
+          "committed": true,
+          "inspirationHintShown": false
+        },
+        {
+          "index": 1,
+          "type": "LINK",
+          "path": [
+            "r6c4",
+            "r7c5",
+            "r7c6",
+            "r7c7"
+          ],
+          "before": {
+            "remainingSteps": 7,
+            "potUnits": {
+              "ING_MUSHROOM": 5
+            },
+            "usedThrowSlots": 1,
+            "processingTags": [
+              "FINE"
+            ],
+            "queueCursors": {
+              "0": 1,
+              "1": 2,
+              "2": 2,
+              "3": 0,
+              "4": 0,
+              "5": 0,
+              "6": 0
+            },
+            "boardHash": "4f411d73",
+            "snapshotHash": "a4c5cfcd"
+          },
+          "after": {
+            "remainingSteps": 6,
+            "potUnits": {
+              "ING_MUSHROOM": 5,
+              "ING_CARROT": 4
+            },
+            "usedThrowSlots": 2,
+            "processingTags": [
+              "FINE"
+            ],
+            "queueCursors": {
+              "0": 1,
+              "1": 2,
+              "2": 2,
+              "3": 1,
+              "4": 1,
+              "5": 1,
+              "6": 1
+            },
+            "boardHash": "7aec43ef",
+            "snapshotHash": "80216f53"
+          },
+          "committed": true,
+          "inspirationHintShown": false
+        },
+        {
+          "index": 2,
+          "type": "LINK",
+          "path": [
+            "r7c1",
+            "r7c2",
+            "r7c3"
+          ],
+          "before": {
+            "remainingSteps": 6,
+            "potUnits": {
+              "ING_MUSHROOM": 5,
+              "ING_CARROT": 4
+            },
+            "usedThrowSlots": 2,
+            "processingTags": [
+              "FINE"
+            ],
+            "queueCursors": {
+              "0": 1,
+              "1": 2,
+              "2": 2,
+              "3": 1,
+              "4": 1,
+              "5": 1,
+              "6": 1
+            },
+            "boardHash": "7aec43ef",
+            "snapshotHash": "80216f53"
+          },
+          "after": {
+            "remainingSteps": 5,
+            "potUnits": {
+              "ING_MUSHROOM": 5,
+              "ING_CARROT": 4,
+              "ING_POTATO": 3
+            },
+            "usedThrowSlots": 3,
+            "processingTags": [
+              "FINE"
+            ],
+            "queueCursors": {
+              "0": 2,
+              "1": 3,
+              "2": 3,
+              "3": 1,
+              "4": 1,
+              "5": 1,
+              "6": 1
+            },
+            "boardHash": "82d6825a",
+            "snapshotHash": "69d3d980"
+          },
+          "committed": true,
+          "inspirationHintShown": false
+        },
+        {
+          "index": 3,
+          "type": "FIRE",
+          "path": [],
+          "before": {
+            "remainingSteps": 5,
+            "potUnits": {
+              "ING_MUSHROOM": 5,
+              "ING_CARROT": 4,
+              "ING_POTATO": 3
+            },
+            "usedThrowSlots": 3,
+            "processingTags": [
+              "FINE"
+            ],
+            "queueCursors": {
+              "0": 2,
+              "1": 3,
+              "2": 3,
+              "3": 1,
+              "4": 1,
+              "5": 1,
+              "6": 1
+            },
+            "boardHash": "82d6825a",
+            "snapshotHash": "69d3d980"
+          },
+          "after": {
+            "remainingSteps": 5,
+            "potUnits": {
+              "ING_MUSHROOM": 5,
+              "ING_CARROT": 4,
+              "ING_POTATO": 3
+            },
+            "usedThrowSlots": 3,
+            "processingTags": [
+              "FINE"
+            ],
+            "queueCursors": {
+              "0": 2,
+              "1": 3,
+              "2": 3,
+              "3": 1,
+              "4": 1,
+              "5": 1,
+              "6": 1
+            },
+            "boardHash": "82d6825a",
+            "snapshotHash": "12c7e561"
+          },
+          "recipeId": "RCP_GARDEN_MUSHROOM_SOUP",
+          "stars": 3,
+          "orderResult": "SUCCESS"
+        }
+      ],
+      "fireResults": [
+        {
+          "recipeId": "RCP_GARDEN_MUSHROOM_SOUP",
+          "stars": 3,
+          "score": 91.66666666666667,
+          "orderResult": "SUCCESS",
+          "isNewDiscovery": true
+        }
+      ],
+      "finalSnapshot": {
+        "remainingSteps": 5,
+        "board": [
+          [
+            {
+              "ingredientId": "ING_EGG",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_CARROT",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_MUSHROOM",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_CARROT",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_MUSHROOM",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_TOMATO",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_EGG",
+              "inspiration": false
+            }
+          ],
+          [
+            {
+              "ingredientId": "ING_TOMATO",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_POTATO",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_CARROT",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_EGG",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_CARROT",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_POTATO",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_TOMATO",
+              "inspiration": false
+            }
+          ],
+          [
+            {
+              "ingredientId": "ING_EGG",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_EGG",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_POTATO",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_TOMATO",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_CARROT",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_POTATO",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_EGG",
+              "inspiration": false
+            }
+          ],
+          [
+            {
+              "ingredientId": "ING_TOMATO",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_EGG",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_TOMATO",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_CARROT",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_POTATO",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_TOMATO",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_EGG",
+              "inspiration": false
+            }
+          ],
+          [
+            {
+              "ingredientId": "ING_CARROT",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_POTATO",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_TOMATO",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_EGG",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_CARROT",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_POTATO",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_TOMATO",
+              "inspiration": false
+            }
+          ],
+          [
+            {
+              "ingredientId": "ING_EGG",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_TOMATO",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_CARROT",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_POTATO",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_EGG",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_TOMATO",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_CARROT",
+              "inspiration": false
+            }
+          ],
+          [
+            {
+              "ingredientId": "ING_TOMATO",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_EGG",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_POTATO",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_TOMATO",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_TOMATO",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_EGG",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_POTATO",
+              "inspiration": false
+            }
+          ]
+        ],
+        "pot": {
+          "units": {
+            "ING_MUSHROOM": 5,
+            "ING_CARROT": 4,
+            "ING_POTATO": 3
+          },
+          "throws": [
+            {
+              "ingredientId": "ING_MUSHROOM",
+              "pathLength": 5,
+              "units": 5,
+              "processingScore": 80,
+              "containsInspiration": false
+            },
+            {
+              "ingredientId": "ING_CARROT",
+              "pathLength": 4,
+              "units": 4,
+              "processingScore": 60,
+              "containsInspiration": false
+            },
+            {
+              "ingredientId": "ING_POTATO",
+              "pathLength": 3,
+              "units": 3,
+              "processingScore": 60,
+              "containsInspiration": false
+            }
+          ],
+          "tags": [
+            "FINE"
+          ]
+        },
+        "queueCursors": {
+          "0": 2,
+          "1": 3,
+          "2": 3,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1
+        },
+        "orderResult": "SUCCESS",
+        "discovery": {
+          "tutorialFlags": {
+            "inspirationUnitHintShown": false
+          },
+          "discoveredRecipeIds": [
+            "RCP_GARDEN_MUSHROOM_SOUP"
+          ],
+          "bestStarsByRecipe": {
+            "RCP_GARDEN_MUSHROOM_SOUP": 3
+          },
+          "firstResearchRecordIds": [
+            "RCP_GARDEN_MUSHROOM_SOUP"
+          ]
+        },
+        "boardHash": "82d6825a"
+      },
+      "finalSnapshotHash": "12c7e561",
+      "finalRecipeId": "RCP_GARDEN_MUSHROOM_SOUP"
+    },
+    {
+      "engineVersion": "3.8.8",
+      "gitBaselineCommit": "cba34c9920be44cb546653635c8a4dab60c5aa14",
+      "configSchemaVersion": 1,
+      "configHash": "8737fa94",
+      "scenarioId": "O3_INSPIRATION",
+      "rng": {
+        "algorithm": "xorshift32-v1",
+        "seed": "0x43503042",
+        "fixedRefillUsesPrng": false
+      },
+      "actions": [
+        {
+          "index": 0,
+          "type": "LINK",
+          "path": [
+            "r1c1",
+            "r1c2",
+            "r2c2",
+            "r2c3",
+            "r3c3",
+            "r3c4",
+            "r4c4"
+          ],
+          "before": {
+            "remainingSteps": 8,
+            "potUnits": {},
+            "usedThrowSlots": 0,
+            "processingTags": [],
+            "queueCursors": {
+              "0": 0,
+              "1": 0,
+              "2": 0,
+              "3": 0,
+              "4": 0,
+              "5": 0,
+              "6": 0
+            },
+            "boardHash": "37ad69c3",
+            "snapshotHash": "55f92311"
+          },
+          "after": {
+            "remainingSteps": 7,
+            "potUnits": {
+              "ING_MUSHROOM": 7
+            },
+            "usedThrowSlots": 1,
+            "processingTags": [
+              "FINE",
+              "LONG_INSPIRATION"
+            ],
+            "queueCursors": {
+              "0": 1,
+              "1": 2,
+              "2": 2,
+              "3": 2,
+              "4": 0,
+              "5": 0,
+              "6": 0
+            },
+            "boardHash": "0911266c",
+            "snapshotHash": "abcad933"
+          },
+          "committed": true,
+          "inspirationAt": "r2c4",
+          "inspirationHintShown": true
+        },
+        {
+          "index": 1,
+          "type": "LINK",
+          "path": [
+            "r1c3",
+            "r1c4",
+            "r2c4"
+          ],
+          "before": {
+            "remainingSteps": 7,
+            "potUnits": {
+              "ING_MUSHROOM": 7
+            },
+            "usedThrowSlots": 1,
+            "processingTags": [
+              "FINE",
+              "LONG_INSPIRATION"
+            ],
+            "queueCursors": {
+              "0": 1,
+              "1": 2,
+              "2": 2,
+              "3": 2,
+              "4": 0,
+              "5": 0,
+              "6": 0
+            },
+            "boardHash": "0911266c",
+            "snapshotHash": "abcad933"
+          },
+          "after": {
+            "remainingSteps": 6,
+            "potUnits": {
+              "ING_MUSHROOM": 11
+            },
+            "usedThrowSlots": 2,
+            "processingTags": [
+              "FINE",
+              "INSPIRATION",
+              "LONG_INSPIRATION"
+            ],
+            "queueCursors": {
+              "0": 1,
+              "1": 2,
+              "2": 3,
+              "3": 4,
+              "4": 0,
+              "5": 0,
+              "6": 0
+            },
+            "boardHash": "561c3fe5",
+            "snapshotHash": "866ded98"
+          },
+          "committed": true,
+          "inspirationHintShown": false
+        },
+        {
+          "index": 2,
+          "type": "LINK",
+          "path": [
+            "r5c1",
+            "r5c2",
+            "r5c3",
+            "r5c4"
+          ],
+          "before": {
+            "remainingSteps": 6,
+            "potUnits": {
+              "ING_MUSHROOM": 11
+            },
+            "usedThrowSlots": 2,
+            "processingTags": [
+              "FINE",
+              "INSPIRATION",
+              "LONG_INSPIRATION"
+            ],
+            "queueCursors": {
+              "0": 1,
+              "1": 2,
+              "2": 3,
+              "3": 4,
+              "4": 0,
+              "5": 0,
+              "6": 0
+            },
+            "boardHash": "561c3fe5",
+            "snapshotHash": "866ded98"
+          },
+          "after": {
+            "remainingSteps": 5,
+            "potUnits": {
+              "ING_MUSHROOM": 11,
+              "ING_EGG": 4
+            },
+            "usedThrowSlots": 3,
+            "processingTags": [
+              "FINE",
+              "INSPIRATION",
+              "LONG_INSPIRATION"
+            ],
+            "queueCursors": {
+              "0": 2,
+              "1": 3,
+              "2": 4,
+              "3": 5,
+              "4": 0,
+              "5": 0,
+              "6": 0
+            },
+            "boardHash": "0d2a877b",
+            "snapshotHash": "4d742759"
+          },
+          "committed": true,
+          "inspirationHintShown": false
+        },
+        {
+          "index": 3,
+          "type": "FIRE",
+          "path": [],
+          "before": {
+            "remainingSteps": 5,
+            "potUnits": {
+              "ING_MUSHROOM": 11,
+              "ING_EGG": 4
+            },
+            "usedThrowSlots": 3,
+            "processingTags": [
+              "FINE",
+              "INSPIRATION",
+              "LONG_INSPIRATION"
+            ],
+            "queueCursors": {
+              "0": 2,
+              "1": 3,
+              "2": 4,
+              "3": 5,
+              "4": 0,
+              "5": 0,
+              "6": 0
+            },
+            "boardHash": "0d2a877b",
+            "snapshotHash": "4d742759"
+          },
+          "after": {
+            "remainingSteps": 5,
+            "potUnits": {
+              "ING_MUSHROOM": 11,
+              "ING_EGG": 4
+            },
+            "usedThrowSlots": 3,
+            "processingTags": [
+              "FINE",
+              "INSPIRATION",
+              "LONG_INSPIRATION"
+            ],
+            "queueCursors": {
+              "0": 2,
+              "1": 3,
+              "2": 4,
+              "3": 5,
+              "4": 0,
+              "5": 0,
+              "6": 0
+            },
+            "boardHash": "0d2a877b",
+            "snapshotHash": "4a715ecf"
+          },
+          "recipeId": "RCP_STAR_MUSHROOM_EGG_CUP",
+          "stars": 3,
+          "orderResult": "CONTINUE_AFTER_REVEAL"
+        },
+        {
+          "index": 4,
+          "type": "CONTINUE",
+          "path": [],
+          "before": {
+            "remainingSteps": 5,
+            "potUnits": {
+              "ING_MUSHROOM": 11,
+              "ING_EGG": 4
+            },
+            "usedThrowSlots": 3,
+            "processingTags": [
+              "FINE",
+              "INSPIRATION",
+              "LONG_INSPIRATION"
+            ],
+            "queueCursors": {
+              "0": 2,
+              "1": 3,
+              "2": 4,
+              "3": 5,
+              "4": 0,
+              "5": 0,
+              "6": 0
+            },
+            "boardHash": "0d2a877b",
+            "snapshotHash": "4a715ecf"
+          },
+          "after": {
+            "remainingSteps": 5,
+            "potUnits": {},
+            "usedThrowSlots": 0,
+            "processingTags": [],
+            "queueCursors": {
+              "0": 2,
+              "1": 3,
+              "2": 4,
+              "3": 5,
+              "4": 0,
+              "5": 0,
+              "6": 0
+            },
+            "boardHash": "0d2a877b",
+            "snapshotHash": "a2b295af"
+          }
+        },
+        {
+          "index": 5,
+          "type": "LINK",
+          "path": [
+            "r7c1",
+            "r7c2",
+            "r7c3",
+            "r7c4",
+            "r7c5"
+          ],
+          "before": {
+            "remainingSteps": 5,
+            "potUnits": {},
+            "usedThrowSlots": 0,
+            "processingTags": [],
+            "queueCursors": {
+              "0": 2,
+              "1": 3,
+              "2": 4,
+              "3": 5,
+              "4": 0,
+              "5": 0,
+              "6": 0
+            },
+            "boardHash": "0d2a877b",
+            "snapshotHash": "a2b295af"
+          },
+          "after": {
+            "remainingSteps": 4,
+            "potUnits": {
+              "ING_MUSHROOM": 5
+            },
+            "usedThrowSlots": 1,
+            "processingTags": [
+              "FINE"
+            ],
+            "queueCursors": {
+              "0": 3,
+              "1": 4,
+              "2": 5,
+              "3": 6,
+              "4": 1,
+              "5": 0,
+              "6": 0
+            },
+            "boardHash": "445c26dc",
+            "snapshotHash": "36790d46"
+          },
+          "committed": true,
+          "inspirationHintShown": false
+        },
+        {
+          "index": 6,
+          "type": "LINK",
+          "path": [
+            "r7c1",
+            "r7c2",
+            "r7c3",
+            "r7c4"
+          ],
+          "before": {
+            "remainingSteps": 4,
+            "potUnits": {
+              "ING_MUSHROOM": 5
+            },
+            "usedThrowSlots": 1,
+            "processingTags": [
+              "FINE"
+            ],
+            "queueCursors": {
+              "0": 3,
+              "1": 4,
+              "2": 5,
+              "3": 6,
+              "4": 1,
+              "5": 0,
+              "6": 0
+            },
+            "boardHash": "445c26dc",
+            "snapshotHash": "36790d46"
+          },
+          "after": {
+            "remainingSteps": 3,
+            "potUnits": {
+              "ING_MUSHROOM": 5,
+              "ING_CARROT": 4
+            },
+            "usedThrowSlots": 2,
+            "processingTags": [
+              "FINE"
+            ],
+            "queueCursors": {
+              "0": 4,
+              "1": 5,
+              "2": 6,
+              "3": 7,
+              "4": 1,
+              "5": 0,
+              "6": 0
+            },
+            "boardHash": "8edf7d00",
+            "snapshotHash": "b84287df"
+          },
+          "committed": true,
+          "inspirationHintShown": false
+        },
+        {
+          "index": 7,
+          "type": "LINK",
+          "path": [
+            "r7c5",
+            "r6c6",
+            "r6c7"
+          ],
+          "before": {
+            "remainingSteps": 3,
+            "potUnits": {
+              "ING_MUSHROOM": 5,
+              "ING_CARROT": 4
+            },
+            "usedThrowSlots": 2,
+            "processingTags": [
+              "FINE"
+            ],
+            "queueCursors": {
+              "0": 4,
+              "1": 5,
+              "2": 6,
+              "3": 7,
+              "4": 1,
+              "5": 0,
+              "6": 0
+            },
+            "boardHash": "8edf7d00",
+            "snapshotHash": "b84287df"
+          },
+          "after": {
+            "remainingSteps": 2,
+            "potUnits": {
+              "ING_MUSHROOM": 5,
+              "ING_CARROT": 4,
+              "ING_POTATO": 3
+            },
+            "usedThrowSlots": 3,
+            "processingTags": [
+              "FINE"
+            ],
+            "queueCursors": {
+              "0": 4,
+              "1": 5,
+              "2": 6,
+              "3": 7,
+              "4": 2,
+              "5": 1,
+              "6": 1
+            },
+            "boardHash": "8b7d800c",
+            "snapshotHash": "3e9beda7"
+          },
+          "committed": true,
+          "inspirationHintShown": false
+        },
+        {
+          "index": 8,
+          "type": "FIRE",
+          "path": [],
+          "before": {
+            "remainingSteps": 2,
+            "potUnits": {
+              "ING_MUSHROOM": 5,
+              "ING_CARROT": 4,
+              "ING_POTATO": 3
+            },
+            "usedThrowSlots": 3,
+            "processingTags": [
+              "FINE"
+            ],
+            "queueCursors": {
+              "0": 4,
+              "1": 5,
+              "2": 6,
+              "3": 7,
+              "4": 2,
+              "5": 1,
+              "6": 1
+            },
+            "boardHash": "8b7d800c",
+            "snapshotHash": "3e9beda7"
+          },
+          "after": {
+            "remainingSteps": 2,
+            "potUnits": {
+              "ING_MUSHROOM": 5,
+              "ING_CARROT": 4,
+              "ING_POTATO": 3
+            },
+            "usedThrowSlots": 3,
+            "processingTags": [
+              "FINE"
+            ],
+            "queueCursors": {
+              "0": 4,
+              "1": 5,
+              "2": 6,
+              "3": 7,
+              "4": 2,
+              "5": 1,
+              "6": 1
+            },
+            "boardHash": "8b7d800c",
+            "snapshotHash": "dc95cf0d"
+          },
+          "recipeId": "RCP_GARDEN_MUSHROOM_SOUP",
+          "stars": 2,
+          "orderResult": "SUCCESS"
+        }
+      ],
+      "fireResults": [
+        {
+          "recipeId": "RCP_STAR_MUSHROOM_EGG_CUP",
+          "stars": 3,
+          "score": 93.33333333333333,
+          "orderResult": "CONTINUE_AFTER_REVEAL",
+          "isNewDiscovery": true
+        },
+        {
+          "recipeId": "RCP_GARDEN_MUSHROOM_SOUP",
+          "stars": 2,
+          "score": 82.66666666666667,
+          "orderResult": "SUCCESS",
+          "isNewDiscovery": true
+        }
+      ],
+      "finalSnapshot": {
+        "remainingSteps": 2,
+        "board": [
+          [
+            {
+              "ingredientId": "ING_CARROT",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_TOMATO",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_TOMATO",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_CARROT",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_TOMATO",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_TOMATO",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_EGG",
+              "inspiration": false
+            }
+          ],
+          [
+            {
+              "ingredientId": "ING_POTATO",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_MUSHROOM",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_EGG",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_POTATO",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_MUSHROOM",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_POTATO",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_TOMATO",
+              "inspiration": false
+            }
+          ],
+          [
+            {
+              "ingredientId": "ING_EGG",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_CARROT",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_POTATO",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_EGG",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_CARROT",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_POTATO",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_CARROT",
+              "inspiration": false
+            }
+          ],
+          [
+            {
+              "ingredientId": "ING_TOMATO",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_POTATO",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_CARROT",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_TOMATO",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_EGG",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_EGG",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_TOMATO",
+              "inspiration": false
+            }
+          ],
+          [
+            {
+              "ingredientId": "ING_CARROT",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_EGG",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_TOMATO",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_CARROT",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_CARROT",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_TOMATO",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_CARROT",
+              "inspiration": false
+            }
+          ],
+          [
+            {
+              "ingredientId": "ING_POTATO",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_TOMATO",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_TOMATO",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_EGG",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_POTATO",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_CARROT",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_POTATO",
+              "inspiration": false
+            }
+          ],
+          [
+            {
+              "ingredientId": "ING_TOMATO",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_CARROT",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_EGG",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_TOMATO",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_TOMATO",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_TOMATO",
+              "inspiration": false
+            },
+            {
+              "ingredientId": "ING_EGG",
+              "inspiration": false
+            }
+          ]
+        ],
+        "pot": {
+          "units": {
+            "ING_MUSHROOM": 5,
+            "ING_CARROT": 4,
+            "ING_POTATO": 3
+          },
+          "throws": [
+            {
+              "ingredientId": "ING_MUSHROOM",
+              "pathLength": 5,
+              "units": 5,
+              "processingScore": 80,
+              "containsInspiration": false
+            },
+            {
+              "ingredientId": "ING_CARROT",
+              "pathLength": 4,
+              "units": 4,
+              "processingScore": 60,
+              "containsInspiration": false
+            },
+            {
+              "ingredientId": "ING_POTATO",
+              "pathLength": 3,
+              "units": 3,
+              "processingScore": 60,
+              "containsInspiration": false
+            }
+          ],
+          "tags": [
+            "FINE"
+          ]
+        },
+        "queueCursors": {
+          "0": 4,
+          "1": 5,
+          "2": 6,
+          "3": 7,
+          "4": 2,
+          "5": 1,
+          "6": 1
+        },
+        "orderResult": "SUCCESS",
+        "discovery": {
+          "tutorialFlags": {
+            "inspirationUnitHintShown": true
+          },
+          "discoveredRecipeIds": [
+            "RCP_GARDEN_MUSHROOM_SOUP",
+            "RCP_STAR_MUSHROOM_EGG_CUP"
+          ],
+          "bestStarsByRecipe": {
+            "RCP_STAR_MUSHROOM_EGG_CUP": 3,
+            "RCP_GARDEN_MUSHROOM_SOUP": 2
+          },
+          "firstResearchRecordIds": [
+            "RCP_GARDEN_MUSHROOM_SOUP",
+            "RCP_STAR_MUSHROOM_EGG_CUP"
+          ]
+        },
+        "boardHash": "8b7d800c"
+      },
+      "finalSnapshotHash": "dc95cf0d",
+      "finalRecipeId": "RCP_GARDEN_MUSHROOM_SOUP"
+    }
+  ],
+  "audits": {
+    "forbiddenImportsAndRandom": {
+      "ccImports": [],
+      "directMathRandom": []
+    },
+    "cp0aProtectedDiff": {
+      "baselineCommit": "cba34c9920be44cb546653635c8a4dab60c5aa14",
+      "paths": [
+        "assets/game/scenes",
+        "assets/game/prefabs",
+        "assets/resources/game/art"
+      ],
+      "changedFiles": [],
+      "status": "PASS"
+    },
+    "smokeScreenshot": {
+      "path": "reports/cp0-b/CP0B-01-Battle-Smoke-390x844.png",
+      "format": "PNG",
+      "width": 390,
+      "height": 844,
+      "source": "Cocos Creator 3.8.8 web-mobile runtime",
+      "status": "PASS"
+    }
+  },
+  "deferredByStage": [
+    "香葱棋盘/锅中/提示素材",
+    "番茄炒蛋之外的5道料理成品素材",
+    "灵感、特色、珍稀与黑暗揭晓演出素材",
+    "完整粒子、音效与背景音乐"
+  ],
+  "firstDifference": null
+}
