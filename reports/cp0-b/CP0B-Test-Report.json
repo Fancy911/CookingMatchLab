@@ -1,6 +1,6 @@
 {
   "reportId": "CP0-B",
-  "generatedAt": "2026-07-26T14:16:41.097Z",
+  "generatedAt": "2026-07-28T08:32:48.209Z",
   "status": "PASS",
   "environment": {
     "cocosCreatorVersion": "3.8.8",
@@ -27,140 +27,140 @@
       "id": "U01",
       "description": "八方向相邻合法；四方向模式下斜线非法",
       "status": "PASS",
-      "durationMs": 0.542,
+      "durationMs": 0.491,
       "firstDifference": null
     },
     {
       "id": "U02",
       "description": "少于3连取消且所有状态不变",
       "status": "PASS",
-      "durationMs": 0.95,
+      "durationMs": 0.801,
       "firstDifference": null
     },
     {
       "id": "U03",
       "description": "路径不可重复；返回倒数第二格只撤销最后格",
       "status": "PASS",
-      "durationMs": 0.23,
+      "durationMs": 0.203,
       "firstDifference": null
     },
     {
       "id": "U04",
       "description": "普通食材1格等于1入锅单位",
       "status": "PASS",
-      "durationMs": 0.142,
+      "durationMs": 0.122,
       "firstDifference": null
     },
     {
       "id": "U05",
       "description": "灵感食材连接占1格、入锅等于2单位",
       "status": "PASS",
-      "durationMs": 0.082,
+      "durationMs": 0.061,
       "firstDifference": null
     },
     {
       "id": "U06",
       "description": "5、7、9长连阈值从配置读取",
       "status": "PASS",
-      "durationMs": 0.315,
+      "durationMs": 0.289,
       "firstDifference": null
     },
     {
       "id": "U07",
       "description": "7连先完成当前投料，再在补盘生成灵感",
       "status": "PASS",
-      "durationMs": 0.446,
+      "durationMs": 0.391,
       "firstDifference": null
     },
     {
       "id": "U08",
       "description": "灵感位于路径终点列的第一个新补格",
       "status": "PASS",
-      "durationMs": 0.208,
+      "durationMs": 0.166,
       "firstDifference": null
     },
     {
       "id": "U09",
       "description": "掉落保持同列原有相对顺序",
       "status": "PASS",
-      "durationMs": 0.17,
+      "durationMs": 0.162,
       "firstDifference": null
     },
     {
       "id": "U10",
       "description": "补盘不自动消除、不自动入锅",
       "status": "PASS",
-      "durationMs": 0.318,
+      "durationMs": 0.283,
       "firstDifference": null
     },
     {
       "id": "U11",
       "description": "死盘免费洗牌，不改变步数和锅",
       "status": "PASS",
-      "durationMs": 0.38,
+      "durationMs": 0.628,
       "firstDifference": null
     },
     {
       "id": "U12",
       "description": "一次合法连线只占一个投料位",
       "status": "PASS",
-      "durationMs": 0.05,
+      "durationMs": 0.044,
       "firstDifference": null
     },
     {
       "id": "U13",
       "description": "至少两次投料才能开火；第三次后不自动开火",
       "status": "PASS",
-      "durationMs": 0.101,
+      "durationMs": 0.09,
       "firstDifference": null
     },
     {
       "id": "U14",
       "description": "投料顺序不同但最终输入相同，生成同一道料理",
       "status": "PASS",
-      "durationMs": 0.064,
+      "durationMs": 0.049,
       "firstDifference": null
     },
     {
       "id": "U15",
       "description": "G2冲突表C01～C12全部通过",
       "status": "PASS",
-      "durationMs": 0.137,
+      "durationMs": 0.091,
       "firstDifference": null
     },
     {
       "id": "U16",
       "description": "0～12全量整数枚举无两道明确配方同时命中",
       "status": "PASS",
-      "durationMs": 1203.098,
+      "durationMs": 1178.617,
       "firstDifference": null
     },
     {
       "id": "U17",
       "description": "五道明确料理理想路径均为3星",
       "status": "PASS",
-      "durationMs": 0.237,
+      "durationMs": 0.223,
       "firstDifference": null
     },
     {
       "id": "U18",
       "description": "暖锅杂烩总分最高70，因此最多二星",
       "status": "PASS",
-      "durationMs": 0.041,
+      "durationMs": 0.04,
       "firstDifference": null
     },
     {
       "id": "U19",
       "description": "星级计算不读取当前订单目标身份",
       "status": "PASS",
-      "durationMs": 0.051,
+      "durationMs": 0.048,
       "firstDifference": null
     },
     {
       "id": "U20",
       "description": "非目标有剩余步数时只清锅并保留棋盘、特殊格、步数和队列",
       "status": "PASS",
-      "durationMs": 0.674,
+      "durationMs": 0.582,
       "firstDifference": null
     },
     {
@@ -174,21 +174,21 @@
       "id": "U22",
       "description": "订单失败不回滚首次发现和历史最高星级",
       "status": "PASS",
-      "durationMs": 0.058,
+      "durationMs": 0.094,
       "firstDifference": null
     },
     {
       "id": "U23",
       "description": "配置缺字段、非法食材或固定队列耗尽时明确失败",
       "status": "PASS",
-      "durationMs": 0.766,
+      "durationMs": 1.942,
       "firstDifference": null
     },
     {
       "id": "U24",
       "description": "同一配置、seed和操作序列生成相同快照hash",
       "status": "PASS",
-      "durationMs": 1.9,
+      "durationMs": 1.998,
       "firstDifference": null
     }
   ],
@@ -197,63 +197,63 @@
       "id": "S01",
       "description": "O1番茄5连＋鸡蛋4连生成番茄炒蛋，剩5步",
       "status": "PASS",
-      "durationMs": 3.48,
+      "durationMs": 3.667,
       "firstDifference": null
     },
     {
       "id": "S02",
       "description": "O2_STANDARD生成香葱土豆饼，剩5步",
       "status": "PASS",
-      "durationMs": 1.9,
+      "durationMs": 2.344,
       "firstDifference": null
     },
     {
       "id": "S03",
       "description": "O2_BLACK第一锅生成黏糊番茄薯团，剩5步",
       "status": "PASS",
-      "durationMs": 2.859,
+      "durationMs": 2.728,
       "firstDifference": null
     },
     {
       "id": "S04",
       "description": "O2_BLACK清锅后继续生成订单目标，剩2步",
       "status": "PASS",
-      "durationMs": 1.78,
+      "durationMs": 1.769,
       "firstDifference": null
     },
     {
       "id": "S05",
       "description": "O3_STANDARD生成田园菌菇汤，剩5步",
       "status": "PASS",
-      "durationMs": 1.032,
+      "durationMs": 0.983,
       "firstDifference": null
     },
     {
       "id": "S06",
       "description": "O3_INSPIRATION灵感固定在r2c4，后续3格加入4单位",
       "status": "PASS",
-      "durationMs": 1.582,
+      "durationMs": 1.543,
       "firstDifference": null
     },
     {
       "id": "S07",
       "description": "O3_INSPIRATION第一锅生成星辉菌菇蛋盅，剩5步",
       "status": "PASS",
-      "durationMs": 1.504,
+      "durationMs": 1.463,
       "firstDifference": null
     },
     {
       "id": "S08",
       "description": "O3_INSPIRATION清锅后继续生成订单目标，剩2步",
       "status": "PASS",
-      "durationMs": 1.372,
+      "durationMs": 1.307,
       "firstDifference": null
     },
     {
       "id": "S09",
-      "description": "O3_INSPIRATION重跑时首次提示不重复且料理不变",
+      "description": "O3_INSPIRATION重跑提示不重复，料理不变且篡改expected必失败",
       "status": "PASS",
-      "durationMs": 3.069,
+      "durationMs": 9.904,
       "firstDifference": null
     }
   ],
@@ -264,6 +264,8 @@
       "configSchemaVersion": 1,
       "configHash": "8737fa94",
       "scenarioId": "O1_TUTORIAL_001",
+      "status": "PASS",
+      "firstDifference": null,
       "rng": {
         "algorithm": "xorshift32-v1",
         "seed": "0x43503042",
@@ -318,6 +320,8 @@
             "boardHash": "f13cf916",
             "snapshotHash": "262f329a"
           },
+          "status": "PASS",
+          "firstDifference": null,
           "committed": true,
           "inspirationHintShown": false
         },
@@ -373,6 +377,8 @@
             "boardHash": "4171fbe4",
             "snapshotHash": "3b63ab8f"
           },
+          "status": "PASS",
+          "firstDifference": null,
           "committed": true,
           "inspirationHintShown": false
         },
@@ -424,6 +430,8 @@
             "boardHash": "4171fbe4",
             "snapshotHash": "cf0280c2"
           },
+          "status": "PASS",
+          "firstDifference": null,
           "recipeId": "RCP_TOMATO_EGG",
           "stars": 3,
           "orderResult": "SUCCESS"
@@ -712,6 +720,8 @@
       "configSchemaVersion": 1,
       "configHash": "8737fa94",
       "scenarioId": "O2_STANDARD",
+      "status": "PASS",
+      "firstDifference": null,
       "rng": {
         "algorithm": "xorshift32-v1",
         "seed": "0x43503042",
@@ -767,6 +777,8 @@
             "boardHash": "bc886be4",
             "snapshotHash": "bf445308"
           },
+          "status": "PASS",
+          "firstDifference": null,
           "committed": true,
           "inspirationHintShown": false
         },
@@ -821,6 +833,8 @@
             "boardHash": "dead0941",
             "snapshotHash": "f600b1c7"
           },
+          "status": "PASS",
+          "firstDifference": null,
           "committed": true,
           "inspirationHintShown": false
         },
@@ -877,6 +891,8 @@
             "boardHash": "c0afe88c",
             "snapshotHash": "2bc08fc4"
           },
+          "status": "PASS",
+          "firstDifference": null,
           "committed": true,
           "inspirationHintShown": false
         },
@@ -930,6 +946,8 @@
             "boardHash": "c0afe88c",
             "snapshotHash": "2a2a4535"
           },
+          "status": "PASS",
+          "firstDifference": null,
           "recipeId": "RCP_SCALLION_POTATO_CAKE",
           "stars": 3,
           "orderResult": "SUCCESS"
@@ -1226,6 +1244,8 @@
       "configSchemaVersion": 1,
       "configHash": "8737fa94",
       "scenarioId": "O2_BLACK",
+      "status": "PASS",
+      "firstDifference": null,
       "rng": {
         "algorithm": "xorshift32-v1",
         "seed": "0x43503042",
@@ -1283,6 +1303,8 @@
             "boardHash": "f8130a82",
             "snapshotHash": "d1d87a82"
           },
+          "status": "PASS",
+          "firstDifference": null,
           "committed": true,
           "inspirationAt": "r2c4",
           "inspirationHintShown": true
@@ -1344,6 +1366,8 @@
             "boardHash": "692a363d",
             "snapshotHash": "616b3193"
           },
+          "status": "PASS",
+          "firstDifference": null,
           "committed": true,
           "inspirationAt": "r4c6",
           "inspirationHintShown": false
@@ -1404,6 +1428,8 @@
             "boardHash": "7d4712ee",
             "snapshotHash": "63dca0ed"
           },
+          "status": "PASS",
+          "firstDifference": null,
           "committed": true,
           "inspirationHintShown": false
         },
@@ -1459,6 +1485,8 @@
             "boardHash": "7d4712ee",
             "snapshotHash": "d3cf8c27"
           },
+          "status": "PASS",
+          "firstDifference": null,
           "recipeId": "RCP_CHARRED_TOMATO_POTATO_BALL",
           "stars": 3,
           "orderResult": "CONTINUE_AFTER_REVEAL"
@@ -1507,7 +1535,9 @@
             },
             "boardHash": "7d4712ee",
             "snapshotHash": "1388e65c"
-          }
+          },
+          "status": "PASS",
+          "firstDifference": null
         },
         {
           "index": 5,
@@ -1558,6 +1588,8 @@
             "boardHash": "65ea7391",
             "snapshotHash": "c14f6283"
           },
+          "status": "PASS",
+          "firstDifference": null,
           "committed": true,
           "inspirationHintShown": false
         },
@@ -1612,6 +1644,8 @@
             "boardHash": "43a4228c",
             "snapshotHash": "87c64a08"
           },
+          "status": "PASS",
+          "firstDifference": null,
           "committed": true,
           "inspirationHintShown": false
         },
@@ -1668,6 +1702,8 @@
             "boardHash": "2b8f4ea0",
             "snapshotHash": "b221fa97"
           },
+          "status": "PASS",
+          "firstDifference": null,
           "committed": true,
           "inspirationHintShown": false
         },
@@ -1721,6 +1757,8 @@
             "boardHash": "2b8f4ea0",
             "snapshotHash": "d898fb37"
           },
+          "status": "PASS",
+          "firstDifference": null,
           "recipeId": "RCP_SCALLION_POTATO_CAKE",
           "stars": 2,
           "orderResult": "SUCCESS"
@@ -2027,6 +2065,8 @@
       "configSchemaVersion": 1,
       "configHash": "8737fa94",
       "scenarioId": "O3_STANDARD",
+      "status": "PASS",
+      "firstDifference": null,
       "rng": {
         "algorithm": "xorshift32-v1",
         "seed": "0x43503042",
@@ -2081,6 +2121,8 @@
             "boardHash": "4f411d73",
             "snapshotHash": "a4c5cfcd"
           },
+          "status": "PASS",
+          "firstDifference": null,
           "committed": true,
           "inspirationHintShown": false
         },
@@ -2136,6 +2178,8 @@
             "boardHash": "7aec43ef",
             "snapshotHash": "80216f53"
           },
+          "status": "PASS",
+          "firstDifference": null,
           "committed": true,
           "inspirationHintShown": false
         },
@@ -2192,6 +2236,8 @@
             "boardHash": "82d6825a",
             "snapshotHash": "69d3d980"
           },
+          "status": "PASS",
+          "firstDifference": null,
           "committed": true,
           "inspirationHintShown": false
         },
@@ -2245,6 +2291,8 @@
             "boardHash": "82d6825a",
             "snapshotHash": "12c7e561"
           },
+          "status": "PASS",
+          "firstDifference": null,
           "recipeId": "RCP_GARDEN_MUSHROOM_SOUP",
           "stars": 3,
           "orderResult": "SUCCESS"
@@ -2541,6 +2589,8 @@
       "configSchemaVersion": 1,
       "configHash": "8737fa94",
       "scenarioId": "O3_INSPIRATION",
+      "status": "PASS",
+      "firstDifference": null,
       "rng": {
         "algorithm": "xorshift32-v1",
         "seed": "0x43503042",
@@ -2598,6 +2648,8 @@
             "boardHash": "0911266c",
             "snapshotHash": "abcad933"
           },
+          "status": "PASS",
+          "firstDifference": null,
           "committed": true,
           "inspirationAt": "r2c4",
           "inspirationHintShown": true
@@ -2655,6 +2707,8 @@
             "boardHash": "561c3fe5",
             "snapshotHash": "866ded98"
           },
+          "status": "PASS",
+          "firstDifference": null,
           "committed": true,
           "inspirationHintShown": false
         },
@@ -2714,6 +2768,8 @@
             "boardHash": "0d2a877b",
             "snapshotHash": "4d742759"
           },
+          "status": "PASS",
+          "firstDifference": null,
           "committed": true,
           "inspirationHintShown": false
         },
@@ -2769,6 +2825,8 @@
             "boardHash": "0d2a877b",
             "snapshotHash": "4a715ecf"
           },
+          "status": "PASS",
+          "firstDifference": null,
           "recipeId": "RCP_STAR_MUSHROOM_EGG_CUP",
           "stars": 3,
           "orderResult": "CONTINUE_AFTER_REVEAL"
@@ -2817,7 +2875,9 @@
             },
             "boardHash": "0d2a877b",
             "snapshotHash": "a2b295af"
-          }
+          },
+          "status": "PASS",
+          "firstDifference": null
         },
         {
           "index": 5,
@@ -2867,6 +2927,8 @@
             "boardHash": "445c26dc",
             "snapshotHash": "36790d46"
           },
+          "status": "PASS",
+          "firstDifference": null,
           "committed": true,
           "inspirationHintShown": false
         },
@@ -2922,6 +2984,8 @@
             "boardHash": "8edf7d00",
             "snapshotHash": "b84287df"
           },
+          "status": "PASS",
+          "firstDifference": null,
           "committed": true,
           "inspirationHintShown": false
         },
@@ -2978,6 +3042,8 @@
             "boardHash": "8b7d800c",
             "snapshotHash": "3e9beda7"
           },
+          "status": "PASS",
+          "firstDifference": null,
           "committed": true,
           "inspirationHintShown": false
         },
@@ -3031,6 +3097,8 @@
             "boardHash": "8b7d800c",
             "snapshotHash": "dc95cf0d"
           },
+          "status": "PASS",
+          "firstDifference": null,
           "recipeId": "RCP_GARDEN_MUSHROOM_SOUP",
           "stars": 2,
           "orderResult": "SUCCESS"

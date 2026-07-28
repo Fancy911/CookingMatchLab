@@ -3,7 +3,6 @@ import {
   BoardModel,
   BoardResolver,
   DeadBoardDetector,
-  DeterministicRng,
   DiscoveryModel,
   InspirationResolver,
   OrderResolver,
@@ -12,7 +11,6 @@ import {
   PotModel,
   RecipeResolver,
   RunSnapshot,
-  ShuffleResolver,
   StarCalculator,
   settleFire,
   type QueueState,
@@ -26,6 +24,7 @@ import type {
   IngredientUnits,
   ProcessingTag,
   RecipeId,
+  ScenarioConfig,
 } from '../../src/cp0b/types.js';
 import { cells, coord, registry } from '../helpers.js';
 
@@ -175,29 +174,55 @@ describe('CP0-B unit rules', () => {
   });
 
   it('U11 死盘免费洗牌，不改变步数和锅', () => {
-    const ids: IngredientId[] = [
-      'ING_TOMATO', 'ING_EGG', 'ING_POTATO',
-      'ING_CARROT', 'ING_MUSHROOM', 'ING_SCALLION',
-    ];
-    const dead = new BoardModel(Array.from({ length: 7 }, (_unused, row) =>
-      Array.from({ length: 7 }, (_unusedCell, column) => ({
-        ingredientId: ids[(row * 2 + column) % ids.length],
-        inspiration: false,
-      }))));
+    const symbols = ['T', 'E', 'P', 'C', 'M'];
+    const deadSymbols = Array.from({ length: 7 }, (_unused, row) =>
+      Array.from({ length: 7 }, (_unusedCell, column) =>
+        symbols[(row * 2 + column) % symbols.length]));
+    const dead = new BoardModel(deadSymbols.map((row) => row.map((symbol) => ({
+      ingredientId: registry.symbolToIngredient.get(symbol)!,
+      inspiration: false,
+    }))));
     const detector = new DeadBoardDetector();
     expect(detector.isDead(dead, 8, 3)).toBe(true);
-    const beforeMultiset = dead.grid.flat().map((cell) => cell.ingredientId).sort();
-    const steps = 4;
-    const pot = { ING_TOMATO: 5 };
-    const shuffled = new ShuffleResolver().shuffle(
-      dead,
-      registry.gameplay,
-      new DeterministicRng(12345),
-    );
-    expect(detector.isDead(shuffled, 8, 3)).toBe(false);
-    expect(shuffled.grid.flat().map((cell) => cell.ingredientId).sort()).toEqual(beforeMultiset);
-    expect(steps).toBe(4);
-    expect(pot).toEqual({ ING_TOMATO: 5 });
+    const initialBoard = deepClone(deadSymbols);
+    initialBoard[0][0] = 'T';
+    initialBoard[1][0] = 'T';
+    initialBoard[2][0] = 'T';
+    const scenario: ScenarioConfig = {
+      schemaVersion: 1,
+      id: 'O1_TUTORIAL_001',
+      orderId: 'ORD_01',
+      refillMode: 'COLUMN_QUEUE',
+      initialBoard,
+      columnQueues: {
+        '0': [deadSymbols[2][0], deadSymbols[1][0], deadSymbols[0][0]],
+        '1': ['T'],
+        '2': ['T'],
+        '3': ['T'],
+        '4': ['T'],
+        '5': ['T'],
+        '6': ['T'],
+      },
+      expectedActionScript: [],
+      expectedFinalResult: 'RCP_TOMATO_EGG',
+    };
+    const session = new OrderSession(registry, scenario, undefined, 12345);
+    session.pot.addThrow(cells('ING_EGG', 3));
+    const stepsBeforeCommit = session.remainingSteps;
+    const deadMultiset = dead.grid.flat().map((cell) => cell.ingredientId).sort();
+
+    const commit = session.commit([coord(0, 0), coord(1, 0), coord(2, 0)]);
+
+    expect(commit.committed).toBe(true);
+    expect(session.remainingSteps).toBe(stepsBeforeCommit - 1);
+    expect(session.pot.units).toEqual({ ING_EGG: 3, ING_TOMATO: 3 });
+    expect(session.pot.throws).toHaveLength(2);
+    expect(session.pot.throws.map((item) => item.ingredientId))
+      .toEqual(['ING_EGG', 'ING_TOMATO']);
+    expect(session.board.grid.flat().map((cell) => cell.ingredientId).sort())
+      .toEqual(deadMultiset);
+    expect(detector.hasLegalPath(session.board, 8, 3)).toBe(true);
+    expect(session.board.hash()).not.toBe(dead.hash());
   });
 
   it('U12 一次合法连线只占一个投料位', () => {
@@ -366,6 +391,71 @@ describe('CP0-B unit rules', () => {
     const missing = deepClone(baseRaw) as typeof baseRaw & { gameplay: Record<string, unknown> };
     delete (missing.gameplay.board as Record<string, unknown>).rows;
     expect(() => ConfigRegistry.fromRaw(missing)).toThrow(/rows/);
+
+    const requiredFieldCases: Array<{
+      label: RegExp;
+      remove: (raw: typeof baseRaw) => void;
+    }> = [
+      {
+        label: /thresholds\.three/,
+        remove: (raw) => {
+          delete (raw.gameplay.star.thresholds as Record<string, unknown>).three;
+        },
+      },
+      {
+        label: /weights\.recipe/,
+        remove: (raw) => {
+          delete (raw.gameplay.star.weights as Record<string, unknown>).recipe;
+        },
+      },
+      {
+        label: /shuffle\.maximumAttempts/,
+        remove: (raw) => {
+          delete (raw.gameplay.shuffle as Record<string, unknown>).maximumAttempts;
+        },
+      },
+      {
+        label: /initialSteps/,
+        remove: (raw) => {
+          delete (raw.orders.orders[0] as unknown as Record<string, unknown>).initialSteps;
+        },
+      },
+      {
+        label: /highEfficiencySteps/,
+        remove: (raw) => {
+          delete (raw.orders.orders[0] as unknown as Record<string, unknown>).highEfficiencySteps;
+        },
+      },
+      {
+        label: /passEfficiencySteps/,
+        remove: (raw) => {
+          delete (raw.orders.orders[0] as unknown as Record<string, unknown>).passEfficiencySteps;
+        },
+      },
+      {
+        label: /expectedActionScript\[0\]\.type/,
+        remove: (raw) => {
+          delete (raw.scenarios[0].expectedActionScript[0] as unknown as Record<string, unknown>).type;
+        },
+      },
+      {
+        label: /expectedActionScript\[0\]\.path/,
+        remove: (raw) => {
+          delete (raw.scenarios[0].expectedActionScript[0] as unknown as Record<string, unknown>).path;
+        },
+      },
+      {
+        label: /expectedActionScript\[0\]\.expected/,
+        remove: (raw) => {
+          delete (raw.scenarios[0].expectedActionScript[0] as unknown as Record<string, unknown>).expected;
+        },
+      },
+    ];
+    requiredFieldCases.forEach(({ label, remove }) => {
+      const raw = deepClone(baseRaw);
+      remove(raw);
+      expect(() => ConfigRegistry.fromRaw(raw)).toThrow(label);
+    });
 
     const illegal = deepClone(baseRaw);
     illegal.scenarios[0].initialBoard[0][0] = 'X';

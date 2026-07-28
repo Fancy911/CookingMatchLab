@@ -56,6 +56,49 @@ const requiredNumber = (value: unknown, label: string): number => {
   return value;
 };
 
+const requiredInteger = (value: unknown, label: string): number => {
+  const number = requiredNumber(value, label);
+  if (!Number.isInteger(number)) {
+    throw new Error(`${label} must be an integer`);
+  }
+  return number;
+};
+
+const requiredNonNegativeNumber = (value: unknown, label: string): number => {
+  const number = requiredNumber(value, label);
+  if (number < 0) {
+    throw new Error(`${label} must be non-negative`);
+  }
+  return number;
+};
+
+const requiredNonNegativeInteger = (value: unknown, label: string): number => {
+  const number = requiredInteger(value, label);
+  if (number < 0) {
+    throw new Error(`${label} must be a non-negative integer`);
+  }
+  return number;
+};
+
+const requiredPositiveInteger = (value: unknown, label: string): number => {
+  const number = requiredInteger(value, label);
+  if (number <= 0) {
+    throw new Error(`${label} must be a positive integer`);
+  }
+  return number;
+};
+
+const requireUnitSum = (
+  entries: Array<[label: string, value: unknown]>,
+  groupLabel: string,
+): number[] => {
+  const values = entries.map(([label, value]) => requiredNonNegativeNumber(value, label));
+  if (Math.abs(values.reduce((sum, value) => sum + value, 0) - 1) > 1e-9) {
+    throw new Error(`${groupLabel} must sum to 1`);
+  }
+  return values;
+};
+
 const readJson = (path: string): unknown => JSON.parse(readFileSync(path, 'utf8')) as unknown;
 
 export class ConfigRegistry {
@@ -145,12 +188,13 @@ export class ConfigRegistry {
     const pot = requiredObject(gameplay.pot, 'gameplay.pot');
     const longLink = requiredObject(gameplay.longLink, 'gameplay.longLink');
     const inspiration = requiredObject(gameplay.inspiration, 'gameplay.inspiration');
-    requiredObject(gameplay.shuffle, 'gameplay.shuffle');
-    requiredObject(gameplay.star, 'gameplay.star');
+    const shuffle = requiredObject(gameplay.shuffle, 'gameplay.shuffle');
+    const star = requiredObject(gameplay.star, 'gameplay.star');
     if (requiredNumber(board.rows, 'gameplay.board.rows') !== 7
       || requiredNumber(board.columns, 'gameplay.board.columns') !== 7) {
       throw new Error('CP0-B board must be exactly 7x7');
     }
+    requiredPositiveInteger(board.ingredientTypeCount, 'gameplay.board.ingredientTypeCount');
     if (![4, 8].includes(requiredNumber(board.connectionDirections, 'gameplay.board.connectionDirections'))) {
       throw new Error('Connection directions must be 4 or 8');
     }
@@ -161,6 +205,7 @@ export class ConfigRegistry {
       || requiredNumber(pot.minimumThrowsToCook, 'gameplay.pot.minimumThrowsToCook') !== 2) {
       throw new Error('CP0-B pot requires 3 base slots and 2 throws to cook');
     }
+    requiredNonNegativeInteger(pot.temporarySlots, 'gameplay.pot.temporarySlots');
     if (!(requiredNumber(longLink.fine, 'gameplay.longLink.fine')
       < requiredNumber(longLink.inspiration, 'gameplay.longLink.inspiration')
       && requiredNumber(longLink.inspiration, 'gameplay.longLink.inspiration')
@@ -169,6 +214,61 @@ export class ConfigRegistry {
     }
     if (requiredNumber(inspiration.unitValue, 'gameplay.inspiration.unitValue') !== 2) {
       throw new Error('CP0-B inspiration unit value must be 2');
+    }
+    if (requiredString(inspiration.spawnStrategy, 'gameplay.inspiration.spawnStrategy')
+      !== 'PATH_END_COLUMN_FIRST_NEW_CELL') {
+      throw new Error('gameplay.inspiration.spawnStrategy is unsupported');
+    }
+    if (requiredString(shuffle.algorithm, 'gameplay.shuffle.algorithm')
+      !== 'fisher-yates-xorshift32-v1') {
+      throw new Error('gameplay.shuffle.algorithm is unsupported');
+    }
+    requiredPositiveInteger(shuffle.maximumAttempts, 'gameplay.shuffle.maximumAttempts');
+
+    const recipeWeights = requiredObject(star.recipeWeights, 'gameplay.star.recipeWeights');
+    const processingScores = requiredObject(star.processingScores, 'gameplay.star.processingScores');
+    const efficiencyScores = requiredObject(star.efficiencyScores, 'gameplay.star.efficiencyScores');
+    const weights = requiredObject(star.weights, 'gameplay.star.weights');
+    const thresholds = requiredObject(star.thresholds, 'gameplay.star.thresholds');
+    if (requiredNumber(star.quantityDeviationFactor, 'gameplay.star.quantityDeviationFactor') <= 0) {
+      throw new Error('gameplay.star.quantityDeviationFactor must be positive');
+    }
+    requireUnitSum([
+      ['gameplay.star.recipeWeights.quantity', recipeWeights.quantity],
+      ['gameplay.star.recipeWeights.ratio', recipeWeights.ratio],
+    ], 'gameplay.star.recipeWeights');
+    [
+      'normal',
+      'fine',
+      'inspiration',
+      'master',
+      'inspirationBonus',
+      'maximum',
+    ].forEach((key) =>
+      requiredNonNegativeNumber(
+        processingScores[key],
+        `gameplay.star.processingScores.${key}`,
+      ));
+    ['high', 'pass', 'low'].forEach((key) =>
+      requiredNonNegativeNumber(
+        efficiencyScores[key],
+        `gameplay.star.efficiencyScores.${key}`,
+      ));
+    requireUnitSum([
+      ['gameplay.star.weights.recipe', weights.recipe],
+      ['gameplay.star.weights.processing', weights.processing],
+      ['gameplay.star.weights.efficiency', weights.efficiency],
+    ], 'gameplay.star.weights');
+    const twoStarThreshold = requiredNonNegativeNumber(
+      thresholds.two,
+      'gameplay.star.thresholds.two',
+    );
+    const threeStarThreshold = requiredNonNegativeNumber(
+      thresholds.three,
+      'gameplay.star.thresholds.three',
+    );
+    if (!(twoStarThreshold < threeStarThreshold && threeStarThreshold <= 100)) {
+      throw new Error('gameplay.star.thresholds must satisfy 0 <= two < three <= 100');
     }
 
     if (this.ingredients.length !== 6 || this.ingredientById.size !== 6) {
@@ -260,19 +360,56 @@ export class ConfigRegistry {
     if (this.orders.length !== 3 || this.orderById.size !== 3) {
       throw new Error('Exactly three unique orders are required');
     }
-    for (const order of this.orders) {
-      if (!this.recipeById.has(order.targetRecipeId)) {
-        throw new Error(`${order.id} references unknown recipe ${order.targetRecipeId}`);
+    for (const [orderIndex, order] of this.orders.entries()) {
+      const orderObject = requiredObject(order, `orders.orders[${orderIndex}]`);
+      const orderId = requiredString(orderObject.id, `orders.orders[${orderIndex}].id`);
+      requiredString(orderObject.title, `${orderId}.title`);
+      const targetRecipeId = requiredString(orderObject.targetRecipeId, `${orderId}.targetRecipeId`);
+      const initialSteps = requiredPositiveInteger(orderObject.initialSteps, `${orderId}.initialSteps`);
+      const highEfficiencySteps = requiredNonNegativeInteger(
+        orderObject.highEfficiencySteps,
+        `${orderId}.highEfficiencySteps`,
+      );
+      const passEfficiencySteps = requiredNonNegativeInteger(
+        orderObject.passEfficiencySteps,
+        `${orderId}.passEfficiencySteps`,
+      );
+      if (!(initialSteps >= highEfficiencySteps && highEfficiencySteps >= passEfficiencySteps)) {
+        throw new Error(
+          `${orderId} steps must satisfy initialSteps >= highEfficiencySteps >= passEfficiencySteps`,
+        );
       }
-      if (order.ingredientPool.length !== this.gameplay.board.ingredientTypeCount) {
-        throw new Error(`${order.id} must contain exactly five ingredient types`);
+      const orderMode = requiredString(orderObject.orderMode, `${orderId}.orderMode`);
+      if (!['TUTORIAL', 'KNOWN', 'RESEARCH'].includes(orderMode)) {
+        throw new Error(`${orderId}.orderMode must be TUTORIAL, KNOWN, or RESEARCH`);
       }
-      order.ingredientPool.forEach((id) => {
+      const defaultScenarioId = requiredString(
+        orderObject.defaultScenarioId,
+        `${orderId}.defaultScenarioId`,
+      );
+      if (!this.scenarioById.has(defaultScenarioId as ScenarioId)) {
+        throw new Error(`${orderId}.defaultScenarioId references unknown scenario ${defaultScenarioId}`);
+      }
+      requiredArray(orderObject.clues, `${orderId}.clues`).forEach((clue, index) =>
+        requiredString(clue, `${orderId}.clues[${index}]`));
+      requiredArray(orderObject.tutorialFlags, `${orderId}.tutorialFlags`).forEach((flag, index) =>
+        requiredString(flag, `${orderId}.tutorialFlags[${index}]`));
+      const ingredientPool = requiredArray(
+        orderObject.ingredientPool,
+        `${orderId}.ingredientPool`,
+      ) as IngredientId[];
+      if (!this.recipeById.has(targetRecipeId)) {
+        throw new Error(`${orderId} references unknown recipe ${targetRecipeId}`);
+      }
+      if (ingredientPool.length !== this.gameplay.board.ingredientTypeCount) {
+        throw new Error(`${orderId} must contain exactly five ingredient types`);
+      }
+      ingredientPool.forEach((id) => {
         if (!this.ingredientById.has(id)) {
-          throw new Error(`${order.id} references unknown ingredient ${id}`);
+          throw new Error(`${orderId} references unknown ingredient ${id}`);
         }
       });
-      const target = this.recipeById.get(order.targetRecipeId)!;
+      const target = this.recipeById.get(targetRecipeId)!;
       if (Object.keys(target.required).length > this.gameplay.pot.baseSlots) {
         throw new Error(`${target.id} is not reachable with three base throws`);
       }
@@ -281,41 +418,152 @@ export class ConfigRegistry {
     if (this.scenarios.length !== 5 || this.scenarioById.size !== 5) {
       throw new Error('Exactly five unique scenarios are required');
     }
-    for (const scenario of this.scenarios) {
-      const order = this.orderById.get(scenario.orderId);
+    const actionTypes = new Set(['LINK', 'FIRE', 'CONTINUE']);
+    const expectedKeys = new Set([
+      'stepDelta',
+      'potUnits',
+      'inspirationAt',
+      'pathCells',
+      'throwUnits',
+      'recipeId',
+      'remainingSteps',
+    ]);
+    for (const [scenarioIndex, scenario] of this.scenarios.entries()) {
+      const scenarioObject = requiredObject(scenario, `scenarios[${scenarioIndex}]`);
+      const scenarioId = requiredString(scenarioObject.id, `scenarios[${scenarioIndex}].id`);
+      const orderId = requiredString(scenarioObject.orderId, `${scenarioId}.orderId`);
+      if (requiredString(scenarioObject.refillMode, `${scenarioId}.refillMode`) !== 'COLUMN_QUEUE') {
+        throw new Error(`${scenarioId}.refillMode must be COLUMN_QUEUE`);
+      }
+      const initialBoard = requiredArray(
+        scenarioObject.initialBoard,
+        `${scenarioId}.initialBoard`,
+      ) as string[][];
+      const columnQueues = requiredObject(scenarioObject.columnQueues, `${scenarioId}.columnQueues`);
+      const actionScript = requiredArray(
+        scenarioObject.expectedActionScript,
+        `${scenarioId}.expectedActionScript`,
+      );
+      const expectedFinalResult = requiredString(
+        scenarioObject.expectedFinalResult,
+        `${scenarioId}.expectedFinalResult`,
+      );
+      const order = this.orderById.get(orderId as OrderConfig['id']);
       if (!order) {
-        throw new Error(`${scenario.id} references unknown order ${scenario.orderId}`);
+        throw new Error(`${scenarioId} references unknown order ${orderId}`);
       }
-      if (scenario.initialBoard.length !== this.gameplay.board.rows
-        || scenario.initialBoard.some((row) => row.length !== this.gameplay.board.columns)) {
-        throw new Error(`${scenario.id} initialBoard must be exactly 7x7`);
+      if (initialBoard.length !== this.gameplay.board.rows
+        || initialBoard.some((row) => !Array.isArray(row)
+          || row.length !== this.gameplay.board.columns)) {
+        throw new Error(`${scenarioId} initialBoard must be exactly 7x7`);
       }
-      for (const row of scenario.initialBoard) {
+      for (const row of initialBoard) {
         for (const symbol of row) {
+          requiredString(symbol, `${scenarioId}.initialBoard symbol`);
           const baseSymbol = symbol.replace('*', '');
           const id = this.symbolToIngredient.get(baseSymbol);
           if (!id) {
-            throw new Error(`${scenario.id} contains unknown symbol ${symbol}`);
+            throw new Error(`${scenarioId} contains unknown symbol ${symbol}`);
           }
           if (!order.ingredientPool.includes(id)) {
-            throw new Error(`${scenario.id} contains ${id} outside ${order.id} ingredient pool`);
+            throw new Error(`${scenarioId} contains ${id} outside ${order.id} ingredient pool`);
           }
         }
       }
       for (let column = 0; column < this.gameplay.board.columns; column += 1) {
-        const queue = scenario.columnQueues[String(column)];
+        const queue = columnQueues[String(column)];
         if (!Array.isArray(queue) || queue.length === 0) {
-          throw new Error(`${scenario.id} column queue ${column} must be non-empty`);
+          throw new Error(`${scenarioId} column queue ${column} must be non-empty`);
         }
         queue.forEach((symbol) => {
-          const id = this.symbolToIngredient.get(symbol.replace('*', ''));
+          const stringSymbol = requiredString(symbol, `${scenarioId}.columnQueues.${column} symbol`);
+          const id = this.symbolToIngredient.get(stringSymbol.replace('*', ''));
           if (!id || !order.ingredientPool.includes(id)) {
-            throw new Error(`${scenario.id} queue ${column} contains illegal symbol ${symbol}`);
+            throw new Error(`${scenarioId} queue ${column} contains illegal symbol ${stringSymbol}`);
           }
         });
       }
-      if (!this.recipeById.has(scenario.expectedFinalResult)) {
-        throw new Error(`${scenario.id} references unknown final recipe ${scenario.expectedFinalResult}`);
+      actionScript.forEach((rawAction, actionIndex) => {
+        const label = `${scenarioId}.expectedActionScript[${actionIndex}]`;
+        const action = requiredObject(rawAction, label);
+        const type = requiredString(action.type, `${label}.type`);
+        if (!actionTypes.has(type)) {
+          throw new Error(`${label}.type must be LINK, FIRE, or CONTINUE`);
+        }
+        if (type === 'LINK') {
+          const path = requiredArray(action.path, `${label}.path`);
+          if (path.length < this.gameplay.board.minimumLink) {
+            throw new Error(`${label}.path must contain at least ${this.gameplay.board.minimumLink} cells`);
+          }
+          path.forEach((rawCoord, coordIndex) => {
+            const coord = requiredArray(rawCoord, `${label}.path[${coordIndex}]`);
+            if (coord.length !== 2) {
+              throw new Error(`${label}.path[${coordIndex}] must contain row and column`);
+            }
+            const row = requiredNonNegativeInteger(coord[0], `${label}.path[${coordIndex}][0]`);
+            const column = requiredNonNegativeInteger(coord[1], `${label}.path[${coordIndex}][1]`);
+            if (row >= this.gameplay.board.rows || column >= this.gameplay.board.columns) {
+              throw new Error(`${label}.path[${coordIndex}] is outside the board`);
+            }
+          });
+        }
+        if (type !== 'CONTINUE' && action.expected === undefined) {
+          throw new Error(`${label}.expected is required for ${type}`);
+        }
+        if (action.expected !== undefined) {
+          const expected = requiredObject(action.expected, `${label}.expected`);
+          if (Object.keys(expected).length === 0 && type !== 'CONTINUE') {
+            throw new Error(`${label}.expected must not be empty`);
+          }
+          Object.keys(expected).forEach((key) => {
+            if (!expectedKeys.has(key)) {
+              throw new Error(`${label}.expected.${key} is not supported`);
+            }
+          });
+          if (Object.prototype.hasOwnProperty.call(expected, 'stepDelta')) {
+            requiredInteger(expected.stepDelta, `${label}.expected.stepDelta`);
+          }
+          if (Object.prototype.hasOwnProperty.call(expected, 'potUnits')) {
+            const potUnits = requiredObject(expected.potUnits, `${label}.expected.potUnits`);
+            Object.entries(potUnits).forEach(([ingredientId, units]) => {
+              if (!this.ingredientById.has(ingredientId as IngredientId)) {
+                throw new Error(`${label}.expected.potUnits references unknown ingredient ${ingredientId}`);
+              }
+              requiredNonNegativeInteger(units, `${label}.expected.potUnits.${ingredientId}`);
+            });
+          }
+          if (Object.prototype.hasOwnProperty.call(expected, 'inspirationAt')) {
+            const inspirationAt = requiredString(
+              expected.inspirationAt,
+              `${label}.expected.inspirationAt`,
+            );
+            if (!/^r[1-7]c[1-7]$/.test(inspirationAt)) {
+              throw new Error(`${label}.expected.inspirationAt must be an r1c1-style board coordinate`);
+            }
+          }
+          if (Object.prototype.hasOwnProperty.call(expected, 'pathCells')) {
+            requiredPositiveInteger(expected.pathCells, `${label}.expected.pathCells`);
+          }
+          if (Object.prototype.hasOwnProperty.call(expected, 'throwUnits')) {
+            requiredPositiveInteger(expected.throwUnits, `${label}.expected.throwUnits`);
+          }
+          if (Object.prototype.hasOwnProperty.call(expected, 'recipeId')) {
+            const recipeId = requiredString(expected.recipeId, `${label}.expected.recipeId`);
+            if (!this.recipeById.has(recipeId)) {
+              throw new Error(`${label}.expected.recipeId references unknown recipe ${recipeId}`);
+            }
+          }
+          if (Object.prototype.hasOwnProperty.call(expected, 'remainingSteps')) {
+            requiredNonNegativeInteger(expected.remainingSteps, `${label}.expected.remainingSteps`);
+          }
+        }
+      });
+      if (!actionScript.some((rawAction) =>
+        requiredObject(rawAction, `${scenarioId}.expectedActionScript action`).type === 'FIRE')) {
+        throw new Error(`${scenarioId}.expectedActionScript must contain a FIRE action`);
+      }
+      if (!this.recipeById.has(expectedFinalResult)) {
+        throw new Error(`${scenarioId} references unknown final recipe ${expectedFinalResult}`);
       }
     }
 

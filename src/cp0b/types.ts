@@ -155,7 +155,17 @@ export interface OrderConfig {
 export interface ScenarioAction {
   type: 'LINK' | 'FIRE' | 'CONTINUE';
   path?: [number, number][];
-  expected?: Record<string, unknown>;
+  expected?: ScenarioActionExpected;
+}
+
+export interface ScenarioActionExpected {
+  stepDelta?: number;
+  potUnits?: IngredientUnits;
+  inspirationAt?: string;
+  pathCells?: number;
+  throwUnits?: number;
+  recipeId?: RecipeId;
+  remainingSteps?: number;
 }
 
 export interface ScenarioConfig {

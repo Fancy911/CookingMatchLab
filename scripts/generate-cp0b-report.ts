@@ -134,6 +134,7 @@ const passed = unitVitest.success
   && scenarioVitest.success
   && unitTests.length === 24
   && scenarioTests.length === 9
+  && scenarioRuns.every((run) => run.status === 'PASS')
   && forbiddenAudit.ccImports.length === 0
   && forbiddenAudit.directMathRandom.length === 0
   && protectedDiff.length === 0
@@ -182,10 +183,10 @@ const report = {
   deferredByStage: delayedAssets,
   firstDifference: passed
     ? null
-    : [
-        ...unitTests.filter((test) => test.status === 'FAIL'),
-        ...scenarioTests.filter((test) => test.status === 'FAIL'),
-      ][0] ?? 'Static audit failed',
+    : unitTests.find((test) => test.status === 'FAIL')?.firstDifference
+      ?? scenarioTests.find((test) => test.status === 'FAIL')?.firstDifference
+      ?? scenarioRuns.find((run) => run.status === 'FAIL')?.firstDifference
+      ?? 'Static audit failed',
 };
 
 const markdownRows = (
@@ -195,7 +196,7 @@ const markdownRows = (
 ).join('\n');
 
 const runRows = scenarioRuns.map((run) =>
-  `| ${run.scenarioId} | ${run.fireResults.map((fire) => fire.recipeId).join(' → ')} | ${run.finalSnapshot.remainingSteps} | \`${run.finalSnapshot.boardHash}\` | \`${run.finalSnapshotHash}\` |`,
+  `| ${run.scenarioId} | ${run.status} | ${run.firstDifference ?? '—'} | ${run.fireResults.map((fire) => fire.recipeId).join(' → ')} | ${run.finalSnapshot.remainingSteps} | \`${run.finalSnapshot.boardHash}\` | \`${run.finalSnapshotHash}\` |`,
 ).join('\n');
 
 const markdown = `# CP0-B 测试报告
@@ -224,11 +225,11 @@ ${markdownRows(scenarioTests)}
 
 ## 固定场景确定性运行摘要
 
-| 场景 | 料理序列 | 最终剩余步数 | boardHash | snapshotHash |
-| --- | --- | ---: | --- | --- |
+| 场景 | 结果 | 首个差异 | 料理序列 | 最终剩余步数 | boardHash | snapshotHash |
+| --- | --- | --- | --- | ---: | --- | --- |
 ${runRows}
 
-每个动作的前后步数、锅中单位、投料位、处理标签、队列位置、棋盘 hash 和快照 hash 均保存在同目录 JSON 报告的 \`scenarioRuns[].actions\` 中；面向人的坐标已转换为 \`r1c1\` 格式。
+每个动作的 \`status\`、\`firstDifference\`、前后步数、锅中单位、投料位、处理标签、队列位置、棋盘 hash 和快照 hash 均保存在同目录 JSON 报告的 \`scenarioRuns[].actions\` 中；面向人的坐标已转换为 \`r1c1\` 格式。只有全部动作与 \`expectedFinalResult\` 一致，场景和总报告才会标记为 PASS。
 
 ## 静态审计
 
