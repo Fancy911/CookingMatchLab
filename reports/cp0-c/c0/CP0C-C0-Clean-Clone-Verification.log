@@ -1,0 +1,125 @@
+# CP0-C-C0 clean clone verification
+generatedAt=2026-07-29T05:41:06.688Z
+nodeVersion=v22.22.2
+platform=darwin
+arch=arm64
+initialGitHead=6d1b76418fa135ebe01532969f0f9d945aa1c2b7
+initialGitClean=true
+initialTempExists=false
+initialLibraryExists=false
+initialNodeModulesExists=false
+
+## npm ci
+startedAt=2026-07-29T05:41:06.688Z
+finishedAt=2026-07-29T05:41:07.807Z
+durationMs=1118
+exitCode=0
+signal=none
+status=PASS
+stdoutSha256=b7d6880845b9f70a44a8a86a8935d212287770ef9b72c384bad9a9f37ed5ba8c
+stderrSha256=e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+
+
+added 59 packages, and audited 60 packages in 1s
+
+17 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+
+## npm test
+startedAt=2026-07-29T05:41:07.808Z
+finishedAt=2026-07-29T05:41:17.655Z
+durationMs=9847
+exitCode=0
+signal=none
+status=PASS
+stdoutSha256=bcac3b9457526125ed15ed2905100fad6270a6a3389d2293fb6a251b3527baa8
+stderrSha256=e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+
+
+> test
+> vitest run --config vitest.config.mjs --configLoader native && npm run report
+
+
+ RUN  v3.2.7 /private/tmp/cookingmatchlab-c0-final.jOai1S/repo
+
+ ✓ tests/scenarios/cp0b-scenarios.test.ts (9 tests) 28ms
+ ✓ tests/unit/cp0b-unit.test.ts (24 tests) 1198ms
+   ✓ CP0-B unit rules > U16 0～12全量整数枚举无两道明确配方同时命中  1185ms
+
+ Test Files  2 passed (2)
+      Tests  33 passed (33)
+   Start at  13:41:09
+   Duration  2.57s (transform 77ms, setup 0ms, collect 2.48s, tests 1.23s, environment 0ms, prepare 60ms)
+
+
+> report
+> tsx scripts/generate-cp0b-report.ts
+
+CP0-B report: PASS
+reports/cp0-b/CP0B-Test-Report.json
+reports/cp0-b/CP0B-Test-Report.md
+
+## npm run test:unit
+startedAt=2026-07-29T05:41:17.655Z
+finishedAt=2026-07-29T05:41:20.533Z
+durationMs=2877
+exitCode=0
+signal=none
+status=PASS
+stdoutSha256=9ca5621d59421399b3ede9092d0ba16a72eb3781331419cf33fa17d311457754
+stderrSha256=e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+
+
+> test:unit
+> vitest run --config vitest.config.mjs --configLoader native tests/unit
+
+
+ RUN  v3.2.7 /private/tmp/cookingmatchlab-c0-final.jOai1S/repo
+
+ ✓ tests/unit/cp0b-unit.test.ts (24 tests) 1245ms
+   ✓ CP0-B unit rules > U16 0～12全量整数枚举无两道明确配方同时命中  1233ms
+
+ Test Files  1 passed (1)
+      Tests  24 passed (24)
+   Start at  13:41:17
+   Duration  2.62s (transform 55ms, setup 0ms, collect 1.24s, tests 1.25s, environment 0ms, prepare 26ms)
+
+## npm run test:scenarios
+startedAt=2026-07-29T05:41:20.533Z
+finishedAt=2026-07-29T05:41:22.166Z
+durationMs=1633
+exitCode=0
+signal=none
+status=PASS
+stdoutSha256=d16062f911c934c1c3434bd0cdc407d299ec348b79b455fbc1595d7090e8640d
+stderrSha256=e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+
+
+> test:scenarios
+> vitest run --config vitest.config.mjs --configLoader native tests/scenarios
+
+
+ RUN  v3.2.7 /private/tmp/cookingmatchlab-c0-final.jOai1S/repo
+
+ ✓ tests/scenarios/cp0b-scenarios.test.ts (9 tests) 37ms
+
+ Test Files  1 passed (1)
+      Tests  9 passed (9)
+   Start at  13:41:20
+   Duration  1.38s (transform 53ms, setup 0ms, collect 1.22s, tests 37ms, environment 0ms, prepare 33ms)
+
+## npm run typecheck
+startedAt=2026-07-29T05:41:22.166Z
+finishedAt=2026-07-29T05:41:22.931Z
+durationMs=764
+exitCode=0
+signal=none
+status=PASS
+stdoutSha256=aae295b7a6d53a806fd95bbd8ac992dc8b13a1e291666431e0395f141e25078d
+stderrSha256=e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+
+
+> typecheck
+> tsc -p tsconfig.cp0b.json --noEmit

@@ -1,0 +1,81 @@
+{
+  "recordId": "CP0-C-C0-CLEAN-CLONE-VERIFICATION",
+  "generatedAt": "2026-07-29T05:41:22.931Z",
+  "status": "PASS",
+  "environment": {
+    "nodeVersion": "v22.22.2",
+    "platform": "darwin",
+    "arch": "arm64"
+  },
+  "initialState": {
+    "gitHead": "6d1b76418fa135ebe01532969f0f9d945aa1c2b7",
+    "gitStatusCommandExitCode": 0,
+    "gitClean": true,
+    "tempExists": false,
+    "libraryExists": false,
+    "nodeModulesExists": false
+  },
+  "commands": [
+    {
+      "command": "npm ci",
+      "startedAt": "2026-07-29T05:41:06.688Z",
+      "finishedAt": "2026-07-29T05:41:07.807Z",
+      "durationMs": 1118,
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "status": "PASS",
+      "stdoutSha256": "b7d6880845b9f70a44a8a86a8935d212287770ef9b72c384bad9a9f37ed5ba8c",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "command": "npm test",
+      "startedAt": "2026-07-29T05:41:07.808Z",
+      "finishedAt": "2026-07-29T05:41:17.655Z",
+      "durationMs": 9847,
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "status": "PASS",
+      "stdoutSha256": "bcac3b9457526125ed15ed2905100fad6270a6a3389d2293fb6a251b3527baa8",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "command": "npm run test:unit",
+      "startedAt": "2026-07-29T05:41:17.655Z",
+      "finishedAt": "2026-07-29T05:41:20.533Z",
+      "durationMs": 2877,
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "status": "PASS",
+      "stdoutSha256": "9ca5621d59421399b3ede9092d0ba16a72eb3781331419cf33fa17d311457754",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "command": "npm run test:scenarios",
+      "startedAt": "2026-07-29T05:41:20.533Z",
+      "finishedAt": "2026-07-29T05:41:22.166Z",
+      "durationMs": 1633,
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "status": "PASS",
+      "stdoutSha256": "d16062f911c934c1c3434bd0cdc407d299ec348b79b455fbc1595d7090e8640d",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "command": "npm run typecheck",
+      "startedAt": "2026-07-29T05:41:22.166Z",
+      "finishedAt": "2026-07-29T05:41:22.931Z",
+      "durationMs": 764,
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "status": "PASS",
+      "stdoutSha256": "aae295b7a6d53a806fd95bbd8ac992dc8b13a1e291666431e0395f141e25078d",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "transcript": "reports/cp0-c/c0/CP0C-C0-Clean-Clone-Verification.log"
+}

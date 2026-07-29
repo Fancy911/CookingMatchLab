@@ -4,7 +4,7 @@
 - C0 基线：`13a1ca813f89c260a1aff42183fe6ec9b82b6e21`
 - 最终提交：本报告所在的单一提交（提交后以 GitHub 链接固化）
 - Cocos Creator：`3.8.8`
-- Node：`v22.22.2`
+- Node（干净克隆）：`v22.22.2`
 - 配置哈希：`8737fa94`（预期 `8737fa94`）
 - C1：**未开始**
 
@@ -19,14 +19,22 @@
 
 已删除旧位置：`src/cp0b/`、`config/cp0-b/`。
 
-## 四条验收命令
+## 干净克隆验收
 
-| 命令 | 结果 |
-| --- | --- |
-| `npm test` | PASS |
-| `npm run test:unit` | PASS |
-| `npm run test:scenarios` | PASS |
-| `npm run typecheck` | PASS |
+- 初始 Git 工作区干净：是
+- 初始存在 `temp/`：否
+- 初始存在 `library/`：否
+- 初始存在 `node_modules/`：否
+- 命令记录：`reports/cp0-c/c0/CP0C-C0-Command-Results.json`
+- 完整输出：`reports/cp0-c/c0/CP0C-C0-Clean-Clone-Verification.log`
+
+| 命令 | 结果 | 实际退出码 | 耗时 |
+| --- | --- | ---: | ---: |
+| `npm ci` | PASS | 0 | 1118 ms |
+| `npm test` | PASS | 0 | 9847 ms |
+| `npm run test:unit` | PASS | 0 | 2877 ms |
+| `npm run test:scenarios` | PASS | 0 | 1633 ms |
+| `npm run typecheck` | PASS | 0 | 764 ms |
 
 - U01～U24：24/24 PASS
 - S01～S09：9/9 PASS
@@ -73,7 +81,10 @@
 ## Cocos 3.8.8 验证
 
 - Web Mobile 发布构建：PASS
-- 构建日志：`temp/builder/log/web-mobile7-29-2026 10-34.log`
+- 受版本控制的脱敏构建日志：`reports/cp0-c/c0/CP0C-C0-Cocos-Build-3.8.8.log`
+- 实际命令结果记录：`reports/cp0-c/c0/CP0C-C0-Cocos-Build-Result.json`
+- 实际进程退出码：36
+- 构建 PASS 判定依据：版本、发布模式、脚本注册、完成标记及失败标记；退出码只记录实际值，不作写死映射。
 - `CP0ABattleShell` 注册：PASS
 - Creator 生成迁移资产元数据：PASS
 - 真实运行截图：`reports/cp0-c/c0/CP0C-C0-Battle-Smoke-390x844.png`，390×844 PNG，PASS

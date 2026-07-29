@@ -1,6 +1,6 @@
 {
   "reportId": "CP0-C-C0",
-  "generatedAt": "2026-07-29T02:39:21.932Z",
+  "generatedAt": "2026-07-29T05:41:36.327Z",
   "status": "PASS",
   "scope": {
     "authorized": "CP0-C-C0 single-source runtime migration and Cocos compilation verification",
@@ -12,7 +12,8 @@
   },
   "environment": {
     "cocosCreatorVersion": "3.8.8",
-    "nodeVersion": "v22.22.2"
+    "reportGeneratorNodeVersion": "v22.22.2",
+    "cleanCloneNodeVersion": "v22.22.2"
   },
   "migrationMap": [
     {
@@ -36,22 +37,79 @@
     "src/cp0b/",
     "config/cp0-b/"
   ],
+  "cleanCloneVerification": {
+    "record": "reports/cp0-c/c0/CP0C-C0-Command-Results.json",
+    "transcript": "reports/cp0-c/c0/CP0C-C0-Clean-Clone-Verification.log",
+    "initialState": {
+      "gitHead": "6d1b76418fa135ebe01532969f0f9d945aa1c2b7",
+      "gitStatusCommandExitCode": 0,
+      "gitClean": true,
+      "tempExists": false,
+      "libraryExists": false,
+      "nodeModulesExists": false
+    },
+    "status": "PASS"
+  },
   "commandResults": [
     {
+      "command": "npm ci",
+      "status": "PASS",
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "startedAt": "2026-07-29T05:41:06.688Z",
+      "finishedAt": "2026-07-29T05:41:07.807Z",
+      "durationMs": 1118,
+      "stdoutSha256": "b7d6880845b9f70a44a8a86a8935d212287770ef9b72c384bad9a9f37ed5ba8c",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
       "command": "npm test",
-      "status": "PASS"
+      "status": "PASS",
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "startedAt": "2026-07-29T05:41:07.808Z",
+      "finishedAt": "2026-07-29T05:41:17.655Z",
+      "durationMs": 9847,
+      "stdoutSha256": "bcac3b9457526125ed15ed2905100fad6270a6a3389d2293fb6a251b3527baa8",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     },
     {
       "command": "npm run test:unit",
-      "status": "PASS"
+      "status": "PASS",
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "startedAt": "2026-07-29T05:41:17.655Z",
+      "finishedAt": "2026-07-29T05:41:20.533Z",
+      "durationMs": 2877,
+      "stdoutSha256": "9ca5621d59421399b3ede9092d0ba16a72eb3781331419cf33fa17d311457754",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     },
     {
       "command": "npm run test:scenarios",
-      "status": "PASS"
+      "status": "PASS",
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "startedAt": "2026-07-29T05:41:20.533Z",
+      "finishedAt": "2026-07-29T05:41:22.166Z",
+      "durationMs": 1633,
+      "stdoutSha256": "d16062f911c934c1c3434bd0cdc407d299ec348b79b455fbc1595d7090e8640d",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     },
     {
       "command": "npm run typecheck",
-      "status": "PASS"
+      "status": "PASS",
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "startedAt": "2026-07-29T05:41:22.166Z",
+      "finishedAt": "2026-07-29T05:41:22.931Z",
+      "durationMs": 764,
+      "stdoutSha256": "aae295b7a6d53a806fd95bbd8ac992dc8b13a1e291666431e0395f141e25078d",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     }
   ],
   "tests": {
@@ -178,16 +236,35 @@
       "status": "PASS"
     },
     "cocosCompilation": {
+      "evidenceRecord": "reports/cp0-c/c0/CP0C-C0-Cocos-Build-Result.json",
+      "retainedLog": "reports/cp0-c/c0/CP0C-C0-Cocos-Build-3.8.8.log",
       "creatorVersion": "3.8.8",
       "platform": "web-mobile",
       "debug": false,
-      "commandExitCode": 36,
-      "exitCodeMeaning": "Cocos Creator 3.8.x build success",
-      "buildLog": "temp/builder/log/web-mobile7-29-2026 10-34.log",
-      "shellRegistered": true,
-      "engineVersionConfirmed": true,
-      "buildFinished": true,
-      "failureMarkers": [],
+      "command": {
+        "executable": "/Applications/CocosCreator.app/Contents/MacOS/CocosCreator",
+        "args": [
+          "--project",
+          "<PROJECT_ROOT>",
+          "--build",
+          "platform=web-mobile;debug=false;buildPath=project://build;outputName=cp0c-c0-web-mobile"
+        ],
+        "startedAt": "2026-07-29T05:40:22.703Z",
+        "finishedAt": "2026-07-29T05:40:34.574Z",
+        "durationMs": 11873,
+        "actualExitCode": 36,
+        "actualSignal": null,
+        "spawnError": null
+      },
+      "verification": {
+        "creatorVersionConfigured": true,
+        "shellRegistered": true,
+        "engineVersionConfirmed": true,
+        "releaseBuildConfirmed": true,
+        "buildFinished": true,
+        "exitCodeUsedForStatus": false,
+        "failureMarkers": []
+      },
       "status": "PASS"
     },
     "smokeScreenshot": {

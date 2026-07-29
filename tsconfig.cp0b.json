@@ -1,21 +1,11 @@
 {
-  "compilerOptions": {
-    "target": "ES2022",
-    "module": "ESNext",
-    "moduleResolution": "Bundler",
-    "strict": true,
-    "esModuleInterop": true,
-    "resolveJsonModule": true,
-    "skipLibCheck": true,
-    "types": ["node", "vitest/globals"],
-    "noEmit": true
-  },
+  "extends": "./tsconfig.vitest.json",
   "include": [
     "assets/game/scripts/domain/cp0b/**/*.ts",
     "assets/game/scripts/application/cp0c/**/*.ts",
     "tools/cp0b/**/*.ts",
     "tests/**/*.ts",
     "scripts/**/*.ts",
-    "vitest.config.ts"
+    "vitest.config.mjs"
   ]
 }

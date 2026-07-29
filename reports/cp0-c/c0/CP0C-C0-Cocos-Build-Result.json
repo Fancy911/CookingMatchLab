@@ -1,0 +1,41 @@
+{
+  "recordId": "CP0-C-C0-COCOS-BUILD",
+  "generatedAt": "2026-07-29T05:40:34.574Z",
+  "status": "PASS",
+  "creatorVersion": "3.8.8",
+  "platform": "web-mobile",
+  "debug": false,
+  "command": {
+    "executable": "/Applications/CocosCreator.app/Contents/MacOS/CocosCreator",
+    "args": [
+      "--project",
+      "<PROJECT_ROOT>",
+      "--build",
+      "platform=web-mobile;debug=false;buildPath=project://build;outputName=cp0c-c0-web-mobile"
+    ],
+    "startedAt": "2026-07-29T05:40:22.703Z",
+    "finishedAt": "2026-07-29T05:40:34.574Z",
+    "durationMs": 11873,
+    "actualExitCode": 36,
+    "actualSignal": null,
+    "spawnError": null
+  },
+  "verification": {
+    "creatorVersionConfigured": true,
+    "shellRegistered": true,
+    "engineVersionConfirmed": true,
+    "releaseBuildConfirmed": true,
+    "buildFinished": true,
+    "exitCodeUsedForStatus": false,
+    "failureMarkers": []
+  },
+  "output": {
+    "rawSha256": "cb418f1401bc19e2debe408e29120ce6e4b9ae0b76bbe835e9ce8b6f44c97629",
+    "retainedLog": "reports/cp0-c/c0/CP0C-C0-Cocos-Build-3.8.8.log",
+    "retainedKeyLineCount": 16,
+    "sanitization": [
+      "project root",
+      "user home"
+    ]
+  }
+}
