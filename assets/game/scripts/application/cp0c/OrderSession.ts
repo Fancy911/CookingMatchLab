@@ -14,9 +14,11 @@ import {
   ShuffleResolver,
   StarCalculator,
   settleFire,
+  type NewCell,
   type QueueState,
 } from '../../domain/cp0b/core';
 import {
+  type BoardGrid,
   type Cell,
   type Coord,
   type FireResult,
@@ -34,6 +36,11 @@ export interface CommitResult {
   throwRecord?: ThrowRecord;
   inspirationCoord?: Coord;
   inspirationHintShown: boolean;
+  resolution?: {
+    newCells: NewCell[];
+    boardBeforeShuffle: BoardGrid;
+    shuffled: boolean;
+  };
 }
 
 export class OrderSession {
@@ -141,18 +148,26 @@ export class OrderSession {
       inspirationHintShown = this.discovery.showInspirationHintOnce();
     }
 
+    const boardBeforeShuffle = deepClone(this.board.grid);
+    let shuffled = false;
     if (this.detector.isDead(
       this.board,
       this.registry.gameplay.board.connectionDirections,
       this.registry.gameplay.board.minimumLink,
     )) {
       this.board = this.shuffleResolver.shuffle(this.board, this.registry.gameplay, this.rng);
+      shuffled = true;
     }
     return {
       committed: true,
       throwRecord,
       inspirationCoord,
       inspirationHintShown,
+      resolution: {
+        newCells: resolution.newCells,
+        boardBeforeShuffle,
+        shuffled,
+      },
     };
   }
 

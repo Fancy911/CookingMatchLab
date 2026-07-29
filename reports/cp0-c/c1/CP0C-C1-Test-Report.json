@@ -1,0 +1,106 @@
+{
+  "reportId": "CP0-C-C1",
+  "generatedAt": "2026-07-30T00:58:00+08:00",
+  "status": "PASS",
+  "baseline": {
+    "c0FinalCommit": "3f6995a5f79369ac18042b682e5bc5e8a715e1b7",
+    "c0MigrationCommit": "19eeecf",
+    "c1FinalCommit": "THIS_REPORT_COMMIT (resolved by the final GitHub commit URL)",
+    "branch": "main",
+    "configHash": "8737fa94"
+  },
+  "environment": {
+    "cocosCreator": "3.8.8",
+    "node": "v22.22.2",
+    "platform": "web-mobile",
+    "designResolution": "390x844"
+  },
+  "automated": {
+    "status": "PASS",
+    "frozenRegression": {
+      "unit": "24/24 PASS",
+      "scenarios": "9/9 PASS",
+      "total": "33/33 PASS"
+    },
+    "c1": {
+      "total": "10/10 PASS",
+      "tests": [
+        { "id": "C001", "status": "PASS", "actual": "portable/Cocos adapter and Node loader are equivalent; hash 8737fa94" },
+        { "id": "C002", "status": "PASS", "actual": "2-cell release produced no state delta and no EffectPlan" },
+        { "id": "C003", "status": "PASS", "actual": "tomato path=5, units=5, remaining steps=6, slot=0" },
+        { "id": "C004", "status": "PASS", "actual": "EffectPlan finalBoardHash equals Domain snapshot boardHash" },
+        { "id": "C005", "status": "PASS", "actual": "two throws enabled fire with tomato=5 and egg=4; remaining steps=5" },
+        { "id": "C006", "status": "PASS", "actual": "RCP_TOMATO_EGG, 3 stars, SUCCESS" },
+        { "id": "C007", "status": "PASS", "actual": "third throw filled slot 3 without automatic fire" },
+        { "id": "C008", "status": "PASS", "actual": "RCP_WARM_HOTPOT_MIX; continue preserved board hash, queue hash and 5 steps while clearing pot" },
+        { "id": "C009", "status": "PASS", "actual": "discovery and best stars rehydrated; refreshed active run starts at 7 steps with empty pot" },
+        { "id": "C010", "status": "PASS", "actual": "duplicate submit/animation/cooking callbacks were ignored; save called once" }
+      ]
+    },
+    "commands": "reports/cp0-c/c1/CP0C-C1-Command-Results.json",
+    "verificationLog": "reports/cp0-c/c1/CP0C-C1-Verification.log",
+    "cocosBuild": "reports/cp0-c/c1/CP0C-C1-Cocos-Build-Result.json",
+    "cocosBuildLog": "reports/cp0-c/c1/CP0C-C1-Cocos-Build-3.8.8.log"
+  },
+  "manual": [
+    { "id": "M01", "status": "PASS", "actual": "3-cell tomato throw deducted exactly 1 step, occupied 1 slot and flew each selected item", "evidence": "CP0C-V01B-Fallback-Continue-390x844.mp4" },
+    { "id": "M02", "status": "PASS", "actual": "2-cell release returned to the same 7-step empty-pot state", "evidence": "CP0C-V01-O1-Playable-390x844.mp4" },
+    { "id": "M03", "status": "PASS", "actual": "five-cell gesture backtracked twice to exactly 3 cells", "evidence": "CP0C-V01B-Fallback-Continue-390x844.mp4" },
+    { "id": "M04", "status": "PASS", "actual": "crossing a different ingredient did not replace or clear the valid same-food path", "evidence": "U03 path-editor regression and runtime touch spot-check" },
+    { "id": "M05", "status": "PASS", "actual": "fixed tomato five path produced 5份", "evidence": "Core-02, Core-03 and V01" },
+    { "id": "M08", "status": "PASS", "actual": "after egg throw, tray showed 5份/4份 and fire changed to 可开火", "evidence": "Core-04-Pot-Review-390x844.png" },
+    { "id": "M09", "status": "PASS", "actual": "third legal throw left phase at POT_REVIEW and did not call fire", "evidence": "C007" },
+    { "id": "M10", "status": "PASS", "actual": "deterministic dead-board injection preserved multiset, pot and steps and produced a legal link", "evidence": "U11" },
+    { "id": "M11", "status": "PASS", "actual": "tomato egg reveal, ordinary badge, 3 stars, SUCCESS", "evidence": "Core-07 and V01" },
+    { "id": "M18", "status": "PASS", "actual": "3 tomato + 4 egg revealed ordinary warm hotpot mix with 1 dynamic star", "evidence": "V01B" },
+    { "id": "M19", "status": "PASS", "actual": "continue cleared pot/throws and preserved the resolved board, queue and 5 remaining steps", "evidence": "Core-10 and V01B" },
+    { "id": "M20", "status": "PASS", "actual": "refresh/restart creates a fresh O1 run while retaining discovery and highest stars", "evidence": "C009 plus Cocos local-save integration" }
+  ],
+  "screenshots": [
+    { "path": "reports/cp0-c/c1/screenshots/Core-01-Battle-Ready-390x844.png", "size": "390x844" },
+    { "path": "reports/cp0-c/c1/screenshots/Core-02-Link-Five-390x844.png", "size": "390x844" },
+    { "path": "reports/cp0-c/c1/screenshots/Core-03-Flying-To-Pot-390x844.png", "size": "390x844" },
+    { "path": "reports/cp0-c/c1/screenshots/Core-04-Pot-Review-390x844.png", "size": "390x844" },
+    { "path": "reports/cp0-c/c1/screenshots/Core-06-Cooking-390x844.png", "size": "390x844" },
+    { "path": "reports/cp0-c/c1/screenshots/Core-07-Reveal-Normal-390x844.png", "size": "390x844" },
+    { "path": "reports/cp0-c/c1/screenshots/Core-10-Continue-After-Wrong-390x844.png", "size": "390x844" },
+    { "path": "reports/cp0-c/c1/screenshots/Layout-Smoke-360x800.png", "size": "360x800" },
+    { "path": "reports/cp0-c/c1/screenshots/Layout-Smoke-412x915.png", "size": "412x915" }
+  ],
+  "recordings": [
+    { "path": "reports/cp0-c/c1/recordings/CP0C-V01-O1-Playable-390x844.mp4", "size": "390x844", "fps": 30, "durationSeconds": 46.033, "uncut": true },
+    { "path": "reports/cp0-c/c1/recordings/CP0C-V01B-Fallback-Continue-390x844.mp4", "size": "390x844", "fps": 30, "durationSeconds": 36.033, "uncut": true }
+  ],
+  "performance": {
+    "sampleFrames": 146,
+    "averageFps": 58.489,
+    "p95FrameMs": 17.7,
+    "maximumFrameDeltaMs": 83.3,
+    "maximumLongTaskMs": 96,
+    "inputResponseMs": 14.4,
+    "limits": { "inputResponseMs": 100, "mainThreadStallMs": 150 },
+    "status": "PASS"
+  },
+  "architecture": {
+    "domainApplicationNoCc": true,
+    "domainApplicationNoNodeBuiltins": true,
+    "gameplayNoMathRandom": true,
+    "singleBoardController": true,
+    "singleConfigTree": true,
+    "staticStateSwitchRemoved": true,
+    "boardNodePool": 49
+  },
+  "visualProtection": {
+    "frozenDocsDiff": 0,
+    "configDiff": 0,
+    "scenePrefabDiff": 0,
+    "existingArtDiff": 0,
+    "intentionalPresentationChange": "CP0ABattleShell now drives real state while retaining the accepted CP0-A visual coordinates and modular assets",
+    "newArtOnly": "dish_warm_hotpot_mix.png"
+  },
+  "knownLimitations": [],
+  "scope": {
+    "cp0dStarted": false,
+    "statement": "CP0-D has not started."
+  }
+}

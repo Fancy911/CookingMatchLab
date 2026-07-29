@@ -1,0 +1,90 @@
+$ npm test
+> test
+> vitest run --config vitest.config.mjs --configLoader native && npm run report
+
+ RUN  v3.2.7 /Users/cc/项目/CookingMatchLab
+
+ ✓ tests/scenarios/cp0b-scenarios.test.ts (9 tests) 34ms
+ ✓ tests/unit/cp0b-unit.test.ts (24 tests) 1425ms
+   ✓ CP0-B unit rules > U16 0～12全量整数枚举无两道明确配方同时命中  1411ms
+ ✓ tests/c1/cp0c-c1.test.ts (10 tests) 15931ms
+   ✓ CP0-C-C1 acceptance > C001 loads the same validated config tree through the portable adapter  2844ms
+   ✓ CP0-C-C1 acceptance > C002 cancels a two-cell link without state or effect plan  1295ms
+   ✓ CP0-C-C1 acceptance > C003 builds the deterministic tomato-five effect plan  1345ms
+   ✓ CP0-C-C1 acceptance > C004 makes the effect plan final board hash equal the Domain snapshot  1284ms
+   ✓ CP0-C-C1 acceptance > C005 enables fire after two throws with exact 5/4 units  1273ms
+   ✓ CP0-C-C1 acceptance > C006 fires the target tomato egg recipe with three stars and success  1297ms
+   ✓ CP0-C-C1 acceptance > C007 accepts a third throw but never auto-fires  1322ms
+   ✓ CP0-C-C1 acceptance > C008 continues after warm hotpot reveal without mutating board, queues, or steps  1393ms
+   ✓ CP0-C-C1 acceptance > C009 persists only allowed discovery and best stars, never active-order state  2598ms
+   ✓ CP0-C-C1 acceptance > C010 ignores duplicate animation/cooking callbacks and saves once  1276ms
+
+ Test Files  3 passed (3)
+      Tests  43 passed (43)
+   Start at  00:55:19
+   Duration  16.18s (transform 161ms, setup 0ms, collect 3.14s, tests 17.39s, environment 0ms, prepare 149ms)
+
+
+> report
+> tsx scripts/generate-cp0b-report.ts
+
+CP0-B report: PASS
+reports/cp0-b/CP0B-Test-Report.json
+reports/cp0-b/CP0B-Test-Report.md
+
+$ npm run test:unit
+> test:unit
+> vitest run --config vitest.config.mjs --configLoader native tests/unit
+
+
+ RUN  v3.2.7 /Users/cc/项目/CookingMatchLab
+
+ ✓ tests/unit/cp0b-unit.test.ts (24 tests) 1344ms
+   ✓ CP0-B unit rules > U16 0～12全量整数枚举无两道明确配方同时命中  1333ms
+
+ Test Files  1 passed (1)
+      Tests  24 passed (24)
+   Start at  00:55:42
+   Duration  2.91s (transform 57ms, setup 0ms, collect 1.40s, tests 1.34s, environment 0ms, prepare 28ms)
+
+$ npm run test:scenarios
+> test:scenarios
+> vitest run --config vitest.config.mjs --configLoader native tests/scenarios
+
+
+ RUN  v3.2.7 /Users/cc/项目/CookingMatchLab
+
+ ✓ tests/scenarios/cp0b-scenarios.test.ts (9 tests) 31ms
+
+ Test Files  1 passed (1)
+      Tests  9 passed (9)
+   Start at  00:55:45
+   Duration  1.57s (transform 53ms, setup 0ms, collect 1.39s, tests 31ms, environment 0ms, prepare 34ms)
+
+$ npm run test:c1
+> test:c1
+> vitest run --config vitest.config.mjs --configLoader native tests/c1
+
+
+ RUN  v3.2.7 /Users/cc/项目/CookingMatchLab
+
+ ✓ tests/c1/cp0c-c1.test.ts (10 tests) 15560ms
+   ✓ CP0-C-C1 acceptance > C001 loads the same validated config tree through the portable adapter  2656ms
+   ✓ CP0-C-C1 acceptance > C002 cancels a two-cell link without state or effect plan  1290ms
+   ✓ CP0-C-C1 acceptance > C003 builds the deterministic tomato-five effect plan  1288ms
+   ✓ CP0-C-C1 acceptance > C004 makes the effect plan final board hash equal the Domain snapshot  1307ms
+   ✓ CP0-C-C1 acceptance > C005 enables fire after two throws with exact 5/4 units  1276ms
+   ✓ CP0-C-C1 acceptance > C006 fires the target tomato egg recipe with three stars and success  1283ms
+   ✓ CP0-C-C1 acceptance > C007 accepts a third throw but never auto-fires  1296ms
+   ✓ CP0-C-C1 acceptance > C008 continues after warm hotpot reveal without mutating board, queues, or steps  1282ms
+   ✓ CP0-C-C1 acceptance > C009 persists only allowed discovery and best stars, never active-order state  2569ms
+   ✓ CP0-C-C1 acceptance > C010 ignores duplicate animation/cooking callbacks and saves once  1313ms
+
+ Test Files  1 passed (1)
+      Tests  10 passed (10)
+   Start at  00:55:47
+   Duration  15.80s (transform 56ms, setup 0ms, collect 68ms, tests 15.56s, environment 0ms, prepare 29ms)
+
+$ npm run typecheck
+> typecheck
+> tsc -p tsconfig.cp0b.json --noEmit

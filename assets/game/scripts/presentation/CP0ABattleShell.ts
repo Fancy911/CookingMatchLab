@@ -3,11 +3,7 @@ import {
   BlockInputEvents,
   Color,
   Component,
-  EventKeyboard,
   Graphics,
-  Input,
-  input,
-  KeyCode,
   Label,
   LabelOutline,
   Layers,
@@ -16,44 +12,30 @@ import {
   resources,
   Sprite,
   SpriteFrame,
+  sys,
+  tween,
   UITransform,
+  Vec3,
   view,
 } from 'cc';
+import { DiscoveryModel } from '../domain/cp0b/core';
+import { PrototypeSession } from '../application/cp0c/PrototypeSession';
+import type { FireResult, IngredientId, RecipeId } from '../domain/cp0b/types';
+import { CocosJsonConfigLoader } from '../infrastructure/CocosJsonConfigLoader';
+import { LocalSaveRepository } from '../infrastructure/LocalSaveRepository';
+import { BattleBoardController } from './BattleBoardController';
 
 const { ccclass } = _decorator;
-
 const SCREEN_WIDTH = 390;
 const SCREEN_HEIGHT = 844;
 const SCREEN_CENTER_X = SCREEN_WIDTH / 2;
 
 type AssetKey =
-  | 'background'
-  | 'boardFrame'
-  | 'tile'
-  | 'pause'
-  | 'steps'
-  | 'orderTray'
-  | 'orderDish'
-  | 'throwTray'
-  | 'fire'
-  | 'pot'
-  | 'potFront'
-  | 'potTomato'
-  | 'potEgg'
-  | 'tomato'
-  | 'egg'
-  | 'potato'
-  | 'carrot'
-  | 'mushroom'
-  | 'dish'
-  | 'pedestal'
-  | 'nameplate'
-  | 'rarity'
-  | 'starOn'
-  | 'starOff'
-  | 'continueButton'
-  | 'bookButton'
-  | 'halo';
+  | 'background' | 'boardFrame' | 'tile' | 'pause' | 'steps' | 'orderTray'
+  | 'orderDish' | 'throwTray' | 'fire' | 'pot' | 'potFront' | 'potLid'
+  | 'potTomato' | 'potEgg' | 'tomato' | 'egg' | 'potato' | 'carrot'
+  | 'mushroom' | 'dishTarget' | 'dishFallback' | 'pedestal' | 'nameplate'
+  | 'rarity' | 'starOn' | 'starOff' | 'continueButton' | 'bookButton' | 'halo';
 
 const ASSETS: Record<AssetKey, string> = {
   background: 'game/art/background/kitchen_bg_base/spriteFrame',
@@ -67,6 +49,7 @@ const ASSETS: Record<AssetKey, string> = {
   fire: 'game/art/ui/battle/fire_button/spriteFrame',
   pot: 'game/art/pot/research_pot/spriteFrame',
   potFront: 'game/art/pot/research_pot_front/spriteFrame',
+  potLid: 'game/art/pot/pot_lid/spriteFrame',
   potTomato: 'game/art/pot/pot_tomato/spriteFrame',
   potEgg: 'game/art/pot/pot_egg/spriteFrame',
   tomato: 'game/art/ingredients/ingredient_tomato/spriteFrame',
@@ -74,7 +57,8 @@ const ASSETS: Record<AssetKey, string> = {
   potato: 'game/art/ingredients/ingredient_potato/spriteFrame',
   carrot: 'game/art/ingredients/ingredient_carrot/spriteFrame',
   mushroom: 'game/art/ingredients/ingredient_mushroom/spriteFrame',
-  dish: 'game/art/dishes/dish_tomato_egg/spriteFrame',
+  dishTarget: 'game/art/dishes/dish_tomato_egg/spriteFrame',
+  dishFallback: 'game/art/dishes/dish_warm_hotpot_mix/spriteFrame',
   pedestal: 'game/art/ui/reveal/reveal_pedestal/spriteFrame',
   nameplate: 'game/art/ui/reveal/reveal_nameplate/spriteFrame',
   rarity: 'game/art/ui/reveal/rarity_normal/spriteFrame',
@@ -85,71 +69,78 @@ const ASSETS: Record<AssetKey, string> = {
   halo: 'game/art/ui/reveal/reveal_halo/spriteFrame',
 };
 
-const O1_BOARD = [
-  ['T', 'T', 'P', 'C', 'E', 'M', 'P'],
-  ['C', 'T', 'T', 'E', 'P', 'M', 'C'],
-  ['P', 'E', 'T', 'C', 'M', 'P', 'E'],
-  ['E', 'P', 'C', 'E', 'M', 'C', 'P'],
-  ['M', 'C', 'P', 'T', 'E', 'M', 'C'],
-  ['C', 'M', 'E', 'P', 'C', 'E', 'M'],
-  ['P', 'C', 'M', 'E', 'E', 'E', 'E'],
-];
+const INGREDIENT_ASSET: Partial<Record<IngredientId, AssetKey>> = {
+  ING_TOMATO: 'tomato',
+  ING_EGG: 'egg',
+  ING_POTATO: 'potato',
+  ING_CARROT: 'carrot',
+  ING_MUSHROOM: 'mushroom',
+};
 
 @ccclass('CP0ABattleShell')
 export class CP0ABattleShell extends Component {
-  private frames = new Map<AssetKey, SpriteFrame>();
-  private battleRoot!: Node;
-  private potRoot!: Node;
-  private actionRoot!: Node;
+  private readonly frames = new Map<AssetKey, SpriteFrame>();
+  private session!: PrototypeSession;
+  private board!: BattleBoardController;
+  private fxRoot!: Node;
   private potIngredientRoot!: Node;
   private potIndicatorRoot!: Node;
   private throwContentRoot!: Node;
+  private actionRoot!: Node;
   private revealRoot!: Node;
+  private cookingRoot!: Node;
+  private pauseRoot!: Node;
   private fireSprite!: Sprite;
-  private readyLabel!: Label;
-  private state = 1;
+  private fireLabel!: Label;
+  private stepLabel!: Label;
+  private hintLabel!: Label;
+  private saveRepository!: LocalSaveRepository;
 
   protected onLoad(): void {
-    view.setDesignResolutionSize(390, 844, ResolutionPolicy.FIXED_WIDTH);
-    input.on(Input.EventType.KEY_DOWN, this.onKeyDown, this);
-  }
-
-  protected onDestroy(): void {
-    input.off(Input.EventType.KEY_DOWN, this.onKeyDown, this);
+    view.setDesignResolutionSize(SCREEN_WIDTH, SCREEN_HEIGHT, ResolutionPolicy.FIXED_WIDTH);
   }
 
   protected start(): void {
-    this.loadAll().then(() => {
-      this.buildShell();
-      this.applyState(this.readInitialState());
+    this.bootstrap().catch((error: unknown) => {
+      console.error('[CP0-C-C1] bootstrap failed', error);
+      this.showFatal(error instanceof Error ? error.message : String(error));
     });
   }
 
-  private readInitialState(): number {
-    if (typeof window === 'undefined') return 1;
-    const value = new URLSearchParams(window.location.search).get('state');
-    const parsed = Number(value);
-    return parsed >= 1 && parsed <= 3 ? parsed : 1;
+  protected onDestroy(): void {
+    this.board?.destroy();
   }
 
-  private onKeyDown(event: EventKeyboard): void {
-    if (event.keyCode === KeyCode.DIGIT_1 || event.keyCode === KeyCode.NUM_1) this.applyState(1);
-    if (event.keyCode === KeyCode.DIGIT_2 || event.keyCode === KeyCode.NUM_2) this.applyState(2);
-    if (event.keyCode === KeyCode.DIGIT_3 || event.keyCode === KeyCode.NUM_3) this.applyState(3);
+  private async bootstrap(): Promise<void> {
+    const [registry] = await Promise.all([
+      new CocosJsonConfigLoader().load(),
+      this.loadAll(),
+    ]);
+    this.saveRepository = new LocalSaveRepository(sys.localStorage);
+    this.session = new PrototypeSession(
+      registry,
+      0x43503042,
+      new DiscoveryModel(this.saveRepository.loadDiscoveryState()),
+    );
+    this.buildShell();
+    this.board.render(this.session.snapshot().board);
+    this.refreshRunUi();
+    console.info(`[CP0-C-C1] runtime config hash ${registry.configHash}`);
   }
 
   private async loadAll(): Promise<void> {
-    await Promise.all(
-      (Object.keys(ASSETS) as AssetKey[]).map(async (key) => {
-        const frame = await new Promise<SpriteFrame>((resolve, reject) => {
-          resources.load(ASSETS[key], SpriteFrame, (error, asset) => {
-            if (error || !asset) reject(error ?? new Error(`Missing ${ASSETS[key]}`));
-            else resolve(asset);
-          });
+    await Promise.all((Object.keys(ASSETS) as AssetKey[]).map(async (key) => {
+      const frame = await new Promise<SpriteFrame>((resolve, reject) => {
+        resources.load(ASSETS[key], SpriteFrame, (error, asset) => {
+          if (error || !asset) {
+            reject(error ?? new Error(`Missing ${ASSETS[key]}`));
+          } else {
+            resolve(asset);
+          }
         });
-        this.frames.set(key, frame);
-      }),
-    );
+      });
+      this.frames.set(key, frame);
+    }));
   }
 
   private makeRoot(name: string, parent: Node = this.node): Node {
@@ -161,7 +152,7 @@ export class CP0ABattleShell extends Component {
 
   private sprite(
     name: string,
-    key: AssetKey,
+    frameOrKey: SpriteFrame | AssetKey,
     parent: Node,
     x: number,
     y: number,
@@ -171,12 +162,13 @@ export class CP0ABattleShell extends Component {
     const node = new Node(name);
     node.layer = Layers.Enum.UI_2D;
     node.parent = parent;
-    const transform = node.addComponent(UITransform);
-    transform.setContentSize(width, height);
+    node.addComponent(UITransform).setContentSize(width, height);
     const sprite = node.addComponent(Sprite);
     sprite.sizeMode = Sprite.SizeMode.CUSTOM;
     sprite.trim = false;
-    sprite.spriteFrame = this.frames.get(key)!;
+    sprite.spriteFrame = typeof frameOrKey === 'string'
+      ? this.frames.get(frameOrKey)!
+      : frameOrKey;
     this.place(node, x, y, width, height);
     return sprite;
   }
@@ -195,8 +187,7 @@ export class CP0ABattleShell extends Component {
     const node = new Node(name);
     node.layer = Layers.Enum.UI_2D;
     node.parent = parent;
-    const transform = node.addComponent(UITransform);
-    transform.setContentSize(width, height);
+    node.addComponent(UITransform).setContentSize(width, height);
     const label = node.addComponent(Label);
     label.string = text;
     label.fontFamily = 'PingFang SC';
@@ -222,275 +213,324 @@ export class CP0ABattleShell extends Component {
   }
 
   private buildShell(): void {
-    const backgroundRoot = this.makeRoot('BackgroundRoot');
-    this.sprite(
-      'KitchenBackground',
-      'background',
-      backgroundRoot,
-      0,
-      0,
-      SCREEN_WIDTH,
-      SCREEN_HEIGHT,
-    );
+    const background = this.makeRoot('BackgroundRoot');
+    this.sprite('KitchenBackground', 'background', background, 0, 0, 390, 844);
+    const content = this.makeRoot('SafeContent');
+    const hud = this.makeRoot('HudLayer', content);
+    const order = this.makeRoot('OrderPanel', content);
+    const boardArea = this.makeRoot('BoardArea', content);
+    const potRoot = this.makeRoot('ResearchPot', content);
+    this.actionRoot = this.makeRoot('ActionArea', content);
+    this.fxRoot = this.makeRoot('FxLayer');
 
-    this.battleRoot = this.makeRoot('SafeContent');
-    const hud = this.makeRoot('HudLayer', this.battleRoot);
-    const order = this.makeRoot('OrderPanel', this.battleRoot);
-    const board = this.makeRoot('BoardArea', this.battleRoot);
-    this.potRoot = this.makeRoot('ResearchPot', this.battleRoot);
-    this.actionRoot = this.makeRoot('ActionArea', this.battleRoot);
-    this.makeRoot('FxLayer');
-    this.makeRoot('OverlayLayer');
-    this.makeRoot('DebugLayer');
-
-    // Top controls keep independent safe margins; the title is always screen-centered.
-    this.sprite('PauseButton', 'pause', hud, 2, 34, 74, 63);
+    const pause = this.sprite('PauseButton', 'pause', hud, 2, 34, 74, 63);
+    pause.node.on(Node.EventType.TOUCH_END, () => this.openPause());
     this.sprite('StepBadge', 'steps', hud, 304, 31, 80, 80);
-    this.label('StepValue', '7', hud, 319, 47, 50, 44, 30, new Color(255, 255, 242, 255));
-    this.label('LabTitle', '料理研究 · 订单01', hud, SCREEN_CENTER_X - 110, 49, 220, 34, 18);
+    this.stepLabel = this.label('StepValue', '7', hud, 319, 47, 50, 44, 30,
+      new Color(255, 255, 242, 255));
+    this.label('LabTitle', '料理研究 · 订单01', hud, 85, 49, 220, 34, 18);
 
-    // Fixed order grid: dish | name | tomato requirement | egg requirement.
-    this.sprite('OrderTray', 'orderTray', order, 0, 70, SCREEN_WIDTH, 120);
-    const orderCenterY = 132;
-    this.sprite('OrderDish', 'orderDish', order, 24, orderCenterY - 32, 64, 64);
-    this.label('OrderTitle', '番茄炒蛋', order, 90, orderCenterY - 14, 104, 28, 19);
+    this.sprite('OrderTray', 'orderTray', order, 0, 70, 390, 120);
+    this.sprite('OrderDish', 'orderDish', order, 24, 100, 64, 64);
+    this.label('OrderTitle', '番茄炒蛋', order, 90, 118, 104, 28, 19);
+    this.buildRequirement(order, 'TomatoRequirement', 198, 'tomato', '4–6');
+    this.buildRequirement(order, 'EggRequirement', 280, 'egg', '3–5');
 
-    // Two independent fixed-width requirement containers prevent cross-group overlap.
-    const requirementGroupLeft = [198, 280];
-    const requirementGroupWidth = 78;
-    const requirementGroupHeight = 42;
-    const requirementIconSize = 36;
-    const requirementGap = 2;
-    const requirementLabelWidth = 40;
-    const requirementSpecs: Array<{
-      groupName: string;
-      iconName: string;
-      labelName: string;
-      key: AssetKey;
-      range: string;
-    }> = [
-      {
-        groupName: 'TomatoRequirementGroup',
-        iconName: 'OrderTomato',
-        labelName: 'TomatoNeed',
-        key: 'tomato',
-        range: '4–6',
-      },
-      {
-        groupName: 'EggRequirementGroup',
-        iconName: 'OrderEgg',
-        labelName: 'EggNeed',
-        key: 'egg',
-        range: '3–5',
-      },
-    ];
-    requirementSpecs.forEach((spec, index) => {
-      const group = this.makeRoot(spec.groupName, order);
-      const groupTransform = group.addComponent(UITransform);
-      groupTransform.setContentSize(requirementGroupWidth, requirementGroupHeight);
-      this.place(
-        group,
-        requirementGroupLeft[index],
-        orderCenterY - requirementGroupHeight / 2,
-        requirementGroupWidth,
-        requirementGroupHeight,
-      );
+    this.sprite('BoardFrame', 'boardFrame', boardArea, -55, 110, 500, 480);
+    const ingredientFrames = Object.fromEntries(
+      (Object.keys(INGREDIENT_ASSET) as IngredientId[])
+        .map((id) => [id, this.frames.get(INGREDIENT_ASSET[id]!)!]),
+    ) as Partial<Record<IngredientId, SpriteFrame>>;
+    this.board = new BattleBoardController(
+      boardArea,
+      this.fxRoot,
+      this.frames.get('tile')!,
+      ingredientFrames,
+      (name, frame, parent, x, y, width, height) =>
+        this.sprite(name, frame, parent, x, y, width, height),
+    );
+    this.board.onBegin = (coord) => this.session.beginLink(coord);
+    this.board.onExtend = (coord) => this.session.extendLink(coord);
+    this.board.onCommit = () => this.commitActiveLink();
 
-      const icon = this.sprite(
-        spec.iconName,
-        spec.key,
-        group,
-        0,
-        0,
-        requirementIconSize,
-        requirementIconSize,
-      );
-      icon.node.setPosition(
-        -requirementGroupWidth / 2 + requirementIconSize / 2,
-        0,
-        0,
-      );
-
-      const range = this.label(
-        spec.labelName,
-        spec.range,
-        group,
-        0,
-        0,
-        requirementLabelWidth,
-        28,
-        16,
-      );
-      range.node.setPosition(
-        -requirementGroupWidth / 2
-          + requirementIconSize
-          + requirementGap
-          + requirementLabelWidth / 2,
-        0,
-        0,
-      );
-    });
-
-    // The board frame and the programmatic 7×7 matrix share SCREEN_CENTER_X.
-    this.sprite('BoardFrame', 'boardFrame', board, -55, 110, 500, 480);
-    const boardStep = 49;
-    const slotSize = 70;
-    const iconSize = 52;
-    const boardGridWidth = slotSize + boardStep * 6;
-    const boardGridLeft = (SCREEN_WIDTH - boardGridWidth) / 2;
-    const boardGridTop = 181;
-    const ingredientKey: Record<string, AssetKey> = {
-      T: 'tomato',
-      E: 'egg',
-      P: 'potato',
-      C: 'carrot',
-      M: 'mushroom',
-    };
-    for (let row = 0; row < 7; row += 1) {
-      for (let col = 0; col < 7; col += 1) {
-        const slotX = boardGridLeft + col * boardStep;
-        const slotY = boardGridTop + row * boardStep;
-        this.sprite(`Slot_${row}_${col}`, 'tile', board, slotX, slotY, slotSize, slotSize);
-        this.sprite(
-          `Ingredient_${row}_${col}_${O1_BOARD[row][col]}`,
-          ingredientKey[O1_BOARD[row][col]],
-          board,
-          slotX + (slotSize - iconSize) / 2,
-          slotY + (slotSize - iconSize) / 2,
-          iconSize,
-          iconSize,
-        );
-      }
-    }
-
-    // Explicit draw order: complete pot back -> ingredients -> cropped front rim -> indicators.
-    this.sprite('ResearchPotBack', 'pot', this.potRoot, 45, 525, 300, 224);
-    this.potIngredientRoot = this.makeRoot('PotIngredients', this.potRoot);
+    this.sprite('ResearchPotBack', 'pot', potRoot, 45, 525, 300, 224);
+    this.potIngredientRoot = this.makeRoot('PotIngredients', potRoot);
     this.sprite('PotTomato', 'potTomato', this.potIngredientRoot, 105, 532, 96, 96);
     this.sprite('PotEgg', 'potEgg', this.potIngredientRoot, 187, 532, 96, 96);
-    this.sprite('ResearchPotFrontRim', 'potFront', this.potRoot, 45, 593, 300, 156);
-    this.potIndicatorRoot = this.makeRoot('PotReadyIndicators', this.potRoot);
+    this.sprite('ResearchPotFrontRim', 'potFront', potRoot, 45, 593, 300, 156);
+    this.potIndicatorRoot = this.makeRoot('PotReadyIndicators', potRoot);
     this.sprite('PotLamp1', 'starOn', this.potIndicatorRoot, 139, 638, 28, 28);
     this.sprite('PotLamp2', 'starOn', this.potIndicatorRoot, 221, 638, 28, 28);
-    this.label('PotHint', '基础研究锅', this.potRoot, 108, 683, 174, 24, 15);
+    this.label('PotHint', '基础研究锅', potRoot, 108, 683, 174, 24, 15);
 
-    const throwTrayY = 660;
-    this.sprite('ThrowTray', 'throwTray', this.actionRoot, 0, throwTrayY, 286, 210);
+    this.sprite('ThrowTray', 'throwTray', this.actionRoot, 0, 660, 286, 210);
     this.throwContentRoot = this.makeRoot('ThrowContents', this.actionRoot);
-    const throwSlotCenterX = [68, 143, 219];
-    const throwIconY = 729;
-    const throwIconSize = 52;
-    const throwCountY = 774;
-    const throwCountWidth = 44;
-    this.sprite(
-      'ThrowTomato',
-      'tomato',
-      this.throwContentRoot,
-      throwSlotCenterX[0] - throwIconSize / 2,
-      throwIconY,
-      throwIconSize,
-      throwIconSize,
-    );
-    this.label(
-      'ThrowTomatoCount',
-      '5份',
-      this.throwContentRoot,
-      throwSlotCenterX[0] - throwCountWidth / 2,
-      throwCountY,
-      throwCountWidth,
-      20,
-      14,
-    );
-    this.sprite(
-      'ThrowEgg',
-      'egg',
-      this.throwContentRoot,
-      throwSlotCenterX[1] - throwIconSize / 2,
-      throwIconY,
-      throwIconSize,
-      throwIconSize,
-    );
-    this.label(
-      'ThrowEggCount',
-      '4份',
-      this.throwContentRoot,
-      throwSlotCenterX[1] - throwCountWidth / 2,
-      throwCountY,
-      throwCountWidth,
-      20,
-      14,
-    );
-    this.label(
-      'ThrowEmpty',
-      '—',
-      this.throwContentRoot,
-      throwSlotCenterX[2] - throwIconSize / 2,
-      754,
-      throwIconSize,
-      28,
-      16,
-    );
-
     this.fireSprite = this.sprite('FireButton', 'fire', this.actionRoot, 272, 713, 118, 128);
-    this.readyLabel = this.label(
-      'FireReady',
-      '可开火',
-      this.actionRoot,
-      281,
-      800,
-      96,
-      24,
-      14,
-      new Color(118, 67, 30, 255),
-    );
+    this.fireSprite.node.on(Node.EventType.TOUCH_END, () => this.fire());
+    this.fireLabel = this.label('FireReady', '投入两份', this.actionRoot, 281, 800, 96, 24, 14,
+      new Color(118, 67, 30, 255));
+    this.hintLabel = this.label('LinkHint', '拖动连接 3 个以上相同食材', content,
+      43, 704, 242, 22, 13);
 
-    this.buildReveal();
+    this.cookingRoot = this.buildCookingOverlay();
+    this.revealRoot = this.makeFullscreenOverlay('RevealOverlay', new Color(44, 30, 24, 235));
+    this.pauseRoot = this.buildPauseOverlay();
+    this.cookingRoot.active = false;
+    this.revealRoot.active = false;
+    this.pauseRoot.active = false;
   }
 
-  private buildReveal(): void {
-    this.revealRoot = this.makeRoot('RevealOverlay');
-    const revealTransform = this.revealRoot.addComponent(UITransform);
-    revealTransform.setContentSize(SCREEN_WIDTH, SCREEN_HEIGHT);
-    this.revealRoot.addComponent(BlockInputEvents);
-    const dim = new Node('RevealDim');
-    dim.layer = Layers.Enum.UI_2D;
-    dim.parent = this.revealRoot;
-    const dimTransform = dim.addComponent(UITransform);
-    dimTransform.setContentSize(SCREEN_WIDTH, SCREEN_HEIGHT);
-    const dimGraphics = dim.addComponent(Graphics);
-    dimGraphics.fillColor = new Color(44, 30, 24, 235);
-    dimGraphics.rect(-SCREEN_CENTER_X, -SCREEN_HEIGHT / 2, SCREEN_WIDTH, SCREEN_HEIGHT);
-    dimGraphics.fill();
-    this.place(dim, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+  private buildRequirement(
+    parent: Node,
+    name: string,
+    left: number,
+    key: AssetKey,
+    range: string,
+  ): void {
+    const group = this.makeRoot(name, parent);
+    group.addComponent(UITransform).setContentSize(78, 42);
+    this.place(group, left, 111, 78, 42);
+    const icon = this.sprite(`${name}Icon`, key, group, 0, 0, 36, 36);
+    icon.node.setPosition(-21, 0, 0);
+    const need = this.label(`${name}Range`, range, group, 0, 0, 40, 28, 16);
+    need.node.setPosition(18, 0, 0);
+  }
 
+  private commitActiveLink(): void {
+    const result = this.session.commitLink();
+    if (!result.accepted || !result.plan) {
+      this.hintLabel.string = '至少连接 3 个相同食材';
+      this.board.render(this.session.snapshot().board);
+      this.refreshRunUi();
+      return;
+    }
+    this.hintLabel.string = '食材正在投入研究锅…';
+    this.refreshRunUi();
+    this.board.animate(result.plan, () => {
+      this.session.completeAnimation(result.plan!.operationId);
+      this.hintLabel.string = result.plan!.canFire
+        ? '投料完成，可以开火'
+        : '再投入一份食材即可开火';
+      this.refreshRunUi();
+    });
+  }
+
+  private refreshRunUi(): void {
+    const snapshot = this.session.snapshot();
+    this.stepLabel.string = String(snapshot.remainingSteps);
+    const throws = snapshot.pot.throws;
+    this.potIngredientRoot.children.forEach((child) => {
+      child.active = child.name === 'PotTomato'
+        ? (snapshot.pot.units.ING_TOMATO ?? 0) > 0
+        : (snapshot.pot.units.ING_EGG ?? 0) > 0;
+    });
+    this.potIndicatorRoot.children.forEach((child, index) => {
+      child.active = index < throws.length;
+    });
+    this.rebuildThrowTray();
+    const canFire = throws.length >= this.session.registry.gameplay.pot.minimumThrowsToCook;
+    this.fireSprite.color = canFire ? Color.WHITE : new Color(145, 154, 143, 205);
+    this.fireLabel.string = canFire ? '可开火' : `${throws.length}/2 份`;
+    this.board.setInputEnabled(
+      (this.session.phase === 'READY' || this.session.phase === 'POT_REVIEW')
+      && throws.length < this.session.registry.gameplay.pot.baseSlots,
+    );
+  }
+
+  private rebuildThrowTray(): void {
+    this.throwContentRoot.destroyAllChildren();
+    const throws = this.session.snapshot().pot.throws;
+    const centers = [68, 143, 219];
+    for (let index = 0; index < 3; index += 1) {
+      const record = throws[index];
+      if (!record) {
+        this.label(`ThrowEmpty${index}`, '—', this.throwContentRoot,
+          centers[index] - 26, 754, 52, 28, 16);
+        continue;
+      }
+      this.sprite(
+        `ThrowIngredient${index}`,
+        INGREDIENT_ASSET[record.ingredientId]!,
+        this.throwContentRoot,
+        centers[index] - 26,
+        729,
+        52,
+        52,
+      );
+      this.label(`ThrowCount${index}`, `${record.units}份`, this.throwContentRoot,
+        centers[index] - 22, 774, 44, 20, 14);
+    }
+  }
+
+  private fire(): void {
+    const result = this.session.fire();
+    if (!result) {
+      this.hintLabel.string = '需要至少两份投料';
+      return;
+    }
+    this.board.setInputEnabled(false);
+    this.actionRoot.active = false;
+    this.cookingRoot.active = true;
+    const lid = this.cookingRoot.getChildByName('CookingLid');
+    if (lid) {
+      lid.setScale(0.92, 0.92, 1);
+      tween(lid)
+        .repeat(3, tween().to(0.18, { angle: 5 }).to(0.18, { angle: -5 }))
+        .to(0.2, { angle: 0, scale: new Vec3(1, 1, 1) })
+        .start();
+    }
+    const operationId = this.session.currentOperationId();
+    tween(this.cookingRoot)
+      .delay(1.45)
+      .call(() => {
+        if (this.session.completeCooking(operationId)) {
+          this.cookingRoot.active = false;
+          this.showReveal(result);
+        }
+      })
+      .start();
+  }
+
+  private buildCookingOverlay(): Node {
+    const root = this.makeFullscreenOverlay('CookingOverlay', new Color(42, 28, 20, 188));
+    this.sprite('CookingPot', 'pot', root, 45, 262, 300, 224);
+    const lid = this.sprite('CookingLid', 'potLid', root, 78, 216, 234, 154);
+    lid.node.name = 'CookingLid';
+    this.label('CookingTitle', '料理研究中…', root, 75, 485, 240, 48, 27,
+      new Color(255, 245, 217, 255));
+    this.label('CookingSub', '火候与配比正在融合', root, 84, 535, 222, 30, 16,
+      new Color(255, 225, 178, 255));
+    return root;
+  }
+
+  private showReveal(result: FireResult): void {
+    this.saveRepository.saveDiscovery(this.session.snapshot().discovery);
+    this.revealRoot.removeAllChildren();
+    this.fillFullscreenDim(this.revealRoot, new Color(44, 30, 24, 245));
+    const isTarget = result.recipeId === 'RCP_TOMATO_EGG';
     this.sprite('RevealHalo', 'halo', this.revealRoot, 45, 126, 300, 300);
     this.sprite('NormalRarityBadge', 'rarity', this.revealRoot, 137, 54, 116, 116);
-    this.label('RarityLabel', '普通料理', this.revealRoot, 126, 154, 138, 28, 18, new Color(255, 247, 226, 255));
+    this.label('RarityLabel', '普通料理', this.revealRoot, 126, 154, 138, 28, 18,
+      new Color(255, 247, 226, 255));
     this.sprite('RevealPedestal', 'pedestal', this.revealRoot, 18, 332, 354, 354);
-    this.sprite('TomatoEggDish', 'dish', this.revealRoot, 27, 184, 336, 336);
+    this.sprite('RevealDish', isTarget ? 'dishTarget' : 'dishFallback',
+      this.revealRoot, 27, 184, 336, 336);
     this.sprite('RevealNameplate', 'nameplate', this.revealRoot, 25, 503, 340, 168);
-    this.label('DishName', '番茄炒蛋', this.revealRoot, 71, 554, 248, 42, 28);
-
-    this.sprite('Star1', 'starOn', this.revealRoot, 81, 603, 76, 76);
-    this.sprite('Star2', 'starOn', this.revealRoot, 157, 603, 76, 76);
-    this.sprite('Star3', 'starOn', this.revealRoot, 233, 603, 76, 76);
-    this.label('ResultReason', '番茄 5 · 鸡蛋 4', this.revealRoot, 74, 682, 242, 30, 17, new Color(255, 241, 216, 255));
+    this.label('DishName', this.recipeName(result.recipeId), this.revealRoot,
+      71, 554, 248, 42, 28);
+    for (let index = 0; index < 3; index += 1) {
+      this.sprite(`Star${index + 1}`, index < result.stars ? 'starOn' : 'starOff',
+        this.revealRoot, 81 + index * 76, 603, 76, 76);
+    }
+    const units = this.session.snapshot().pot.units;
+    this.label('ResultReason',
+      `番茄 ${units.ING_TOMATO ?? 0} · 鸡蛋 ${units.ING_EGG ?? 0}`,
+      this.revealRoot, 74, 682, 242, 30, 17, new Color(255, 241, 216, 255));
     this.sprite('BookButton', 'bookButton', this.revealRoot, 16, 716, 142, 128);
-    this.sprite('ContinueButton', 'continueButton', this.revealRoot, 128, 716, 246, 128);
+    const continueButton = this.sprite(
+      'ContinueButton',
+      'continueButton',
+      this.revealRoot,
+      128,
+      716,
+      246,
+      128,
+    );
+    this.label('ContinueText',
+      result.orderResult === 'CONTINUE_AFTER_REVEAL' ? '继续研究' : '订单完成',
+      this.revealRoot, 186, 763, 130, 32, 19,
+      new Color(108, 58, 29, 255));
+    if (result.orderResult === 'CONTINUE_AFTER_REVEAL') {
+      continueButton.node.on(Node.EventType.TOUCH_END, () => this.continueAfterFallback());
+    }
+    this.revealRoot.active = true;
   }
 
-  private applyState(next: number): void {
-    this.state = next;
-    if (!this.revealRoot) return;
-    const potReady = this.state >= 2;
-    const revealActive = this.state === 3;
-    this.potIngredientRoot.active = potReady;
-    this.potIndicatorRoot.active = potReady;
-    this.throwContentRoot.active = potReady;
-    this.potRoot.active = !revealActive;
-    this.actionRoot.active = !revealActive;
-    this.revealRoot.active = revealActive;
-    this.fireSprite.color = potReady ? Color.WHITE : new Color(145, 154, 143, 205);
-    this.readyLabel.node.active = potReady && !revealActive;
+  private continueAfterFallback(): void {
+    this.session.continueAfterReveal();
+    this.revealRoot.active = false;
+    this.actionRoot.active = true;
+    this.hintLabel.string = '锅已清空，继续完成番茄炒蛋';
+    this.board.render(this.session.snapshot().board);
+    this.refreshRunUi();
+  }
+
+  private recipeName(recipeId: RecipeId): string {
+    return this.session.registry.recipeById.get(recipeId)?.name ?? recipeId;
+  }
+
+  private openPause(): void {
+    if (!this.session.pause()) {
+      return;
+    }
+    this.board.setInputEnabled(false);
+    this.pauseRoot.active = true;
+  }
+
+  private buildPauseOverlay(): Node {
+    const root = this.makeFullscreenOverlay('PauseOverlay', new Color(42, 29, 23, 225));
+    this.label('PauseTitle', '研究暂停', root, 95, 250, 200, 55, 30,
+      new Color(255, 245, 218, 255));
+    const resume = this.panelButton(root, '继续', 78, 360);
+    const restart = this.panelButton(root, '重新开始', 78, 445);
+    resume.on(Node.EventType.TOUCH_END, () => {
+      if (this.session.resume()) {
+        root.active = false;
+        this.refreshRunUi();
+      }
+    });
+    restart.on(Node.EventType.TOUCH_END, () => {
+      this.session.restart();
+      root.active = false;
+      this.revealRoot.active = false;
+      this.cookingRoot.active = false;
+      this.actionRoot.active = true;
+      this.board.render(this.session.snapshot().board);
+      this.hintLabel.string = '拖动连接 3 个以上相同食材';
+      this.refreshRunUi();
+    });
+    return root;
+  }
+
+  private panelButton(parent: Node, text: string, x: number, y: number): Node {
+    const node = new Node(`${text}Button`);
+    node.layer = Layers.Enum.UI_2D;
+    node.parent = parent;
+    node.addComponent(UITransform).setContentSize(234, 64);
+    this.place(node, x, y, 234, 64);
+    const graphics = node.addComponent(Graphics);
+    graphics.fillColor = new Color(255, 225, 172, 255);
+    graphics.roundRect(-117, -32, 234, 64, 26);
+    graphics.fill();
+    const label = this.label(`${text}Label`, text, node, 0, 0, 180, 42, 21);
+    label.node.setPosition(0, 0, 0);
+    return node;
+  }
+
+  private makeFullscreenOverlay(name: string, color: Color): Node {
+    const root = this.makeRoot(name);
+    root.addComponent(UITransform).setContentSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+    root.addComponent(BlockInputEvents);
+    this.fillFullscreenDim(root, color);
+    return root;
+  }
+
+  private fillFullscreenDim(root: Node, color: Color): void {
+    const dim = new Node(`${root.name}Dim`);
+    dim.layer = Layers.Enum.UI_2D;
+    dim.parent = root;
+    dim.addComponent(UITransform).setContentSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+    const graphics = dim.addComponent(Graphics);
+    graphics.fillColor = color;
+    graphics.rect(-SCREEN_WIDTH / 2, -SCREEN_HEIGHT / 2, SCREEN_WIDTH, SCREEN_HEIGHT);
+    graphics.fill();
+  }
+
+  private showFatal(message: string): void {
+    const root = this.makeFullscreenOverlay('FatalOverlay', new Color(50, 28, 28, 255));
+    this.label('FatalTitle', '配置加载失败', root, 70, 300, 250, 50, 26,
+      new Color(255, 235, 220, 255));
+    this.label('FatalMessage', message, root, 35, 360, 320, 130, 15,
+      new Color(255, 220, 210, 255));
   }
 }
