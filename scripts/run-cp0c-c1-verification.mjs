@@ -78,6 +78,9 @@ const record = {
 };
 mkdirSync(outputDirectory, { recursive: true });
 writeFileSync(resultPath, `${JSON.stringify(record, null, 2)}\n`);
+while (logs.at(-1) === '') {
+  logs.pop();
+}
 writeFileSync(logPath, `${logs.join('\n')}\n`);
 console.log(`CP0-C-C1 command verification: ${status}`);
 console.log(resultPath);

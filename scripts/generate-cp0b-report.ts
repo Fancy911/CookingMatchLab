@@ -90,11 +90,24 @@ const protectedPaths = [
   'assets/game/prefabs',
   'assets/resources/game/art',
 ];
-const protectedDiff = execFileSync(
+const authorizedStageAdditions = [
+  'assets/resources/game/art/dishes/dish_warm_hotpot_mix.png',
+  'assets/resources/game/art/dishes/dish_warm_hotpot_mix.png.meta',
+];
+const protectedChanges = execFileSync(
   'git',
-  ['diff', '--name-only', baselineCommit, '--', ...protectedPaths],
+  ['diff', '--name-status', baselineCommit, '--', ...protectedPaths],
   { cwd: projectRoot, encoding: 'utf8' },
-).trim().split('\n').filter(Boolean);
+).trim().split('\n').filter(Boolean).map((line) => {
+  const [status, ...pathParts] = line.split('\t');
+  return { status, path: pathParts.at(-1) ?? '' };
+});
+const authorizedAdditionsPresent = protectedChanges
+  .filter(({ status, path }) => status === 'A' && authorizedStageAdditions.includes(path))
+  .map(({ path }) => path);
+const protectedDiff = protectedChanges
+  .filter(({ status, path }) => status !== 'A' || !authorizedStageAdditions.includes(path))
+  .map(({ path }) => path);
 const screenshotBytes = existsSync(screenshotPath) ? readFileSync(screenshotPath) : undefined;
 const screenshotAudit = screenshotBytes
   && screenshotBytes.subarray(1, 4).toString('ascii') === 'PNG'
@@ -179,6 +192,7 @@ const report = {
       baselineCommit,
       paths: protectedPaths,
       changedFiles: protectedDiff,
+      authorizedStageAdditions: authorizedAdditionsPresent,
       status: protectedDiff.length === 0 ? 'PASS' : 'FAIL',
     },
     smokeScreenshot: {
@@ -241,7 +255,8 @@ ${runRows}
 
 - CP0-B 规则层导入 \`cc\`：${forbiddenAudit.ccImports.length === 0 ? '无' : forbiddenAudit.ccImports.join(', ')}
 - 玩法代码直接调用 \`Math.random()\`：${forbiddenAudit.directMathRandom.length === 0 ? '无' : forbiddenAudit.directMathRandom.join(', ')}
-- 相对 CP0-A 基线，场景/Prefab/美术目录变更：${protectedDiff.length === 0 ? '无' : protectedDiff.join(', ')}
+- 相对 CP0-A 基线，既有场景/Prefab/美术非授权变更：${protectedDiff.length === 0 ? '无' : protectedDiff.join(', ')}
+- C1 阶段授权新增素材：${authorizedAdditionsPresent.length === 0 ? '无' : authorizedAdditionsPresent.join(', ')}
 - Cocos 冒烟截图：\`${screenshotRelativePath}\`，${screenshotAudit.width}×${screenshotAudit.height} ${screenshotAudit.format ?? '未知格式'}，${screenshotPassed ? 'PASS' : 'FAIL'}
 
 ## 按阶段计划延后（不计为 CP0-B 失败）

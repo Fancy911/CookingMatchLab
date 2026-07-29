@@ -1,6 +1,6 @@
 {
   "reportId": "CP0-C-C1-COMMANDS",
-  "generatedAt": "2026-07-29T16:56:03.895Z",
+  "generatedAt": "2026-07-29T17:07:39.488Z",
   "status": "PASS",
   "nodeVersion": "v22.22.2",
   "configHash": "8737fa94",
@@ -9,35 +9,35 @@
       "command": "npm test",
       "exitCode": 0,
       "signal": null,
-      "durationMs": 23082,
+      "durationMs": 24513,
       "status": "PASS"
     },
     {
       "command": "npm run test:unit",
       "exitCode": 0,
       "signal": null,
-      "durationMs": 3193,
+      "durationMs": 3381,
       "status": "PASS"
     },
     {
       "command": "npm run test:scenarios",
       "exitCode": 0,
       "signal": null,
-      "durationMs": 1855,
+      "durationMs": 2257,
       "status": "PASS"
     },
     {
       "command": "npm run test:c1",
       "exitCode": 0,
       "signal": null,
-      "durationMs": 16103,
+      "durationMs": 19050,
       "status": "PASS"
     },
     {
       "command": "npm run typecheck",
       "exitCode": 0,
       "signal": null,
-      "durationMs": 632,
+      "durationMs": 1092,
       "status": "PASS"
     },
     {

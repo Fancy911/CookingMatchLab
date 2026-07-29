@@ -1,6 +1,6 @@
 {
   "reportId": "CP0-B",
-  "generatedAt": "2026-07-29T16:55:42.086Z",
+  "generatedAt": "2026-07-29T17:07:13.678Z",
   "status": "PASS",
   "environment": {
     "cocosCreatorVersion": "3.8.8",
@@ -27,168 +27,168 @@
       "id": "U01",
       "description": "八方向相邻合法；四方向模式下斜线非法",
       "status": "PASS",
-      "durationMs": 0.562,
+      "durationMs": 0.581,
       "firstDifference": null
     },
     {
       "id": "U02",
       "description": "少于3连取消且所有状态不变",
       "status": "PASS",
-      "durationMs": 0.914,
+      "durationMs": 1.476,
       "firstDifference": null
     },
     {
       "id": "U03",
       "description": "路径不可重复；返回倒数第二格只撤销最后格",
       "status": "PASS",
-      "durationMs": 0.227,
+      "durationMs": 0.336,
       "firstDifference": null
     },
     {
       "id": "U04",
       "description": "普通食材1格等于1入锅单位",
       "status": "PASS",
-      "durationMs": 0.108,
+      "durationMs": 0.147,
       "firstDifference": null
     },
     {
       "id": "U05",
       "description": "灵感食材连接占1格、入锅等于2单位",
       "status": "PASS",
-      "durationMs": 0.091,
+      "durationMs": 0.102,
       "firstDifference": null
     },
     {
       "id": "U06",
       "description": "5、7、9长连阈值从配置读取",
       "status": "PASS",
-      "durationMs": 0.318,
+      "durationMs": 0.383,
       "firstDifference": null
     },
     {
       "id": "U07",
       "description": "7连先完成当前投料，再在补盘生成灵感",
       "status": "PASS",
-      "durationMs": 0.456,
+      "durationMs": 0.525,
       "firstDifference": null
     },
     {
       "id": "U08",
       "description": "灵感位于路径终点列的第一个新补格",
       "status": "PASS",
-      "durationMs": 0.194,
+      "durationMs": 0.221,
       "firstDifference": null
     },
     {
       "id": "U09",
       "description": "掉落保持同列原有相对顺序",
       "status": "PASS",
-      "durationMs": 0.19,
+      "durationMs": 0.205,
       "firstDifference": null
     },
     {
       "id": "U10",
       "description": "补盘不自动消除、不自动入锅",
       "status": "PASS",
-      "durationMs": 0.332,
+      "durationMs": 0.361,
       "firstDifference": null
     },
     {
       "id": "U11",
       "description": "死盘免费洗牌，不改变步数和锅",
       "status": "PASS",
-      "durationMs": 0.753,
+      "durationMs": 0.791,
       "firstDifference": null
     },
     {
       "id": "U12",
       "description": "一次合法连线只占一个投料位",
       "status": "PASS",
-      "durationMs": 0.047,
+      "durationMs": 0.051,
       "firstDifference": null
     },
     {
       "id": "U13",
       "description": "至少两次投料才能开火；第三次后不自动开火",
       "status": "PASS",
-      "durationMs": 0.103,
+      "durationMs": 0.108,
       "firstDifference": null
     },
     {
       "id": "U14",
       "description": "投料顺序不同但最终输入相同，生成同一道料理",
       "status": "PASS",
-      "durationMs": 0.055,
+      "durationMs": 0.059,
       "firstDifference": null
     },
     {
       "id": "U15",
       "description": "G2冲突表C01～C12全部通过",
       "status": "PASS",
-      "durationMs": 0.103,
+      "durationMs": 0.109,
       "firstDifference": null
     },
     {
       "id": "U16",
       "description": "0～12全量整数枚举无两道明确配方同时命中",
       "status": "PASS",
-      "durationMs": 1359.886,
+      "durationMs": 1367.952,
       "firstDifference": null
     },
     {
       "id": "U17",
       "description": "五道明确料理理想路径均为3星",
       "status": "PASS",
-      "durationMs": 0.245,
+      "durationMs": 0.26,
       "firstDifference": null
     },
     {
       "id": "U18",
       "description": "暖锅杂烩总分最高70，因此最多二星",
       "status": "PASS",
-      "durationMs": 0.042,
+      "durationMs": 0.047,
       "firstDifference": null
     },
     {
       "id": "U19",
       "description": "星级计算不读取当前订单目标身份",
       "status": "PASS",
-      "durationMs": 0.052,
+      "durationMs": 0.053,
       "firstDifference": null
     },
     {
       "id": "U20",
       "description": "非目标有剩余步数时只清锅并保留棋盘、特殊格、步数和队列",
       "status": "PASS",
-      "durationMs": 0.662,
+      "durationMs": 0.692,
       "firstDifference": null
     },
     {
       "id": "U21",
       "description": "非目标且剩余0步时进入订单未完成",
       "status": "PASS",
-      "durationMs": 0.053,
+      "durationMs": 0.056,
       "firstDifference": null
     },
     {
       "id": "U22",
       "description": "订单失败不回滚首次发现和历史最高星级",
       "status": "PASS",
-      "durationMs": 0.106,
+      "durationMs": 0.111,
       "firstDifference": null
     },
     {
       "id": "U23",
       "description": "配置缺字段、非法食材或固定队列耗尽时明确失败",
       "status": "PASS",
-      "durationMs": 2.234,
+      "durationMs": 2.458,
       "firstDifference": null
     },
     {
       "id": "U24",
       "description": "同一配置、seed和操作序列生成相同快照hash",
       "status": "PASS",
-      "durationMs": 2.274,
+      "durationMs": 2.498,
       "firstDifference": null
     }
   ],
@@ -197,63 +197,63 @@
       "id": "S01",
       "description": "O1番茄5连＋鸡蛋4连生成番茄炒蛋，剩5步",
       "status": "PASS",
-      "durationMs": 3.102,
+      "durationMs": 4.092,
       "firstDifference": null
     },
     {
       "id": "S02",
       "description": "O2_STANDARD生成香葱土豆饼，剩5步",
       "status": "PASS",
-      "durationMs": 1.884,
+      "durationMs": 2.224,
       "firstDifference": null
     },
     {
       "id": "S03",
       "description": "O2_BLACK第一锅生成黏糊番茄薯团，剩5步",
       "status": "PASS",
-      "durationMs": 3.268,
+      "durationMs": 2.939,
       "firstDifference": null
     },
     {
       "id": "S04",
       "description": "O2_BLACK清锅后继续生成订单目标，剩2步",
       "status": "PASS",
-      "durationMs": 3.19,
+      "durationMs": 2.05,
       "firstDifference": null
     },
     {
       "id": "S05",
       "description": "O3_STANDARD生成田园菌菇汤，剩5步",
       "status": "PASS",
-      "durationMs": 1.467,
+      "durationMs": 1.161,
       "firstDifference": null
     },
     {
       "id": "S06",
       "description": "O3_INSPIRATION灵感固定在r2c4，后续3格加入4单位",
       "status": "PASS",
-      "durationMs": 3.682,
+      "durationMs": 1.856,
       "firstDifference": null
     },
     {
       "id": "S07",
       "description": "O3_INSPIRATION第一锅生成星辉菌菇蛋盅，剩5步",
       "status": "PASS",
-      "durationMs": 3.048,
+      "durationMs": 1.892,
       "firstDifference": null
     },
     {
       "id": "S08",
       "description": "O3_INSPIRATION清锅后继续生成订单目标，剩2步",
       "status": "PASS",
-      "durationMs": 2.437,
+      "durationMs": 1.657,
       "firstDifference": null
     },
     {
       "id": "S09",
       "description": "O3_INSPIRATION重跑提示不重复，料理不变且篡改expected必失败",
       "status": "PASS",
-      "durationMs": 17.373,
+      "durationMs": 12.884,
       "firstDifference": null
     }
   ],
@@ -3413,6 +3413,10 @@
         "assets/resources/game/art"
       ],
       "changedFiles": [],
+      "authorizedStageAdditions": [
+        "assets/resources/game/art/dishes/dish_warm_hotpot_mix.png",
+        "assets/resources/game/art/dishes/dish_warm_hotpot_mix.png.meta"
+      ],
       "status": "PASS"
     },
     "smokeScreenshot": {
