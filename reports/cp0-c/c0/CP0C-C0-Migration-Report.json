@@ -1,0 +1,214 @@
+{
+  "reportId": "CP0-C-C0",
+  "generatedAt": "2026-07-29T02:39:21.932Z",
+  "status": "PASS",
+  "scope": {
+    "authorized": "CP0-C-C0 single-source runtime migration and Cocos compilation verification",
+    "c1Started": false
+  },
+  "commits": {
+    "baseline": "13a1ca813f89c260a1aff42183fe6ec9b82b6e21",
+    "final": "SELF (the single commit containing this report)"
+  },
+  "environment": {
+    "cocosCreatorVersion": "3.8.8",
+    "nodeVersion": "v22.22.2"
+  },
+  "migrationMap": [
+    {
+      "before": "src/cp0b/{types,core,stable}.ts",
+      "after": "assets/game/scripts/domain/cp0b/{types,core,stable}.ts"
+    },
+    {
+      "before": "src/cp0b/config.ts",
+      "after": "assets/game/scripts/application/cp0c/ConfigRegistry.ts + tools/cp0b/NodeConfigLoader.ts"
+    },
+    {
+      "before": "src/cp0b/scenario.ts",
+      "after": "assets/game/scripts/application/cp0c/{OrderSession,ScenarioService}.ts + tools/cp0b/{PrototypeTestRunner,RunLogger}.ts"
+    },
+    {
+      "before": "config/cp0-b/",
+      "after": "assets/resources/game/config/cp0-b/"
+    }
+  ],
+  "deletedOldPaths": [
+    "src/cp0b/",
+    "config/cp0-b/"
+  ],
+  "commandResults": [
+    {
+      "command": "npm test",
+      "status": "PASS"
+    },
+    {
+      "command": "npm run test:unit",
+      "status": "PASS"
+    },
+    {
+      "command": "npm run test:scenarios",
+      "status": "PASS"
+    },
+    {
+      "command": "npm run typecheck",
+      "status": "PASS"
+    }
+  ],
+  "tests": {
+    "status": "PASS",
+    "total": 33,
+    "unit": {
+      "passed": 24,
+      "total": 24,
+      "ids": "U01-U24"
+    },
+    "scenarios": {
+      "passed": 9,
+      "total": 9,
+      "ids": "S01-S09"
+    }
+  },
+  "configHash": {
+    "expected": "8737fa94",
+    "actual": "8737fa94",
+    "status": "PASS"
+  },
+  "audits": {
+    "runtimeSeparation": {
+      "ccImports": [],
+      "nodeBuiltins": [],
+      "domReferences": [],
+      "directMathRandom": [],
+      "explicitTypeScriptExtensions": [],
+      "status": "PASS"
+    },
+    "singleSource": {
+      "classDeclarations": {
+        "BoardModel": [
+          "assets/game/scripts/domain/cp0b/core.ts"
+        ],
+        "PathValidator": [
+          "assets/game/scripts/domain/cp0b/core.ts"
+        ],
+        "PathEditor": [
+          "assets/game/scripts/domain/cp0b/core.ts"
+        ],
+        "BoardResolver": [
+          "assets/game/scripts/domain/cp0b/core.ts"
+        ],
+        "InspirationResolver": [
+          "assets/game/scripts/domain/cp0b/core.ts"
+        ],
+        "PotModel": [
+          "assets/game/scripts/domain/cp0b/core.ts"
+        ],
+        "RecipeResolver": [
+          "assets/game/scripts/domain/cp0b/core.ts"
+        ],
+        "StarCalculator": [
+          "assets/game/scripts/domain/cp0b/core.ts"
+        ],
+        "OrderResolver": [
+          "assets/game/scripts/domain/cp0b/core.ts"
+        ],
+        "DiscoveryModel": [
+          "assets/game/scripts/domain/cp0b/core.ts"
+        ],
+        "DeterministicRng": [
+          "assets/game/scripts/domain/cp0b/core.ts"
+        ],
+        "DeadBoardDetector": [
+          "assets/game/scripts/domain/cp0b/core.ts"
+        ],
+        "ShuffleResolver": [
+          "assets/game/scripts/domain/cp0b/core.ts"
+        ],
+        "RunSnapshot": [
+          "assets/game/scripts/domain/cp0b/core.ts"
+        ],
+        "ConfigRegistry": [
+          "assets/game/scripts/application/cp0c/ConfigRegistry.ts"
+        ],
+        "OrderSession": [
+          "assets/game/scripts/application/cp0c/OrderSession.ts"
+        ],
+        "ScenarioService": [
+          "assets/game/scripts/application/cp0c/ScenarioService.ts"
+        ],
+        "PrototypeTestRunner": [
+          "tools/cp0b/PrototypeTestRunner.ts"
+        ],
+        "RunLogger": [
+          "tools/cp0b/RunLogger.ts"
+        ]
+      },
+      "ignoredNonCp0bClasses": [
+        "CP0ABattleShell"
+      ],
+      "status": "PASS"
+    },
+    "singleConfig": {
+      "expectedRoot": "assets/resources/game/config/cp0-b",
+      "discoveredRoots": [
+        "assets/resources/game/config/cp0-b"
+      ],
+      "jsonFileCount": 10,
+      "jsonFiles": [
+        "assets/resources/game/config/cp0-b/gameplay.json",
+        "assets/resources/game/config/cp0-b/ingredients.json",
+        "assets/resources/game/config/cp0-b/orders.json",
+        "assets/resources/game/config/cp0-b/recipes.json",
+        "assets/resources/game/config/cp0-b/scenarios/O1_TUTORIAL_001.json",
+        "assets/resources/game/config/cp0-b/scenarios/O2_BLACK.json",
+        "assets/resources/game/config/cp0-b/scenarios/O2_STANDARD.json",
+        "assets/resources/game/config/cp0-b/scenarios/O3_INSPIRATION.json",
+        "assets/resources/game/config/cp0-b/scenarios/O3_STANDARD.json",
+        "assets/resources/game/config/cp0-b/tutorials.json"
+      ],
+      "status": "PASS"
+    },
+    "oldImplementation": {
+      "path": "src/cp0b",
+      "exists": false,
+      "status": "PASS"
+    },
+    "creatorMetadata": {
+      "checkedFiles": 23,
+      "missingFiles": [],
+      "status": "PASS"
+    },
+    "cocosCompilation": {
+      "creatorVersion": "3.8.8",
+      "platform": "web-mobile",
+      "debug": false,
+      "commandExitCode": 36,
+      "exitCodeMeaning": "Cocos Creator 3.8.x build success",
+      "buildLog": "temp/builder/log/web-mobile7-29-2026 10-34.log",
+      "shellRegistered": true,
+      "engineVersionConfirmed": true,
+      "buildFinished": true,
+      "failureMarkers": [],
+      "status": "PASS"
+    },
+    "smokeScreenshot": {
+      "path": "reports/cp0-c/c0/CP0C-C0-Battle-Smoke-390x844.png",
+      "format": "PNG",
+      "width": 390,
+      "height": 844,
+      "source": "Cocos Creator 3.8.8 Web Mobile release runtime",
+      "status": "PASS"
+    },
+    "protectedDiff": {
+      "baseline": "13a1ca813f89c260a1aff42183fe6ec9b82b6e21",
+      "paths": [
+        "assets/game/scenes",
+        "assets/game/prefabs",
+        "assets/resources/game/art",
+        "assets/game/scripts/presentation/CP0ABattleShell.ts"
+      ],
+      "changedFiles": [],
+      "status": "PASS"
+    }
+  },
+  "firstDifference": null
+}

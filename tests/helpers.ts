@@ -1,7 +1,14 @@
-import { ConfigRegistry, defaultConfigDirectory } from '../src/cp0b/config.js';
-import type { Cell, Coord, IngredientId } from '../src/cp0b/types.js';
+import type {
+  Cell,
+  Coord,
+  IngredientId,
+} from '../assets/game/scripts/domain/cp0b/types';
+import {
+  defaultConfigDirectory,
+  loadConfigRegistry,
+} from '../tools/cp0b/NodeConfigLoader';
 
-export const registry = ConfigRegistry.fromDirectory(defaultConfigDirectory());
+export const registry = loadConfigRegistry(defaultConfigDirectory());
 
 export const cells = (
   ingredientId: IngredientId,

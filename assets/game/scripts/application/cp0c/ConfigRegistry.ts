@@ -1,6 +1,4 @@
-import { readFileSync, readdirSync } from 'node:fs';
-import { join } from 'node:path';
-import { RecipeResolver } from './core.js';
+import { RecipeResolver } from '../../domain/cp0b/core';
 import {
   type GameplayConfig,
   type IngredientConfig,
@@ -11,13 +9,8 @@ import {
   type ScenarioConfig,
   type ScenarioId,
   type TutorialConfig,
-} from './types.js';
-import { stableHash } from './stable.js';
-
-interface VersionedList<T> {
-  schemaVersion: number;
-  [key: string]: number | T[];
-}
+} from '../../domain/cp0b/types';
+import { stableHash } from '../../domain/cp0b/stable';
 
 export interface RawConfigData {
   gameplay: unknown;
@@ -99,8 +92,6 @@ const requireUnitSum = (
   return values;
 };
 
-const readJson = (path: string): unknown => JSON.parse(readFileSync(path, 'utf8')) as unknown;
-
 export class ConfigRegistry {
   public readonly ingredientById: Map<IngredientId, IngredientConfig>;
   public readonly recipeById: Map<string, RecipeConfig>;
@@ -134,21 +125,6 @@ export class ConfigRegistry {
       orders,
       tutorials,
       scenarios: [...scenarios].sort((left, right) => left.id.localeCompare(right.id)),
-    });
-  }
-
-  public static fromDirectory(directory: string): ConfigRegistry {
-    const scenarioDirectory = join(directory, 'scenarios');
-    return ConfigRegistry.fromRaw({
-      gameplay: readJson(join(directory, 'gameplay.json')),
-      ingredients: readJson(join(directory, 'ingredients.json')),
-      recipes: readJson(join(directory, 'recipes.json')),
-      orders: readJson(join(directory, 'orders.json')),
-      tutorials: readJson(join(directory, 'tutorials.json')),
-      scenarios: readdirSync(scenarioDirectory)
-        .filter((file) => file.endsWith('.json'))
-        .sort()
-        .map((file) => readJson(join(scenarioDirectory, file))),
     });
   }
 
@@ -595,6 +571,3 @@ export class ConfigRegistry {
     enumerate(0);
   }
 }
-
-export const defaultConfigDirectory = (): string =>
-  join(process.cwd(), 'config', 'cp0-b');

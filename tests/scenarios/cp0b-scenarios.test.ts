@@ -1,16 +1,16 @@
 import { describe, expect, it } from 'vitest';
 import {
   PrototypeTestRunner,
-  ScenarioService,
   type ScenarioRun,
-} from '../../src/cp0b/scenario.js';
-import { deepClone } from '../../src/cp0b/stable.js';
+} from '../../tools/cp0b/PrototypeTestRunner';
+import { ScenarioService } from '../../assets/game/scripts/application/cp0c/ScenarioService';
+import { deepClone } from '../../assets/game/scripts/domain/cp0b/stable';
 import type {
   DiscoveryState,
   ScenarioActionExpected,
   ScenarioId,
-} from '../../src/cp0b/types.js';
-import { registry } from '../helpers.js';
+} from '../../assets/game/scripts/domain/cp0b/types';
+import { registry } from '../helpers';
 
 const runner = new PrototypeTestRunner(registry);
 const expectRunPass = (run: ScenarioRun): void => {

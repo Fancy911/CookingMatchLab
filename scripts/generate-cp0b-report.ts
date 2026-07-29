@@ -1,9 +1,12 @@
 import { execFileSync, spawnSync } from 'node:child_process';
 import { existsSync, mkdirSync, readFileSync, readdirSync, statSync, writeFileSync } from 'node:fs';
 import { join, relative } from 'node:path';
-import { ConfigRegistry, defaultConfigDirectory } from '../src/cp0b/config.js';
-import { PrototypeTestRunner } from '../src/cp0b/scenario.js';
-import type { ScenarioId } from '../src/cp0b/types.js';
+import type { ScenarioId } from '../assets/game/scripts/domain/cp0b/types';
+import {
+  defaultConfigDirectory,
+  loadConfigRegistry,
+} from '../tools/cp0b/NodeConfigLoader';
+import { PrototypeTestRunner } from '../tools/cp0b/PrototypeTestRunner';
 
 interface VitestAssertion {
   title: string;
@@ -65,15 +68,18 @@ const listTypeScriptFiles = (directory: string): string[] =>
         : [];
   });
 
-const sourceFiles = listTypeScriptFiles(join(projectRoot, 'src', 'cp0b'));
+const runtimeSourceFiles = [
+  join(projectRoot, 'assets', 'game', 'scripts', 'domain', 'cp0b'),
+  join(projectRoot, 'assets', 'game', 'scripts', 'application', 'cp0c'),
+].flatMap(listTypeScriptFiles);
 const forbiddenAudit = {
-  ccImports: sourceFiles.flatMap((path) => {
+  ccImports: runtimeSourceFiles.flatMap((path) => {
     const text = readFileSync(path, 'utf8');
     return /from\s+['"]cc['"]|require\(['"]cc['"]\)/.test(text)
       ? [relative(projectRoot, path)]
       : [];
   }),
-  directMathRandom: sourceFiles.flatMap((path) => {
+  directMathRandom: runtimeSourceFiles.flatMap((path) => {
     const text = readFileSync(path, 'utf8');
     return text.includes('Math.random(') ? [relative(projectRoot, path)] : [];
   }),
@@ -114,7 +120,7 @@ const unitVitest = runVitestJson('tests/unit');
 const scenarioVitest = runVitestJson('tests/scenarios');
 const unitTests = flattenAssertions(unitVitest);
 const scenarioTests = flattenAssertions(scenarioVitest);
-const registry = ConfigRegistry.fromDirectory(defaultConfigDirectory());
+const registry = loadConfigRegistry(defaultConfigDirectory());
 const runner = new PrototypeTestRunner(registry, packageJson.creator.version, baselineCommit);
 const scenarioIds: ScenarioId[] = [
   'O1_TUTORIAL_001',

@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
     "target": "ES2022",
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
     "strict": true,
     "esModuleInterop": true,
     "resolveJsonModule": true,
@@ -11,9 +11,11 @@
     "noEmit": true
   },
   "include": [
-    "src/cp0b/**/*.ts",
+    "assets/game/scripts/domain/cp0b/**/*.ts",
+    "assets/game/scripts/application/cp0c/**/*.ts",
+    "tools/cp0b/**/*.ts",
     "tests/**/*.ts",
-    "scripts/generate-cp0b-report.ts",
+    "scripts/**/*.ts",
     "vitest.config.ts"
   ]
 }

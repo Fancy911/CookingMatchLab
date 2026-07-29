@@ -14,10 +14,8 @@ import {
   StarCalculator,
   settleFire,
   type QueueState,
-} from '../../src/cp0b/core.js';
-import { ConfigRegistry } from '../../src/cp0b/config.js';
-import { OrderSession, PrototypeTestRunner, ScenarioService } from '../../src/cp0b/scenario.js';
-import { deepClone, stableHash } from '../../src/cp0b/stable.js';
+} from '../../assets/game/scripts/domain/cp0b/core';
+import { deepClone, stableHash } from '../../assets/game/scripts/domain/cp0b/stable';
 import type {
   BoardGrid,
   IngredientId,
@@ -25,8 +23,12 @@ import type {
   ProcessingTag,
   RecipeId,
   ScenarioConfig,
-} from '../../src/cp0b/types.js';
-import { cells, coord, registry } from '../helpers.js';
+} from '../../assets/game/scripts/domain/cp0b/types';
+import { ConfigRegistry } from '../../assets/game/scripts/application/cp0c/ConfigRegistry';
+import { OrderSession } from '../../assets/game/scripts/application/cp0c/OrderSession';
+import { ScenarioService } from '../../assets/game/scripts/application/cp0c/ScenarioService';
+import { PrototypeTestRunner } from '../../tools/cp0b/PrototypeTestRunner';
+import { cells, coord, registry } from '../helpers';
 
 const recipeResolver = new RecipeResolver(registry.recipes);
 const starCalculator = new StarCalculator(registry.gameplay);

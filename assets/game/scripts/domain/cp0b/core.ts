@@ -13,8 +13,8 @@ import {
   type RecipeConfig,
   type RecipeId,
   type ThrowRecord,
-} from './types.js';
-import { deepClone, stableHash } from './stable.js';
+} from './types';
+import { deepClone, stableHash } from './stable';
 
 const coordKey = ({ row, column }: Coord): string => `${row}:${column}`;
 
