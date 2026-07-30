@@ -1,12 +1,14 @@
 {
   "reportId": "CP0-C-C1",
-  "generatedAt": "2026-07-30T10:48:00+08:00",
+  "generatedAt": "2026-07-30T12:52:00+08:00",
   "status": "PASS",
   "baseline": {
     "c0FinalCommit": "3f6995a5f79369ac18042b682e5bc5e8a715e1b7",
     "c0MigrationCommit": "19eeecf",
     "c1AcceptedBaseCommit": "318f9fc01d3c09e0576b9fe40bb34ca35ddd0b05",
     "c1R1ImplementationCommit": "9c0b242f4d9cb60e800026029326d1637a9f3586",
+    "c1R2BaseCommit": "2c9c0c428acf7e68fa013bc5111805b3ec02da71",
+    "c1R2ImplementationCommit": "73d33dbb60bf4d9aa7c12d07d9ad5458ca1d1035",
     "branch": "main",
     "configHash": "8737fa94"
   },
@@ -71,17 +73,29 @@
     { "path": "reports/cp0-c/c1/screenshots/Layout-Smoke-412x915.png", "format": "PNG", "pngSignature": true, "size": "412x915" }
   ],
   "recordings": [
-    { "path": "reports/cp0-c/c1/recordings/CP0C-V01-O1-Playable-390x844.mp4", "size": "390x844", "fps": 30, "durationSeconds": 46.933, "uncut": true, "gestureEvidence": "slow path growth, backtrack and re-extension are visible" },
+    { "path": "reports/cp0-c/c1/recordings/CP0C-V01-O1-Playable-390x844.mp4", "size": "390x844", "fps": 30, "durationSeconds": 46.733, "uncut": true, "gestureEvidence": "slow path growth, backtrack and re-extension are visible; post-release flight runs at the final R2 timing" },
     { "path": "reports/cp0-c/c1/recordings/CP0C-V01B-Fallback-Continue-390x844.mp4", "size": "390x844", "fps": 30, "durationSeconds": 36.867, "uncut": true, "gestureEvidence": "five-cell tomato path visibly backtracks to three; full warm-hotpot reveal precedes continue" }
   ],
   "performance": {
-    "sampleFrames": 146,
-    "averageFps": 58.489,
-    "p95FrameMs": 17.7,
-    "maximumFrameDeltaMs": 83.3,
-    "maximumLongTaskMs": 96,
-    "inputResponseMs": 14.4,
-    "limits": { "inputResponseMs": 100, "mainThreadStallMs": 150 },
+    "capturedAt": "2026-07-30T04:43:31.368Z",
+    "sampleFrames": 452,
+    "averageFps": 59.752,
+    "meanFrameMs": 16.736,
+    "p95FrameMs": 18.5,
+    "maximumFramePauseMs": 50,
+    "maximumLongTaskMs": 51,
+    "inputResponseSamplesMs": [10.8, 11.1],
+    "maximumInputResponseMs": 11.1,
+    "fiveCellReleaseToPotReviewMs": 912.6,
+    "fourCellReleaseToPotReviewMs": 878.7,
+    "limits": {
+      "targetSettlementMs": "820–980",
+      "maximumSettlementMs": 1200,
+      "inputResponseMs": 100,
+      "mainThreadStallMs": 150
+    },
+    "rawEvidence": "reports/cp0-c/c1/performance/CP0C-C1-R2-Performance-Raw.json",
+    "consoleEvidence": "reports/cp0-c/c1/performance/CP0C-C1-R2-Performance-Console.log",
     "status": "PASS"
   },
   "architecture": {
@@ -98,7 +112,7 @@
     "configDiff": 0,
     "scenePrefabDiff": 0,
     "existingArtDiff": 0,
-    "intentionalPresentationChange": "C1-R1 adds path-count feedback, deferred throw presentation, cooking feedback, discovery status and pause cleanup while retaining accepted CP0-A coordinates and assets",
+    "intentionalPresentationChange": "C1-R2 changes only presentation timing: path-length-derived flight staggering and overlapped refill settlement; accepted C1-R1 feedback, coordinates and assets are retained",
     "newArtOnly": "dish_warm_hotpot_mix.png"
   },
   "knownLimitations": [],
@@ -116,6 +130,16 @@
     "revealDiscoveryStatus": "FireResult.isNewDiscovery selects 首次发现 or 再次完成",
     "pauseRegression": "C011 PASS",
     "pngAudit": "9/9 PNG signatures and dimensions PASS"
+  },
+  "r2Verification": {
+    "flightStagger": "clamp(420 / pathLength, 24, 55) ms",
+    "settlementOverlap": "drop/refill begins while the staggered arc-flight sequence is still visible; every selected ingredient still completes its flight before the delayed pot/tray/fire presentation",
+    "fiveCellSettlement": "912.6ms to POT_REVIEW",
+    "fourCellSettlement": "878.7ms to POT_REVIEW",
+    "performanceFreshness": "sampled from the final R2 source before the implementation commit; no R1 performance sample was reused",
+    "recordings": "V01 and V01B were captured again from the final R2 build",
+    "pngAudit": "9/9 PASS",
+    "cocosBuild": "Cocos Creator 3.8.8 web-mobile PASS"
   },
   "scope": {
     "cp0dStarted": false,
