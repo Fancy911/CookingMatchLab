@@ -1,0 +1,5 @@
+capturedAt=2026-07-30T04:43:31.368Z
+sourceFilesSha256=dfe500404877628dd9b5bdbe78710af36b44e094c2c37b8e4fb991b192c6a801
+[CP0-C-C1] runtime config hash 8737fa94
+[CP0-C-C1][settlement] pathLength=5 durationMs=912.6 phase=POT_REVIEW
+[CP0-C-C1][settlement] pathLength=4 durationMs=878.7 phase=POT_REVIEW

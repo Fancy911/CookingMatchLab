@@ -308,6 +308,7 @@ export class CP0ABattleShell extends Component {
     }
     this.hintLabel.string = '食材正在投入研究锅…';
     this.stepLabel.string = String(result.plan.remainingSteps);
+    const settlementStartedAt = performance.now();
     this.board.animate(
       result.plan,
       () => this.revealCommittedThrow(result.plan!),
@@ -317,6 +318,11 @@ export class CP0ABattleShell extends Component {
         ? '投料完成，可以开火'
         : '再投入一份食材即可开火';
         this.refreshRunUi();
+        console.info(
+          `[CP0-C-C1][settlement] pathLength=${result.plan!.path.length}`
+          + ` durationMs=${(performance.now() - settlementStartedAt).toFixed(1)}`
+          + ` phase=${this.session.phase}`,
+        );
       },
     );
   }
@@ -366,14 +372,14 @@ export class CP0ABattleShell extends Component {
     const timeline = new Node(`ThrowUiTimeline_${plan.operationId}`);
     timeline.parent = this.fxRoot;
     tween(timeline)
-      .delay(0.2)
+      .delay(0.08)
       .call(() => {
         this.visibleThrowCount = plan.throwSlotIndex + 1;
         this.rebuildThrowTray(
           this.session.snapshot().pot.throws.slice(0, this.visibleThrowCount),
         );
       })
-      .delay(0.2)
+      .delay(0.08)
       .call(() => {
         this.refreshPotAndThrowUi(this.visibleThrowCount);
         timeline.destroy();

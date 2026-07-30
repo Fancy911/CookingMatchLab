@@ -197,8 +197,8 @@ export class BattleBoardController {
     onComplete: () => void,
   ): void {
     this.setInputEnabled(false);
-    const staggerSeconds = 0.11;
-    const flightSeconds = 0.54;
+    const staggerSeconds = Math.max(24, Math.min(55, 420 / plan.path.length)) / 1000;
+    const flightSeconds = 0.46;
     let completedFlights = 0;
     plan.flightOrder.forEach((coord, index) => {
       const source = this.ingredientSprites[coord.row][coord.column];
@@ -243,10 +243,11 @@ export class BattleBoardController {
     });
 
     const flightSpan = (plan.flightOrder.length - 1) * staggerSeconds + flightSeconds;
+    const settlementStartSeconds = Math.max(0.26, Math.min(0.34, flightSpan * 0.45));
     const timeline = new Node('EffectTimeline');
     timeline.parent = this.fxRoot;
     tween(timeline)
-      .delay(flightSpan + 0.16)
+      .delay(settlementStartSeconds)
       .call(() => {
         this.render(plan.settledBoard);
         const affected = new Set([
@@ -261,11 +262,11 @@ export class BattleBoardController {
             const node = this.ingredientSprites[row][column].node;
             const target = this.basePositions[row][column];
             node.setPosition(target.x, target.y + 76, 0);
-            tween(node).to(0.5, { position: target }, { easing: 'backOut' }).start();
+            tween(node).to(0.42, { position: target }, { easing: 'backOut' }).start();
           }
         }
       })
-      .delay(0.62)
+      .delay(0.58)
       .call(() => {
         this.render(plan.finalBoard);
         if (stableHash(this.currentBoard) !== plan.finalBoardHash) {
