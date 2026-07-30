@@ -167,7 +167,12 @@ export class PrototypeSession {
     if (this.phase === 'PAUSED' || this.phase === 'ANIMATING' || this.phase === 'COOKING') {
       return false;
     }
-    this.phaseBeforePause = this.phase;
+    if (this.phase === 'LINKING') {
+      this.editor = undefined;
+      this.phaseBeforePause = this.order.pot.throws.length > 0 ? 'POT_REVIEW' : 'READY';
+    } else {
+      this.phaseBeforePause = this.phase;
+    }
     this.phase = 'PAUSED';
     return true;
   }

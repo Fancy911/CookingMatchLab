@@ -2,6 +2,8 @@ import {
   Color,
   EventTouch,
   Graphics,
+  Label,
+  LabelOutline,
   Layers,
   Node,
   Sprite,
@@ -40,6 +42,7 @@ export class BattleBoardController {
   private readonly ingredientSprites: Sprite[][] = [];
   private readonly basePositions: Vec3[][] = [];
   private readonly pathGraphics: Graphics;
+  private readonly pathCountLabel: Label;
   private readonly touchIndicator: Graphics;
   private currentBoard: BoardGrid = [];
   private activePath: Coord[] = [];
@@ -59,26 +62,11 @@ export class BattleBoardController {
   ) {
     const transform = boardRoot.addComponent(UITransform);
     transform.setContentSize(SCREEN_WIDTH, SCREEN_HEIGHT);
-    for (let row = 0; row < 7; row += 1) {
-      this.ingredientSprites[row] = [];
-      this.basePositions[row] = [];
-      for (let column = 0; column < 7; column += 1) {
-        const x = GRID_LEFT + column * STEP;
-        const y = GRID_TOP + row * STEP;
-        makeSprite(`Slot_${row}_${column}`, tileFrame, boardRoot, x, y, SLOT_SIZE, SLOT_SIZE);
-        const sprite = makeSprite(
-          `Ingredient_${row}_${column}`,
-          ingredientFrames.ING_TOMATO,
-          boardRoot,
-          x + (SLOT_SIZE - ICON_SIZE) / 2,
-          y + (SLOT_SIZE - ICON_SIZE) / 2,
-          ICON_SIZE,
-          ICON_SIZE,
-        );
-        this.ingredientSprites[row][column] = sprite;
-        this.basePositions[row][column] = sprite.node.position.clone();
-      }
-    }
+
+    const slotRoot = new Node('BoardSlots');
+    slotRoot.layer = Layers.Enum.UI_2D;
+    slotRoot.parent = boardRoot;
+    slotRoot.addComponent(UITransform).setContentSize(SCREEN_WIDTH, SCREEN_HEIGHT);
 
     const lineNode = new Node('LinkPathLine');
     lineNode.layer = Layers.Enum.UI_2D;
@@ -89,6 +77,59 @@ export class BattleBoardController {
     this.pathGraphics.lineCap = Graphics.LineCap.ROUND;
     this.pathGraphics.lineJoin = Graphics.LineJoin.ROUND;
     this.pathGraphics.strokeColor = new Color(255, 241, 216, 245);
+
+    const ingredientRoot = new Node('BoardIngredients');
+    ingredientRoot.layer = Layers.Enum.UI_2D;
+    ingredientRoot.parent = boardRoot;
+    ingredientRoot.addComponent(UITransform).setContentSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+
+    const countNode = new Node('LinkPathCount');
+    countNode.layer = Layers.Enum.UI_2D;
+    countNode.parent = boardRoot;
+    countNode.addComponent(UITransform).setContentSize(30, 30);
+    const countBadge = countNode.addComponent(Graphics);
+    countBadge.fillColor = new Color(255, 238, 176, 255);
+    countBadge.strokeColor = new Color(132, 76, 38, 255);
+    countBadge.lineWidth = 3;
+    countBadge.circle(0, 0, 14);
+    countBadge.fill();
+    countBadge.stroke();
+    const countLabelNode = new Node('LinkPathCountValue');
+    countLabelNode.layer = Layers.Enum.UI_2D;
+    countLabelNode.parent = countNode;
+    countLabelNode.addComponent(UITransform).setContentSize(30, 30);
+    this.pathCountLabel = countLabelNode.addComponent(Label);
+    this.pathCountLabel.fontFamily = 'PingFang SC';
+    this.pathCountLabel.fontSize = 18;
+    this.pathCountLabel.lineHeight = 22;
+    this.pathCountLabel.color = new Color(115, 67, 34, 255);
+    this.pathCountLabel.horizontalAlign = Label.HorizontalAlign.CENTER;
+    this.pathCountLabel.verticalAlign = Label.VerticalAlign.CENTER;
+    const countOutline = countLabelNode.addComponent(LabelOutline);
+    countOutline.color = new Color(255, 244, 204, 255);
+    countOutline.width = 5;
+    countNode.active = false;
+
+    for (let row = 0; row < 7; row += 1) {
+      this.ingredientSprites[row] = [];
+      this.basePositions[row] = [];
+      for (let column = 0; column < 7; column += 1) {
+        const x = GRID_LEFT + column * STEP;
+        const y = GRID_TOP + row * STEP;
+        makeSprite(`Slot_${row}_${column}`, tileFrame, slotRoot, x, y, SLOT_SIZE, SLOT_SIZE);
+        const sprite = makeSprite(
+          `Ingredient_${row}_${column}`,
+          ingredientFrames.ING_TOMATO,
+          ingredientRoot,
+          x + (SLOT_SIZE - ICON_SIZE) / 2,
+          y + (SLOT_SIZE - ICON_SIZE) / 2,
+          ICON_SIZE,
+          ICON_SIZE,
+        );
+        this.ingredientSprites[row][column] = sprite;
+        this.basePositions[row][column] = sprite.node.position.clone();
+      }
+    }
 
     const indicatorNode = new Node('TouchIndicator');
     indicatorNode.layer = Layers.Enum.UI_2D;
@@ -140,12 +181,25 @@ export class BattleBoardController {
     if (!enabled) {
       this.tracking = false;
       this.touchIndicator.node.active = false;
+      this.clearPath();
     }
   }
 
-  public animate(plan: EffectPlan, onComplete: () => void): void {
+  public cancelActivePath(): void {
+    this.tracking = false;
+    this.touchIndicator.node.active = false;
+    this.clearPath();
+  }
+
+  public animate(
+    plan: EffectPlan,
+    onFlightsComplete: () => void,
+    onComplete: () => void,
+  ): void {
     this.setInputEnabled(false);
-    const stagger = Math.max(24, Math.min(55, 420 / plan.path.length));
+    const staggerSeconds = 0.11;
+    const flightSeconds = 0.54;
+    let completedFlights = 0;
     plan.flightOrder.forEach((coord, index) => {
       const source = this.ingredientSprites[coord.row][coord.column];
       const clone = new Node(`Flight_${index}`);
@@ -156,21 +210,43 @@ export class BattleBoardController {
       sprite.sizeMode = Sprite.SizeMode.CUSTOM;
       sprite.spriteFrame = source.spriteFrame;
       clone.setPosition(source.node.position);
+      const start = clone.position.clone();
+      const target = new Vec3(
+        (plan.throwSlotIndex - 1) * 9 + (index - (plan.flightOrder.length - 1) / 2) * 4,
+        -184 + (index % 2) * 6,
+        0,
+      );
+      const arc = new Vec3(
+        (start.x + target.x) / 2 + (index % 2 === 0 ? -26 : 26),
+        Math.max(start.y, target.y) + 82,
+        0,
+      );
       source.node.active = false;
       tween(clone)
-        .delay(index * stagger / 1000)
-        .to(0.34, {
-          position: new Vec3(-40 + plan.throwSlotIndex * 38, -202, 0),
+        .delay(index * staggerSeconds)
+        .to(flightSeconds * 0.46, {
+          position: arc,
+          scale: new Vec3(0.88, 0.88, 1),
+        }, { easing: 'quadOut' })
+        .to(flightSeconds * 0.54, {
+          position: target,
           scale: new Vec3(0.48, 0.48, 1),
         }, { easing: 'quadIn' })
-        .call(() => clone.destroy())
+        .call(() => {
+          clone.destroy();
+          completedFlights += 1;
+          if (completedFlights === plan.flightOrder.length) {
+            onFlightsComplete();
+          }
+        })
         .start();
     });
 
+    const flightSpan = (plan.flightOrder.length - 1) * staggerSeconds + flightSeconds;
     const timeline = new Node('EffectTimeline');
     timeline.parent = this.fxRoot;
     tween(timeline)
-      .delay(0.54)
+      .delay(flightSpan + 0.16)
       .call(() => {
         this.render(plan.settledBoard);
         const affected = new Set([
@@ -185,7 +261,7 @@ export class BattleBoardController {
             const node = this.ingredientSprites[row][column].node;
             const target = this.basePositions[row][column];
             node.setPosition(target.x, target.y + 76, 0);
-            tween(node).to(0.48, { position: target }, { easing: 'backOut' }).start();
+            tween(node).to(0.5, { position: target }, { easing: 'backOut' }).start();
           }
         }
       })
@@ -284,6 +360,7 @@ export class BattleBoardController {
       }
     }
     this.pathGraphics.clear();
+    this.pathCountLabel.node.parent!.active = false;
     if (this.activePath.length > 1) {
       this.pathGraphics.strokeColor = new Color(255, 241, 216, 245);
       this.pathGraphics.lineWidth = 9;
@@ -297,10 +374,18 @@ export class BattleBoardController {
       });
       this.pathGraphics.stroke();
     }
+    if (this.activePath.length > 0) {
+      const endpoint = this.activePath[this.activePath.length - 1];
+      const position = this.basePositions[endpoint.row][endpoint.column];
+      this.pathCountLabel.string = String(this.activePath.length);
+      this.pathCountLabel.node.parent!.setPosition(position.x + 23, position.y + 22, 0);
+      this.pathCountLabel.node.setPosition(0, 0, 0);
+      this.pathCountLabel.node.parent!.active = true;
+    }
   }
 
   private clearPath(): void {
     this.activePath = [];
-    this.pathGraphics.clear();
+    this.refreshSelection();
   }
 }

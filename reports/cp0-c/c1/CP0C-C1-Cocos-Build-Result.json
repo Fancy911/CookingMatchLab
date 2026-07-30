@@ -1,6 +1,6 @@
 {
   "reportId": "CP0-C-C1-COCOS-BUILD",
-  "generatedAt": "2026-07-29T16:58:44.920Z",
+  "generatedAt": "2026-07-30T02:14:11.490Z",
   "status": "PASS",
   "creatorVersion": "3.8.8",
   "platform": "web-mobile",
@@ -13,9 +13,9 @@
       "--build",
       "platform=web-mobile;debug=false;buildPath=project://build;outputName=cp0c-c1-web-mobile"
     ],
-    "startedAt": "2026-07-29T16:58:32.911Z",
-    "finishedAt": "2026-07-29T16:58:44.920Z",
-    "durationMs": 12011
+    "startedAt": "2026-07-30T02:13:50.299Z",
+    "finishedAt": "2026-07-30T02:14:11.490Z",
+    "durationMs": 21194
   },
   "verification": {
     "creatorVersionConfigured": true,
@@ -26,6 +26,6 @@
     "actualSignal": null,
     "failureMarkers": []
   },
-  "rawOutputSha256": "ce24085310cc1819c639676ce661c752cdd94642ec1c63d2b5c649e6f7a3c310",
+  "rawOutputSha256": "0fa98454137f30de728c4ce8c149487949f3eed392e724098e537fd98f5f9bec",
   "retainedLog": "reports/cp0-c/c1/CP0C-C1-Cocos-Build-3.8.8.log"
 }

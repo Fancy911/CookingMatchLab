@@ -1,19 +1,19 @@
 # CP0-C-C1 Cocos Creator build evidence
-generatedAt=2026-07-29T16:58:44.920Z
+generatedAt=2026-07-30T02:14:11.490Z
 creatorVersion=3.8.8
 platform=web-mobile
 debug=false
 actualExitCode=36
 actualSignal=none
 status=PASS
-rawOutputSha256=ce24085310cc1819c639676ce661c752cdd94642ec1c63d2b5c649e6f7a3c310
+rawOutputSha256=0fa98454137f30de728c4ce8c149487949f3eed392e724098e537fd98f5f9bec
 failureMarkers=none
 
 # Sanitized key build lines
 Arguments:
   project: <PROJECT_ROOT>
 [EditorQuickCompiler]Version information looks good.
-2026-7-30 00:58:40 - debug: [[Executor]] Register CP0ABattleShell
+2026-7-30 10:14:05 - debug: [[Executor]] Register CP0ABattleShell
 engineVersion="3.8.8",
-2026-7-30 00:58:43 - log: run build task Build Assets success in 53 ms√, progress: 27%
-2026-7-30 00:58:43 - debug: ================================ build Task (cp0c-c1-web-mobile) Finished in (3 s)ms ================================
+2026-7-30 10:14:10 - log: run build task Build Assets success in 171 ms√, progress: 27%
+2026-7-30 10:14:10 - debug: ================================ build Task (cp0c-c1-web-mobile) Finished in (4 s)ms ================================

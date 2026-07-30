@@ -14,6 +14,7 @@ import {
   SpriteFrame,
   sys,
   tween,
+  UIOpacity,
   UITransform,
   Vec3,
   view,
@@ -95,6 +96,7 @@ export class CP0ABattleShell extends Component {
   private stepLabel!: Label;
   private hintLabel!: Label;
   private saveRepository!: LocalSaveRepository;
+  private visibleThrowCount = 0;
 
   protected onLoad(): void {
     view.setDesignResolutionSize(SCREEN_WIDTH, SCREEN_HEIGHT, ResolutionPolicy.FIXED_WIDTH);
@@ -305,41 +307,84 @@ export class CP0ABattleShell extends Component {
       return;
     }
     this.hintLabel.string = '食材正在投入研究锅…';
-    this.refreshRunUi();
-    this.board.animate(result.plan, () => {
-      this.session.completeAnimation(result.plan!.operationId);
-      this.hintLabel.string = result.plan!.canFire
+    this.stepLabel.string = String(result.plan.remainingSteps);
+    this.board.animate(
+      result.plan,
+      () => this.revealCommittedThrow(result.plan!),
+      () => {
+        this.session.completeAnimation(result.plan!.operationId);
+        this.hintLabel.string = result.plan!.canFire
         ? '投料完成，可以开火'
         : '再投入一份食材即可开火';
-      this.refreshRunUi();
-    });
+        this.refreshRunUi();
+      },
+    );
   }
 
   private refreshRunUi(): void {
     const snapshot = this.session.snapshot();
     this.stepLabel.string = String(snapshot.remainingSteps);
-    const throws = snapshot.pot.throws;
+    this.visibleThrowCount = snapshot.pot.throws.length;
+    this.refreshPotAndThrowUi(this.visibleThrowCount);
+    this.board.setInputEnabled(
+      (this.session.phase === 'READY' || this.session.phase === 'POT_REVIEW')
+      && snapshot.pot.throws.length < this.session.registry.gameplay.pot.baseSlots,
+    );
+  }
+
+  private refreshPotAndThrowUi(visibleThrowCount: number): void {
+    const throws = this.session.snapshot().pot.throws.slice(0, visibleThrowCount);
     this.potIngredientRoot.children.forEach((child) => {
       child.active = child.name === 'PotTomato'
-        ? (snapshot.pot.units.ING_TOMATO ?? 0) > 0
-        : (snapshot.pot.units.ING_EGG ?? 0) > 0;
+        ? throws.some((record) => record.ingredientId === 'ING_TOMATO')
+        : throws.some((record) => record.ingredientId === 'ING_EGG');
     });
     this.potIndicatorRoot.children.forEach((child, index) => {
       child.active = index < throws.length;
     });
-    this.rebuildThrowTray();
+    this.rebuildThrowTray(throws);
     const canFire = throws.length >= this.session.registry.gameplay.pot.minimumThrowsToCook;
     this.fireSprite.color = canFire ? Color.WHITE : new Color(145, 154, 143, 205);
     this.fireLabel.string = canFire ? '可开火' : `${throws.length}/2 份`;
-    this.board.setInputEnabled(
-      (this.session.phase === 'READY' || this.session.phase === 'POT_REVIEW')
-      && throws.length < this.session.registry.gameplay.pot.baseSlots,
-    );
   }
 
-  private rebuildThrowTray(): void {
+  private revealCommittedThrow(plan: NonNullable<ReturnType<PrototypeSession['commitLink']>['plan']>): void {
+    const potIngredientName = plan.ingredientId === 'ING_TOMATO' ? 'PotTomato' : 'PotEgg';
+    const potIngredient = this.potIngredientRoot.getChildByName(potIngredientName);
+    if (potIngredient) {
+      potIngredient.active = true;
+      potIngredient.setScale(0.72, 0.72, 1);
+      tween(potIngredient)
+        .to(0.18, { scale: new Vec3(1.12, 1.12, 1) }, { easing: 'backOut' })
+        .to(0.12, { scale: new Vec3(1, 1, 1) })
+        .start();
+    }
+    this.potIndicatorRoot.children.forEach((child, index) => {
+      child.active = index <= plan.throwSlotIndex;
+    });
+
+    const timeline = new Node(`ThrowUiTimeline_${plan.operationId}`);
+    timeline.parent = this.fxRoot;
+    tween(timeline)
+      .delay(0.2)
+      .call(() => {
+        this.visibleThrowCount = plan.throwSlotIndex + 1;
+        this.rebuildThrowTray(
+          this.session.snapshot().pot.throws.slice(0, this.visibleThrowCount),
+        );
+      })
+      .delay(0.2)
+      .call(() => {
+        this.refreshPotAndThrowUi(this.visibleThrowCount);
+        timeline.destroy();
+      })
+      .start();
+  }
+
+  private rebuildThrowTray(
+    throws = this.session.snapshot().pot.throws.slice(0, this.visibleThrowCount),
+  ): void {
     this.throwContentRoot.destroyAllChildren();
-    const throws = this.session.snapshot().pot.throws;
     const centers = [68, 143, 219];
     for (let index = 0; index < 3; index += 1) {
       const record = throws[index];
@@ -357,8 +402,16 @@ export class CP0ABattleShell extends Component {
         52,
         52,
       );
-      this.label(`ThrowCount${index}`, `${record.units}份`, this.throwContentRoot,
-        centers[index] - 22, 774, 44, 20, 14);
+      this.label(
+        `ThrowCount${index}`,
+        `${record.pathLength}格 / ${record.units}份`,
+        this.throwContentRoot,
+        centers[index] - 36,
+        784,
+        72,
+        22,
+        12,
+      );
     }
   }
 
@@ -371,17 +424,10 @@ export class CP0ABattleShell extends Component {
     this.board.setInputEnabled(false);
     this.actionRoot.active = false;
     this.cookingRoot.active = true;
-    const lid = this.cookingRoot.getChildByName('CookingLid');
-    if (lid) {
-      lid.setScale(0.92, 0.92, 1);
-      tween(lid)
-        .repeat(3, tween().to(0.18, { angle: 5 }).to(0.18, { angle: -5 }))
-        .to(0.2, { angle: 0, scale: new Vec3(1, 1, 1) })
-        .start();
-    }
+    this.playCookingAnimation();
     const operationId = this.session.currentOperationId();
     tween(this.cookingRoot)
-      .delay(1.45)
+      .delay(1.68)
       .call(() => {
         if (this.session.completeCooking(operationId)) {
           this.cookingRoot.active = false;
@@ -393,14 +439,150 @@ export class CP0ABattleShell extends Component {
 
   private buildCookingOverlay(): Node {
     const root = this.makeFullscreenOverlay('CookingOverlay', new Color(42, 28, 20, 188));
-    this.sprite('CookingPot', 'pot', root, 45, 262, 300, 224);
-    const lid = this.sprite('CookingLid', 'potLid', root, 78, 216, 234, 154);
+
+    const glow = new Node('CookingGlow');
+    glow.layer = Layers.Enum.UI_2D;
+    glow.parent = root;
+    glow.addComponent(UITransform).setContentSize(330, 330);
+    this.place(glow, 30, 160, 330, 330);
+    const glowGraphics = glow.addComponent(Graphics);
+    glowGraphics.fillColor = new Color(255, 177, 77, 48);
+    glowGraphics.circle(0, 0, 150);
+    glowGraphics.fill();
+
+    const flames = new Node('CookingFlames');
+    flames.layer = Layers.Enum.UI_2D;
+    flames.parent = root;
+    flames.addComponent(UITransform).setContentSize(210, 94);
+    flames.addComponent(UIOpacity).opacity = 230;
+    this.place(flames, 90, 407, 210, 94);
+    const flameGraphics = flames.addComponent(Graphics);
+    flameGraphics.fillColor = new Color(255, 112, 38, 245);
+    [-72, -36, 0, 36, 72].forEach((x, index) => {
+      flameGraphics.moveTo(x - 24, 28);
+      flameGraphics.quadraticCurveTo(x, -40 - (index % 2) * 12, x + 24, 28);
+      flameGraphics.quadraticCurveTo(x, 12, x - 24, 28);
+      flameGraphics.fill();
+    });
+    flameGraphics.fillColor = new Color(255, 218, 88, 255);
+    [-54, -18, 18, 54].forEach((x) => {
+      flameGraphics.circle(x, 16, 15);
+      flameGraphics.fill();
+    });
+
+    const potRig = this.makeRoot('CookingPotRig', root);
+    this.sprite('CookingPot', 'pot', potRig, 45, 262, 300, 224);
+    const lid = this.sprite('CookingLid', 'potLid', potRig, 78, 216, 234, 154);
     lid.node.name = 'CookingLid';
+
+    const steamRoot = this.makeRoot('CookingSteam', root);
+    [128, 195, 262].forEach((x, index) => {
+      const steam = new Node(`Steam_${index}`);
+      steam.layer = Layers.Enum.UI_2D;
+      steam.parent = steamRoot;
+      steam.addComponent(UITransform).setContentSize(34, 76);
+      steam.addComponent(UIOpacity).opacity = 0;
+      this.place(steam, x - 17, 185 + (index % 2) * 12, 34, 76);
+      const steamGraphics = steam.addComponent(Graphics);
+      steamGraphics.lineWidth = 7;
+      steamGraphics.lineCap = Graphics.LineCap.ROUND;
+      steamGraphics.strokeColor = new Color(255, 244, 219, 215);
+      steamGraphics.moveTo(-8, 28);
+      steamGraphics.bezierCurveTo(15, 9, -16, -10, 8, -29);
+      steamGraphics.stroke();
+    });
+
     this.label('CookingTitle', '料理研究中…', root, 75, 485, 240, 48, 27,
       new Color(255, 245, 217, 255));
     this.label('CookingSub', '火候与配比正在融合', root, 84, 535, 222, 30, 16,
       new Color(255, 225, 178, 255));
+
+    const flash = new Node('CookingCompleteFlash');
+    flash.layer = Layers.Enum.UI_2D;
+    flash.parent = root;
+    flash.addComponent(UITransform).setContentSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+    flash.addComponent(UIOpacity).opacity = 0;
+    const flashGraphics = flash.addComponent(Graphics);
+    flashGraphics.fillColor = new Color(255, 205, 112, 235);
+    flashGraphics.rect(-SCREEN_WIDTH / 2, -SCREEN_HEIGHT / 2, SCREEN_WIDTH, SCREEN_HEIGHT);
+    flashGraphics.fill();
     return root;
+  }
+
+  private playCookingAnimation(): void {
+    const potRig = this.cookingRoot.getChildByName('CookingPotRig');
+    const lid = potRig?.getChildByName('CookingLid');
+    const flames = this.cookingRoot.getChildByName('CookingFlames');
+    const steamRoot = this.cookingRoot.getChildByName('CookingSteam');
+    const flash = this.cookingRoot.getChildByName('CookingCompleteFlash');
+
+    if (potRig) {
+      potRig.angle = 0;
+      tween(potRig)
+        .repeat(5, tween().to(0.12, { angle: 1.5 }).to(0.12, { angle: -1.5 }))
+        .to(0.12, { angle: 0 })
+        .start();
+    }
+    if (lid) {
+      const base = lid.position.clone();
+      lid.setScale(0.94, 0.94, 1);
+      tween(lid)
+        .repeat(
+          4,
+          tween()
+            .to(0.16, {
+              angle: 5,
+              position: new Vec3(base.x - 3, base.y + 7, 0),
+            })
+            .to(0.16, {
+              angle: -5,
+              position: new Vec3(base.x + 3, base.y + 3, 0),
+            }),
+        )
+        .to(0.18, { angle: 0, position: base, scale: new Vec3(1, 1, 1) })
+        .start();
+    }
+    if (flames) {
+      flames.setScale(1, 0.86, 1);
+      tween(flames)
+        .repeat(
+          6,
+          tween()
+            .to(0.1, { scale: new Vec3(1.04, 1.12, 1) })
+            .to(0.1, { scale: new Vec3(0.98, 0.9, 1) }),
+        )
+        .to(0.12, { scale: new Vec3(1, 1, 1) })
+        .start();
+    }
+    steamRoot?.children.forEach((steam, index) => {
+      const base = steam.position.clone();
+      const opacity = steam.getComponent(UIOpacity)!;
+      opacity.opacity = 0;
+      steam.setScale(0.82, 0.82, 1);
+      tween(steam)
+        .delay(0.12 + index * 0.14)
+        .call(() => {
+          opacity.opacity = 205;
+        })
+        .to(0.82, {
+          position: new Vec3(base.x + (index - 1) * 9, base.y + 86, 0),
+          scale: new Vec3(1.25, 1.25, 1),
+        }, { easing: 'quadOut' })
+        .call(() => {
+          opacity.opacity = 0;
+          steam.setPosition(base);
+        })
+        .start();
+    });
+    if (flash) {
+      const opacity = flash.getComponent(UIOpacity)!;
+      opacity.opacity = 0;
+      tween(opacity)
+        .delay(1.2)
+        .to(0.14, { opacity: 205 })
+        .to(0.28, { opacity: 0 })
+        .start();
+    }
   }
 
   private showReveal(result: FireResult): void {
@@ -412,6 +594,19 @@ export class CP0ABattleShell extends Component {
     this.sprite('NormalRarityBadge', 'rarity', this.revealRoot, 137, 54, 116, 116);
     this.label('RarityLabel', '普通料理', this.revealRoot, 126, 154, 138, 28, 18,
       new Color(255, 247, 226, 255));
+    this.label(
+      'DiscoveryStatus',
+      result.isNewDiscovery ? '首次发现' : '再次完成',
+      this.revealRoot,
+      124,
+      177,
+      142,
+      25,
+      15,
+      result.isNewDiscovery
+        ? new Color(255, 222, 126, 255)
+        : new Color(230, 221, 205, 255),
+    );
     this.sprite('RevealPedestal', 'pedestal', this.revealRoot, 18, 332, 354, 354);
     this.sprite('RevealDish', isTarget ? 'dishTarget' : 'dishFallback',
       this.revealRoot, 27, 184, 336, 336);
@@ -463,6 +658,7 @@ export class CP0ABattleShell extends Component {
     if (!this.session.pause()) {
       return;
     }
+    this.board.cancelActivePath();
     this.board.setInputEnabled(false);
     this.pauseRoot.active = true;
   }

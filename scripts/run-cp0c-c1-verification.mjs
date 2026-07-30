@@ -67,6 +67,45 @@ results.push({
   details: staticAudit,
 });
 
+const screenshotSpecs = [
+  ['Core-01-Battle-Ready-390x844.png', 390, 844],
+  ['Core-02-Link-Five-390x844.png', 390, 844],
+  ['Core-03-Flying-To-Pot-390x844.png', 390, 844],
+  ['Core-04-Pot-Review-390x844.png', 390, 844],
+  ['Core-06-Cooking-390x844.png', 390, 844],
+  ['Core-07-Reveal-Normal-390x844.png', 390, 844],
+  ['Core-10-Continue-After-Wrong-390x844.png', 390, 844],
+  ['Layout-Smoke-360x800.png', 360, 800],
+  ['Layout-Smoke-412x915.png', 412, 915],
+];
+const pngSignature = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
+const screenshotAudit = screenshotSpecs.map(([filename, expectedWidth, expectedHeight]) => {
+  const bytes = readFileSync(join(outputDirectory, 'screenshots', filename));
+  const width = bytes.readUInt32BE(16);
+  const height = bytes.readUInt32BE(20);
+  const signatureMatches = bytes.subarray(0, 8).equals(pngSignature);
+  return {
+    filename,
+    expectedWidth,
+    expectedHeight,
+    width,
+    height,
+    signatureMatches,
+    status: signatureMatches && width === expectedWidth && height === expectedHeight
+      ? 'PASS'
+      : 'FAIL',
+  };
+});
+const screenshotStatus = screenshotAudit.every((entry) => entry.status === 'PASS');
+results.push({
+  command: 'C1 screenshot PNG signature and dimensions audit',
+  exitCode: screenshotStatus ? 0 : 1,
+  signal: null,
+  durationMs: 0,
+  status: screenshotStatus ? 'PASS' : 'FAIL',
+  details: screenshotAudit,
+});
+
 const status = results.every((result) => result.status === 'PASS') ? 'PASS' : 'FAIL';
 const record = {
   reportId: 'CP0-C-C1-COMMANDS',

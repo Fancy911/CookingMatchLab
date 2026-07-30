@@ -5,25 +5,26 @@ $ npm test
 
  RUN  v3.2.7 /Users/cc/项目/CookingMatchLab
 
- ✓ tests/scenarios/cp0b-scenarios.test.ts (9 tests) 62ms
- ✓ tests/unit/cp0b-unit.test.ts (24 tests) 2078ms
-   ✓ CP0-B unit rules > U16 0～12全量整数枚举无两道明确配方同时命中  2059ms
- ✓ tests/c1/cp0c-c1.test.ts (10 tests) 17146ms
-   ✓ CP0-C-C1 acceptance > C001 loads the same validated config tree through the portable adapter  3817ms
-   ✓ CP0-C-C1 acceptance > C002 cancels a two-cell link without state or effect plan  1390ms
-   ✓ CP0-C-C1 acceptance > C003 builds the deterministic tomato-five effect plan  1307ms
-   ✓ CP0-C-C1 acceptance > C004 makes the effect plan final board hash equal the Domain snapshot  1328ms
-   ✓ CP0-C-C1 acceptance > C005 enables fire after two throws with exact 5/4 units  1356ms
-   ✓ CP0-C-C1 acceptance > C006 fires the target tomato egg recipe with three stars and success  1379ms
-   ✓ CP0-C-C1 acceptance > C007 accepts a third throw but never auto-fires  1326ms
-   ✓ CP0-C-C1 acceptance > C008 continues after warm hotpot reveal without mutating board, queues, or steps  1306ms
-   ✓ CP0-C-C1 acceptance > C009 persists only allowed discovery and best stars, never active-order state  2623ms
-   ✓ CP0-C-C1 acceptance > C010 ignores duplicate animation/cooking callbacks and saves once  1313ms
+ ✓ tests/scenarios/cp0b-scenarios.test.ts (9 tests) 33ms
+ ✓ tests/unit/cp0b-unit.test.ts (24 tests) 1335ms
+   ✓ CP0-B unit rules > U16 0～12全量整数枚举无两道明确配方同时命中  1323ms
+ ✓ tests/c1/cp0c-c1.test.ts (11 tests) 16928ms
+   ✓ CP0-C-C1 acceptance > C001 loads the same validated config tree through the portable adapter  2652ms
+   ✓ CP0-C-C1 acceptance > C002 cancels a two-cell link without state or effect plan  1214ms
+   ✓ CP0-C-C1 acceptance > C003 builds the deterministic tomato-five effect plan  1199ms
+   ✓ CP0-C-C1 acceptance > C004 makes the effect plan final board hash equal the Domain snapshot  1194ms
+   ✓ CP0-C-C1 acceptance > C005 enables fire after two throws with exact 5/4 units  1189ms
+   ✓ CP0-C-C1 acceptance > C006 fires the target tomato egg recipe with three stars and success  1187ms
+   ✓ CP0-C-C1 acceptance > C007 accepts a third throw but never auto-fires  1171ms
+   ✓ CP0-C-C1 acceptance > C008 continues after warm hotpot reveal without mutating board, queues, or steps  1176ms
+   ✓ CP0-C-C1 acceptance > C009 persists only allowed discovery and best stars, never active-order state  2358ms
+   ✓ CP0-C-C1 acceptance > C010 ignores duplicate animation/cooking callbacks and saves once  1182ms
+   ✓ CP0-C-C1 acceptance > C011 cancels an uncommitted link when pausing without mutating run state  2404ms
 
  Test Files  3 passed (3)
-      Tests  43 passed (43)
-   Start at  01:06:49
-   Duration  17.38s (transform 124ms, setup 0ms, collect 3.79s, tests 19.29s, environment 0ms, prepare 129ms)
+      Tests  44 passed (44)
+   Start at  10:45:06
+   Duration  17.21s (transform 210ms, setup 0ms, collect 3.06s, tests 18.30s, environment 0ms, prepare 117ms)
 
 
 > report
@@ -40,13 +41,13 @@ $ npm run test:unit
 
  RUN  v3.2.7 /Users/cc/项目/CookingMatchLab
 
- ✓ tests/unit/cp0b-unit.test.ts (24 tests) 1407ms
-   ✓ CP0-B unit rules > U16 0～12全量整数枚举无两道明确配方同时命中  1394ms
+ ✓ tests/unit/cp0b-unit.test.ts (24 tests) 1332ms
+   ✓ CP0-B unit rules > U16 0～12全量整数枚举无两道明确配方同时命中  1321ms
 
  Test Files  1 passed (1)
       Tests  24 passed (24)
-   Start at  01:07:13
-   Duration  3.09s (transform 69ms, setup 0ms, collect 1.52s, tests 1.41s, environment 0ms, prepare 40ms)
+   Start at  10:45:30
+   Duration  2.81s (transform 60ms, setup 0ms, collect 1.33s, tests 1.33s, environment 0ms, prepare 28ms)
 
 $ npm run test:scenarios
 > test:scenarios
@@ -55,12 +56,12 @@ $ npm run test:scenarios
 
  RUN  v3.2.7 /Users/cc/项目/CookingMatchLab
 
- ✓ tests/scenarios/cp0b-scenarios.test.ts (9 tests) 34ms
+ ✓ tests/scenarios/cp0b-scenarios.test.ts (9 tests) 29ms
 
  Test Files  1 passed (1)
       Tests  9 passed (9)
-   Start at  01:07:17
-   Duration  1.95s (transform 75ms, setup 0ms, collect 1.71s, tests 34ms, environment 0ms, prepare 48ms)
+   Start at  10:45:33
+   Duration  1.52s (transform 54ms, setup 0ms, collect 1.34s, tests 29ms, environment 0ms, prepare 35ms)
 
 $ npm run test:c1
 > test:c1
@@ -69,22 +70,23 @@ $ npm run test:c1
 
  RUN  v3.2.7 /Users/cc/项目/CookingMatchLab
 
- ✓ tests/c1/cp0c-c1.test.ts (10 tests) 18404ms
-   ✓ CP0-C-C1 acceptance > C001 loads the same validated config tree through the portable adapter  2998ms
-   ✓ CP0-C-C1 acceptance > C002 cancels a two-cell link without state or effect plan  2034ms
-   ✓ CP0-C-C1 acceptance > C003 builds the deterministic tomato-five effect plan  1960ms
-   ✓ CP0-C-C1 acceptance > C004 makes the effect plan final board hash equal the Domain snapshot  1496ms
-   ✓ CP0-C-C1 acceptance > C005 enables fire after two throws with exact 5/4 units  1389ms
-   ✓ CP0-C-C1 acceptance > C006 fires the target tomato egg recipe with three stars and success  1419ms
-   ✓ CP0-C-C1 acceptance > C007 accepts a third throw but never auto-fires  1417ms
-   ✓ CP0-C-C1 acceptance > C008 continues after warm hotpot reveal without mutating board, queues, or steps  1429ms
-   ✓ CP0-C-C1 acceptance > C009 persists only allowed discovery and best stars, never active-order state  2799ms
-   ✓ CP0-C-C1 acceptance > C010 ignores duplicate animation/cooking callbacks and saves once  1462ms
+ ✓ tests/c1/cp0c-c1.test.ts (11 tests) 17649ms
+   ✓ CP0-C-C1 acceptance > C001 loads the same validated config tree through the portable adapter  2550ms
+   ✓ CP0-C-C1 acceptance > C002 cancels a two-cell link without state or effect plan  1261ms
+   ✓ CP0-C-C1 acceptance > C003 builds the deterministic tomato-five effect plan  1263ms
+   ✓ CP0-C-C1 acceptance > C004 makes the effect plan final board hash equal the Domain snapshot  1261ms
+   ✓ CP0-C-C1 acceptance > C005 enables fire after two throws with exact 5/4 units  1241ms
+   ✓ CP0-C-C1 acceptance > C006 fires the target tomato egg recipe with three stars and success  1317ms
+   ✓ CP0-C-C1 acceptance > C007 accepts a third throw but never auto-fires  1255ms
+   ✓ CP0-C-C1 acceptance > C008 continues after warm hotpot reveal without mutating board, queues, or steps  1243ms
+   ✓ CP0-C-C1 acceptance > C009 persists only allowed discovery and best stars, never active-order state  2467ms
+   ✓ CP0-C-C1 acceptance > C010 ignores duplicate animation/cooking callbacks and saves once  1259ms
+   ✓ CP0-C-C1 acceptance > C011 cancels an uncommitted link when pausing without mutating run state  2530ms
 
  Test Files  1 passed (1)
-      Tests  10 passed (10)
-   Start at  01:07:19
-   Duration  18.71s (transform 89ms, setup 0ms, collect 98ms, tests 18.40s, environment 0ms, prepare 58ms)
+      Tests  11 passed (11)
+   Start at  10:45:35
+   Duration  17.87s (transform 59ms, setup 0ms, collect 63ms, tests 17.65s, environment 0ms, prepare 39ms)
 
 $ npm run typecheck
 > typecheck

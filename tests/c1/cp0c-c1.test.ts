@@ -157,6 +157,7 @@ describe('CP0-C-C1 acceptance', () => {
     expect(result).toMatchObject({
       recipeId: 'RCP_TOMATO_EGG',
       stars: 3,
+      isNewDiscovery: true,
       orderResult: 'SUCCESS',
     });
     expect(session.phase).toBe('COOKING');
@@ -253,5 +254,35 @@ describe('CP0-C-C1 acceptance', () => {
     const repository = new LocalSaveRepository(storage);
     repository.saveDiscovery(session.snapshot().discovery);
     expect(storage.setItem).toHaveBeenCalledTimes(1);
+  });
+
+  it('C011 cancels an uncommitted link when pausing without mutating run state', () => {
+    const readySession = new PrototypeSession(loadConfigRegistry());
+    const readyBefore = readySession.snapshot();
+    readySession.beginLink(tomatoFive[0]);
+    readySession.extendLink(tomatoFive[1]);
+    readySession.extendLink(tomatoFive[2]);
+    expect(readySession.phase).toBe('LINKING');
+    expect(readySession.activePath()).toHaveLength(3);
+    expect(readySession.pause()).toBe(true);
+    expect(readySession.phase).toBe('PAUSED');
+    expect(readySession.activePath()).toEqual([]);
+    expect(readySession.snapshot()).toEqual(readyBefore);
+    expect(readySession.resume()).toBe(true);
+    expect(readySession.phase).toBe('READY');
+
+    const potSession = new PrototypeSession(loadConfigRegistry());
+    commit(potSession, tomatoFive);
+    const potBefore = potSession.snapshot();
+    const path = findPath(potBefore.board, 3);
+    potSession.beginLink(path[0]);
+    path.slice(1).forEach((coord) => potSession.extendLink(coord));
+    expect(potSession.phase).toBe('LINKING');
+    expect(potSession.pause()).toBe(true);
+    expect(potSession.activePath()).toEqual([]);
+    expect(potSession.snapshot()).toEqual(potBefore);
+    expect(potSession.resume()).toBe(true);
+    expect(potSession.phase).toBe('POT_REVIEW');
+    expect(stableHash(potSession.snapshot())).toBe(stableHash(potBefore));
   });
 });
