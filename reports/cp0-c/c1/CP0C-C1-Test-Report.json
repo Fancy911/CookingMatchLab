@@ -1,11 +1,12 @@
 {
   "reportId": "CP0-C-C1",
-  "generatedAt": "2026-07-30T00:58:00+08:00",
+  "generatedAt": "2026-07-30T10:48:00+08:00",
   "status": "PASS",
   "baseline": {
     "c0FinalCommit": "3f6995a5f79369ac18042b682e5bc5e8a715e1b7",
     "c0MigrationCommit": "19eeecf",
-    "c1FinalCommit": "THIS_REPORT_COMMIT (resolved by the final GitHub commit URL)",
+    "c1AcceptedBaseCommit": "318f9fc01d3c09e0576b9fe40bb34ca35ddd0b05",
+    "c1R1ImplementationCommit": "9c0b242f4d9cb60e800026029326d1637a9f3586",
     "branch": "main",
     "configHash": "8737fa94"
   },
@@ -23,7 +24,7 @@
       "total": "33/33 PASS"
     },
     "c1": {
-      "total": "10/10 PASS",
+      "total": "11/11 PASS",
       "tests": [
         { "id": "C001", "status": "PASS", "actual": "portable/Cocos adapter and Node loader are equivalent; hash 8737fa94" },
         { "id": "C002", "status": "PASS", "actual": "2-cell release produced no state delta and no EffectPlan" },
@@ -34,7 +35,8 @@
         { "id": "C007", "status": "PASS", "actual": "third throw filled slot 3 without automatic fire" },
         { "id": "C008", "status": "PASS", "actual": "RCP_WARM_HOTPOT_MIX; continue preserved board hash, queue hash and 5 steps while clearing pot" },
         { "id": "C009", "status": "PASS", "actual": "discovery and best stars rehydrated; refreshed active run starts at 7 steps with empty pot" },
-        { "id": "C010", "status": "PASS", "actual": "duplicate submit/animation/cooking callbacks were ignored; save called once" }
+        { "id": "C010", "status": "PASS", "actual": "duplicate submit/animation/cooking callbacks were ignored; save called once" },
+        { "id": "C011", "status": "PASS", "actual": "pausing during LINKING clears the uncommitted editor path; resume returns READY/POT_REVIEW while the complete run snapshot and hash remain unchanged" }
       ]
     },
     "commands": "reports/cp0-c/c1/CP0C-C1-Command-Results.json",
@@ -47,29 +49,30 @@
     { "id": "M02", "status": "PASS", "actual": "2-cell release returned to the same 7-step empty-pot state", "evidence": "CP0C-V01-O1-Playable-390x844.mp4" },
     { "id": "M03", "status": "PASS", "actual": "five-cell gesture backtracked twice to exactly 3 cells", "evidence": "CP0C-V01B-Fallback-Continue-390x844.mp4" },
     { "id": "M04", "status": "PASS", "actual": "crossing a different ingredient did not replace or clear the valid same-food path", "evidence": "U03 path-editor regression and runtime touch spot-check" },
-    { "id": "M05", "status": "PASS", "actual": "fixed tomato five path produced 5份", "evidence": "Core-02, Core-03 and V01" },
-    { "id": "M08", "status": "PASS", "actual": "after egg throw, tray showed 5份/4份 and fire changed to 可开火", "evidence": "Core-04-Pot-Review-390x844.png" },
+    { "id": "M05", "status": "PASS", "actual": "fixed tomato path visibly grew to endpoint count 5; five selected tomatoes followed visible staggered arcs into the pot", "evidence": "Core-02, Core-03 and V01" },
+    { "id": "M08", "status": "PASS", "actual": "after egg throw, tray showed 5格 / 5份 and 4格 / 4份 before fire changed to 可开火", "evidence": "Core-04-Pot-Review-390x844.png" },
     { "id": "M09", "status": "PASS", "actual": "third legal throw left phase at POT_REVIEW and did not call fire", "evidence": "C007" },
     { "id": "M10", "status": "PASS", "actual": "deterministic dead-board injection preserved multiset, pot and steps and produced a legal link", "evidence": "U11" },
     { "id": "M11", "status": "PASS", "actual": "tomato egg reveal, ordinary badge, 3 stars, SUCCESS", "evidence": "Core-07 and V01" },
     { "id": "M18", "status": "PASS", "actual": "3 tomato + 4 egg revealed ordinary warm hotpot mix with 1 dynamic star", "evidence": "V01B" },
     { "id": "M19", "status": "PASS", "actual": "continue cleared pot/throws and preserved the resolved board, queue and 5 remaining steps", "evidence": "Core-10 and V01B" },
-    { "id": "M20", "status": "PASS", "actual": "refresh/restart creates a fresh O1 run while retaining discovery and highest stars", "evidence": "C009 plus Cocos local-save integration" }
+    { "id": "M20", "status": "PASS", "actual": "refresh/restart creates a fresh O1 run while retaining discovery and highest stars", "evidence": "C009 plus Cocos local-save integration" },
+    { "id": "R1-PAUSE", "status": "PASS", "actual": "LINKING pause clears line, selection and touch state; resume never restores residual LINKING state", "evidence": "C011 plus CP0ABattleShell.openPause/BattleBoardController.cancelActivePath" }
   ],
   "screenshots": [
-    { "path": "reports/cp0-c/c1/screenshots/Core-01-Battle-Ready-390x844.png", "size": "390x844" },
-    { "path": "reports/cp0-c/c1/screenshots/Core-02-Link-Five-390x844.png", "size": "390x844" },
-    { "path": "reports/cp0-c/c1/screenshots/Core-03-Flying-To-Pot-390x844.png", "size": "390x844" },
-    { "path": "reports/cp0-c/c1/screenshots/Core-04-Pot-Review-390x844.png", "size": "390x844" },
-    { "path": "reports/cp0-c/c1/screenshots/Core-06-Cooking-390x844.png", "size": "390x844" },
-    { "path": "reports/cp0-c/c1/screenshots/Core-07-Reveal-Normal-390x844.png", "size": "390x844" },
-    { "path": "reports/cp0-c/c1/screenshots/Core-10-Continue-After-Wrong-390x844.png", "size": "390x844" },
-    { "path": "reports/cp0-c/c1/screenshots/Layout-Smoke-360x800.png", "size": "360x800" },
-    { "path": "reports/cp0-c/c1/screenshots/Layout-Smoke-412x915.png", "size": "412x915" }
+    { "path": "reports/cp0-c/c1/screenshots/Core-01-Battle-Ready-390x844.png", "format": "PNG", "pngSignature": true, "size": "390x844" },
+    { "path": "reports/cp0-c/c1/screenshots/Core-02-Link-Five-390x844.png", "format": "PNG", "pngSignature": true, "size": "390x844" },
+    { "path": "reports/cp0-c/c1/screenshots/Core-03-Flying-To-Pot-390x844.png", "format": "PNG", "pngSignature": true, "size": "390x844" },
+    { "path": "reports/cp0-c/c1/screenshots/Core-04-Pot-Review-390x844.png", "format": "PNG", "pngSignature": true, "size": "390x844" },
+    { "path": "reports/cp0-c/c1/screenshots/Core-06-Cooking-390x844.png", "format": "PNG", "pngSignature": true, "size": "390x844" },
+    { "path": "reports/cp0-c/c1/screenshots/Core-07-Reveal-Normal-390x844.png", "format": "PNG", "pngSignature": true, "size": "390x844" },
+    { "path": "reports/cp0-c/c1/screenshots/Core-10-Continue-After-Wrong-390x844.png", "format": "PNG", "pngSignature": true, "size": "390x844" },
+    { "path": "reports/cp0-c/c1/screenshots/Layout-Smoke-360x800.png", "format": "PNG", "pngSignature": true, "size": "360x800" },
+    { "path": "reports/cp0-c/c1/screenshots/Layout-Smoke-412x915.png", "format": "PNG", "pngSignature": true, "size": "412x915" }
   ],
   "recordings": [
-    { "path": "reports/cp0-c/c1/recordings/CP0C-V01-O1-Playable-390x844.mp4", "size": "390x844", "fps": 30, "durationSeconds": 46.033, "uncut": true },
-    { "path": "reports/cp0-c/c1/recordings/CP0C-V01B-Fallback-Continue-390x844.mp4", "size": "390x844", "fps": 30, "durationSeconds": 36.033, "uncut": true }
+    { "path": "reports/cp0-c/c1/recordings/CP0C-V01-O1-Playable-390x844.mp4", "size": "390x844", "fps": 30, "durationSeconds": 46.933, "uncut": true, "gestureEvidence": "slow path growth, backtrack and re-extension are visible" },
+    { "path": "reports/cp0-c/c1/recordings/CP0C-V01B-Fallback-Continue-390x844.mp4", "size": "390x844", "fps": 30, "durationSeconds": 36.867, "uncut": true, "gestureEvidence": "five-cell tomato path visibly backtracks to three; full warm-hotpot reveal precedes continue" }
   ],
   "performance": {
     "sampleFrames": 146,
@@ -95,10 +98,25 @@
     "configDiff": 0,
     "scenePrefabDiff": 0,
     "existingArtDiff": 0,
-    "intentionalPresentationChange": "CP0ABattleShell now drives real state while retaining the accepted CP0-A visual coordinates and modular assets",
+    "intentionalPresentationChange": "C1-R1 adds path-count feedback, deferred throw presentation, cooking feedback, discovery status and pause cleanup while retaining accepted CP0-A coordinates and assets",
     "newArtOnly": "dish_warm_hotpot_mix.png"
   },
   "knownLimitations": [],
+  "r1Verification": {
+    "linkLayerOrder": "board slots -> cream path -> ingredient icons -> endpoint count badge/touch indicator",
+    "throwSequence": [
+      "remaining steps update",
+      "selected ingredients leave board",
+      "every selected ingredient follows a staggered visible arc",
+      "pot ingredient feedback appears",
+      "throw slot displays pathLength and units",
+      "fire state updates"
+    ],
+    "cookingFeedback": ["flame", "lid motion", "pot shake", "steam", "warm completion flash"],
+    "revealDiscoveryStatus": "FireResult.isNewDiscovery selects 首次发现 or 再次完成",
+    "pauseRegression": "C011 PASS",
+    "pngAudit": "9/9 PNG signatures and dimensions PASS"
+  },
   "scope": {
     "cp0dStarted": false,
     "statement": "CP0-D has not started."
