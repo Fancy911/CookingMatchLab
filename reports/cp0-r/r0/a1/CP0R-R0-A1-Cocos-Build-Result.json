@@ -1,0 +1,79 @@
+{
+  "reportId": "CP0-R-R0-A1-COCOS-BUILD",
+  "generatedAt": "2026-08-01T16:36:33.841Z",
+  "status": "PASS",
+  "creatorVersion": "3.8.8",
+  "platform": "web-mobile",
+  "debug": false,
+  "command": {
+    "executable": "/Applications/CocosCreator.app/Contents/MacOS/CocosCreator",
+    "args": [
+      "--project",
+      "<PROJECT_ROOT>",
+      "--build",
+      "platform=web-mobile;debug=false;buildPath=project://build;outputName=cp0r-r0-a1-web-mobile"
+    ],
+    "startedAt": "2026-08-01T16:36:23.882Z",
+    "finishedAt": "2026-08-01T16:36:33.841Z",
+    "durationMs": 9970
+  },
+  "buildArtifact": {
+    "directory": "build/cp0r-r0-a1-web-mobile",
+    "entryFile": "build/cp0r-r0-a1-web-mobile/index.html",
+    "fileCount": 126,
+    "requiredFiles": [
+      {
+        "path": "application.js",
+        "exists": true
+      },
+      {
+        "path": "index.html",
+        "exists": true
+      },
+      {
+        "path": "index.js",
+        "exists": true
+      },
+      {
+        "path": "src/settings.json",
+        "exists": true
+      }
+    ],
+    "manifestSha256": "081787f53198ba683272c1dc3f9a2c0888474ad39fa24a696072dd1c8a772514"
+  },
+  "verification": {
+    "creatorVersionConfigured": true,
+    "shellRegistered": true,
+    "engineVersionConfirmed": true,
+    "buildFinished": true,
+    "actualExitCode": 36,
+    "actualSignal": null,
+    "actualExitCodeAccepted": true,
+    "artifactDirectoryExists": true,
+    "entryFileExists": true,
+    "artifactFileCount": 126,
+    "requiredFiles": [
+      {
+        "path": "application.js",
+        "exists": true
+      },
+      {
+        "path": "index.html",
+        "exists": true
+      },
+      {
+        "path": "index.js",
+        "exists": true
+      },
+      {
+        "path": "src/settings.json",
+        "exists": true
+      }
+    ],
+    "artifactManifestSha256": "081787f53198ba683272c1dc3f9a2c0888474ad39fa24a696072dd1c8a772514",
+    "failureMarkers": []
+  },
+  "exitCode36Rationale": "Cocos/Electron returned 36 after emitting Build Assets success and the named build-finished marker. PASS additionally requires a fresh artifact directory, index.html, all required key files, a non-empty manifest, confirmed engine 3.8.8, and zero failure markers.",
+  "rawOutputSha256": "610d93961d50a39880b42878ac37045e3e9eadf7d4d16bf2db5859d51f0b241d",
+  "retainedLog": "reports/cp0-r/r0/a1/CP0R-R0-A1-Cocos-Build-3.8.8.log"
+}

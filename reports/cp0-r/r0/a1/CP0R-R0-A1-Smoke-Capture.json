@@ -1,0 +1,27 @@
+{
+  "reportId": "CP0-R-R0-A1-SMOKE-CAPTURE",
+  "capturedAt": "2026-08-01T16:41:01Z",
+  "implementationCommit": "4d6adefe97f04cf0411bb12482906d6702a9cd4f",
+  "sourceUrl": "http://127.0.0.1:7458/",
+  "buildArtifactDirectory": "build/cp0r-r0-a1-web-mobile",
+  "buildManifestSha256": "081787f53198ba683272c1dc3f9a2c0888474ad39fa24a696072dd1c8a772514",
+  "viewport": {
+    "width": 390,
+    "height": 844,
+    "devicePixelRatio": 1
+  },
+  "canvas": {
+    "width": 390,
+    "height": 844
+  },
+  "runtimeEvidence": {
+    "title": "Cocos Creator | CookingMatchLab",
+    "consoleMessage": "[CP0-R0-A1] canonical schema v2 config hash a35691f9",
+    "consoleSource": "http://127.0.0.1:7458/assets/main/index.js",
+    "configHash": "a35691f9"
+  },
+  "screenshot": "reports/cp0-r/r0/a1/CP0R-R0-A1-Stage-Protection-390x844.png",
+  "screenshotSha256": "54d19cd63cb39281bec09f85db3fec1b60f0a205aeb1f9c43b86083cc5c7c0ec",
+  "pngSignatureVerified": true,
+  "status": "PASS"
+}

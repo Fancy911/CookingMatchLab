@@ -1,0 +1,58 @@
+{
+  "reportId": "CP0-R-R0-A1-ARCHITECTURE",
+  "generatedAt": "2026-08-01T16:41:30.547Z",
+  "status": "PASS",
+  "checks": {
+    "A001": true,
+    "A002": true,
+    "A003": true,
+    "A004": true,
+    "A005": true,
+    "A006": true,
+    "A007": true,
+    "A008": true
+  },
+  "canonicalClasses": [
+    "PotModel",
+    "RecipeResolver",
+    "StarCalculator",
+    "TimedResearchSession",
+    "CookingHistoryModel",
+    "ConfigRegistry"
+  ],
+  "canonicalTypes": [
+    "GameplayConfig",
+    "RecipeConfig",
+    "OrderConfig",
+    "ScenarioConfig",
+    "ThrowRecord",
+    "CookResult"
+  ],
+  "removedParallelClasses": [
+    "R0PotModel",
+    "R0RecipeResolver",
+    "R0StarCalculator"
+  ],
+  "removedParallelTypes": [
+    "R0GameplayConfig",
+    "R0RecipeConfig",
+    "R0OrderConfig",
+    "R0ScenarioConfig",
+    "R0ThrowRecord",
+    "R0CookResult"
+  ],
+  "removedFiles": [
+    "assets/game/scripts/application/cp0c/R0ConfigRegistry.ts",
+    "tools/cp0b/R0NodeConfigLoader.ts",
+    "tools/cp0b/R0ScenarioRunner.ts",
+    "tests/c1/cp0c-c1.SUPERSEDED_BY_V2.ts",
+    "tests/scenarios/cp0b-scenarios.SUPERSEDED_BY_V2.ts",
+    "tests/unit/cp0b-unit.SUPERSEDED_BY_V2.ts"
+  ],
+  "configRegistryDeclarationCount": 1,
+  "domainRuleDeclarationCounts": {
+    "PotModel": 1,
+    "RecipeResolver": 1,
+    "StarCalculator": 1
+  }
+}

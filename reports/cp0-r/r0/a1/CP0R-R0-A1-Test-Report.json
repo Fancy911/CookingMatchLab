@@ -1,0 +1,250 @@
+{
+  "reportId": "CP0-R-R0-A1",
+  "generatedAt": "2026-08-01T16:41:30.557Z",
+  "status": "PASS",
+  "scope": "CP0-R0 acceptance fix A1 only; CP0-R1 not started",
+  "commits": {
+    "originalR0Commit": "bce05a6a67a35e212f011e99194ad4523fea444e",
+    "implementationCommit": "4d6adefe97f04cf0411bb12482906d6702a9cd4f",
+    "reportArchiveCommit": "PENDING_REPORT_ARCHIVE_COMMIT",
+    "reportGenerationHead": "4d6adefe97f04cf0411bb12482906d6702a9cd4f"
+  },
+  "environment": {
+    "creatorVersion": "3.8.8",
+    "nodeVersion": "v22.22.2"
+  },
+  "config": {
+    "schemaVersion": 2,
+    "hash": "a35691f9",
+    "repeatedHashStable": true,
+    "canonicalDirectory": "assets/resources/game/config/cp0-b"
+  },
+  "architecture": {
+    "reportId": "CP0-R-R0-A1-ARCHITECTURE",
+    "generatedAt": "2026-08-01T16:41:30.547Z",
+    "status": "PASS",
+    "checks": {
+      "A001": true,
+      "A002": true,
+      "A003": true,
+      "A004": true,
+      "A005": true,
+      "A006": true,
+      "A007": true,
+      "A008": true
+    },
+    "canonicalClasses": [
+      "PotModel",
+      "RecipeResolver",
+      "StarCalculator",
+      "TimedResearchSession",
+      "CookingHistoryModel",
+      "ConfigRegistry"
+    ],
+    "canonicalTypes": [
+      "GameplayConfig",
+      "RecipeConfig",
+      "OrderConfig",
+      "ScenarioConfig",
+      "ThrowRecord",
+      "CookResult"
+    ],
+    "removedParallelClasses": [
+      "R0PotModel",
+      "R0RecipeResolver",
+      "R0StarCalculator"
+    ],
+    "removedParallelTypes": [
+      "R0GameplayConfig",
+      "R0RecipeConfig",
+      "R0OrderConfig",
+      "R0ScenarioConfig",
+      "R0ThrowRecord",
+      "R0CookResult"
+    ],
+    "removedFiles": [
+      "assets/game/scripts/application/cp0c/R0ConfigRegistry.ts",
+      "tools/cp0b/R0NodeConfigLoader.ts",
+      "tools/cp0b/R0ScenarioRunner.ts",
+      "tests/c1/cp0c-c1.SUPERSEDED_BY_V2.ts",
+      "tests/scenarios/cp0b-scenarios.SUPERSEDED_BY_V2.ts",
+      "tests/unit/cp0b-unit.SUPERSEDED_BY_V2.ts"
+    ],
+    "configRegistryDeclarationCount": 1,
+    "domainRuleDeclarationCounts": {
+      "PotModel": 1,
+      "RecipeResolver": 1,
+      "StarCalculator": 1
+    }
+  },
+  "tests": {
+    "R001_R024": "24/24 PASS",
+    "A001_A008": "8/8 PASS",
+    "RS01_RS05": "6/6 cases PASS",
+    "commandResults": {
+      "reportId": "CP0-R-R0-A1-COMMAND-RESULTS",
+      "generatedAt": "2026-08-01T16:34:51.170Z",
+      "status": "PASS",
+      "nodeVersion": "v22.22.2",
+      "commands": [
+        {
+          "command": "npm test",
+          "startedAt": "2026-08-01T16:34:48.448Z",
+          "finishedAt": "2026-08-01T16:34:49.005Z",
+          "durationMs": 557,
+          "exitCode": 0,
+          "signal": null,
+          "status": "PASS",
+          "outputSha256": "39fe50eb2ec8a86b90d9d02dd484c2baa2688b284427a0b7cf8066c20e1525c4"
+        },
+        {
+          "command": "npm run test:unit",
+          "startedAt": "2026-08-01T16:34:49.005Z",
+          "finishedAt": "2026-08-01T16:34:49.545Z",
+          "durationMs": 539,
+          "exitCode": 0,
+          "signal": null,
+          "status": "PASS",
+          "outputSha256": "4897aa60c39e3652f53a9fff063c0989ed2210b6e66a2a2465297f76834f93e6"
+        },
+        {
+          "command": "npm run test:scenarios",
+          "startedAt": "2026-08-01T16:34:49.545Z",
+          "finishedAt": "2026-08-01T16:34:50.032Z",
+          "durationMs": 487,
+          "exitCode": 0,
+          "signal": null,
+          "status": "PASS",
+          "outputSha256": "ba639273fc65b930c6379c70b9ad63b73d6a529ca18de9b8d316c3e33d855f38"
+        },
+        {
+          "command": "npm run test:r0",
+          "startedAt": "2026-08-01T16:34:50.032Z",
+          "finishedAt": "2026-08-01T16:34:50.600Z",
+          "durationMs": 568,
+          "exitCode": 0,
+          "signal": null,
+          "status": "PASS",
+          "outputSha256": "87d16faaf4d14801c218ce7ea870227021d1155b4ab7edb14636065c530d92cf"
+        },
+        {
+          "command": "npm run typecheck",
+          "startedAt": "2026-08-01T16:34:50.600Z",
+          "finishedAt": "2026-08-01T16:34:51.170Z",
+          "durationMs": 569,
+          "exitCode": 0,
+          "signal": null,
+          "status": "PASS",
+          "outputSha256": "aae295b7a6d53a806fd95bbd8ac992dc8b13a1e291666431e0395f141e25078d"
+        }
+      ]
+    }
+  },
+  "scenarios": [
+    {
+      "scenarioId": "RS01_TUTORIAL_REPEAT",
+      "caseId": "REPEAT_TOMATO_EGG",
+      "status": "PASS",
+      "finalSnapshotHash": "e1a6696c"
+    },
+    {
+      "scenarioId": "RS02_MULTI_RECIPE",
+      "caseId": "POTATO_CAKE_THEN_SOUP",
+      "status": "PASS",
+      "finalSnapshotHash": "a1d83213"
+    },
+    {
+      "scenarioId": "RS03_DARK",
+      "caseId": "DARK_THEN_NORMAL",
+      "status": "PASS",
+      "finalSnapshotHash": "a2a56101"
+    },
+    {
+      "scenarioId": "RS04_INSPIRATION",
+      "caseId": "INSPIRATION_THEN_NEXT_POT",
+      "status": "PASS",
+      "finalSnapshotHash": "55428571"
+    },
+    {
+      "scenarioId": "RS05_TIMER_END",
+      "caseId": "FIVE_UNITS_AUTO_FIRE",
+      "status": "PASS",
+      "finalSnapshotHash": "c9742611"
+    },
+    {
+      "scenarioId": "RS05_TIMER_END",
+      "caseId": "THREE_UNITS_PARTIAL",
+      "status": "PASS",
+      "finalSnapshotHash": "56d47970"
+    }
+  ],
+  "enumeration": {
+    "status": "PASS",
+    "baseCombinationCount": 840,
+    "tagStateCount": 4,
+    "evaluatedInputCount": 3360,
+    "recipeHitCounts": {
+      "RCP_TOMATO_EGG": 4,
+      "RCP_SCALLION_POTATO_CAKE": 4,
+      "RCP_GARDEN_MUSHROOM_SOUP": 4,
+      "RCP_WARM_HOTPOT_MIX": 3342,
+      "RCP_CHARRED_TOMATO_POTATO_BALL": 4,
+      "RCP_STAR_MUSHROOM_EGG_CUP": 2
+    },
+    "conflictCount": 0,
+    "noResultCount": 0,
+    "unstableCount": 0
+  },
+  "cocos": {
+    "status": "PASS",
+    "actualExitCode": 36,
+    "buildFinished": true,
+    "artifactDirectoryExists": true,
+    "entryFileExists": true,
+    "artifactFileCount": 126,
+    "artifactDirectory": "build/cp0r-r0-a1-web-mobile",
+    "entryFile": "build/cp0r-r0-a1-web-mobile/index.html",
+    "artifactManifestSha256": "081787f53198ba683272c1dc3f9a2c0888474ad39fa24a696072dd1c8a772514",
+    "exitCodeDecision": "Cocos/Electron returned 36 after emitting Build Assets success and the named build-finished marker. PASS additionally requires a fresh artifact directory, index.html, all required key files, a non-empty manifest, confirmed engine 3.8.8, and zero failure markers.",
+    "screenshot": "reports/cp0-r/r0/a1/CP0R-R0-A1-Stage-Protection-390x844.png",
+    "screenshotAudit": {
+      "status": "PASS",
+      "pngSignature": true,
+      "width": 390,
+      "height": 844,
+      "sha256": "54d19cd63cb39281bec09f85db3fec1b60f0a205aeb1f9c43b86083cc5c7c0ec"
+    },
+    "capture": {
+      "reportId": "CP0-R-R0-A1-SMOKE-CAPTURE",
+      "capturedAt": "2026-08-01T16:41:01Z",
+      "implementationCommit": "4d6adefe97f04cf0411bb12482906d6702a9cd4f",
+      "sourceUrl": "http://127.0.0.1:7458/",
+      "buildArtifactDirectory": "build/cp0r-r0-a1-web-mobile",
+      "buildManifestSha256": "081787f53198ba683272c1dc3f9a2c0888474ad39fa24a696072dd1c8a772514",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "devicePixelRatio": 1
+      },
+      "canvas": {
+        "width": 390,
+        "height": 844
+      },
+      "runtimeEvidence": {
+        "title": "Cocos Creator | CookingMatchLab",
+        "consoleMessage": "[CP0-R0-A1] canonical schema v2 config hash a35691f9",
+        "consoleSource": "http://127.0.0.1:7458/assets/main/index.js",
+        "configHash": "a35691f9"
+      },
+      "screenshot": "reports/cp0-r/r0/a1/CP0R-R0-A1-Stage-Protection-390x844.png",
+      "screenshotSha256": "54d19cd63cb39281bec09f85db3fec1b60f0a205aeb1f9c43b86083cc5c7c0ec",
+      "pngSignatureVerified": true,
+      "status": "PASS"
+    },
+    "screenshotMatchesCurrentBuild": true
+  },
+  "knownTemporaryItems": [
+    "The old Battle runtime is intentionally replaced by the A1 stage-protection screen until CP0-R1.",
+    "No timer HUD, multi-pot presentation, audio playback, research map, or formal save I/O is implemented."
+  ]
+}

@@ -1,0 +1,58 @@
+{
+  "reportId": "CP0-R-R0-A1-COMMAND-RESULTS",
+  "generatedAt": "2026-08-01T16:34:51.170Z",
+  "status": "PASS",
+  "nodeVersion": "v22.22.2",
+  "commands": [
+    {
+      "command": "npm test",
+      "startedAt": "2026-08-01T16:34:48.448Z",
+      "finishedAt": "2026-08-01T16:34:49.005Z",
+      "durationMs": 557,
+      "exitCode": 0,
+      "signal": null,
+      "status": "PASS",
+      "outputSha256": "39fe50eb2ec8a86b90d9d02dd484c2baa2688b284427a0b7cf8066c20e1525c4"
+    },
+    {
+      "command": "npm run test:unit",
+      "startedAt": "2026-08-01T16:34:49.005Z",
+      "finishedAt": "2026-08-01T16:34:49.545Z",
+      "durationMs": 539,
+      "exitCode": 0,
+      "signal": null,
+      "status": "PASS",
+      "outputSha256": "4897aa60c39e3652f53a9fff063c0989ed2210b6e66a2a2465297f76834f93e6"
+    },
+    {
+      "command": "npm run test:scenarios",
+      "startedAt": "2026-08-01T16:34:49.545Z",
+      "finishedAt": "2026-08-01T16:34:50.032Z",
+      "durationMs": 487,
+      "exitCode": 0,
+      "signal": null,
+      "status": "PASS",
+      "outputSha256": "ba639273fc65b930c6379c70b9ad63b73d6a529ca18de9b8d316c3e33d855f38"
+    },
+    {
+      "command": "npm run test:r0",
+      "startedAt": "2026-08-01T16:34:50.032Z",
+      "finishedAt": "2026-08-01T16:34:50.600Z",
+      "durationMs": 568,
+      "exitCode": 0,
+      "signal": null,
+      "status": "PASS",
+      "outputSha256": "87d16faaf4d14801c218ce7ea870227021d1155b4ab7edb14636065c530d92cf"
+    },
+    {
+      "command": "npm run typecheck",
+      "startedAt": "2026-08-01T16:34:50.600Z",
+      "finishedAt": "2026-08-01T16:34:51.170Z",
+      "durationMs": 569,
+      "exitCode": 0,
+      "signal": null,
+      "status": "PASS",
+      "outputSha256": "aae295b7a6d53a806fd95bbd8ac992dc8b13a1e291666431e0395f141e25078d"
+    }
+  ]
+}

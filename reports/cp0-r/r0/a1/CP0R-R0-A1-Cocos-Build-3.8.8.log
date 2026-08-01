@@ -1,0 +1,29 @@
+# CP0-R0-A1 Cocos Creator build evidence
+generatedAt=2026-08-01T16:36:33.841Z
+creatorVersion=3.8.8
+platform=web-mobile
+debug=false
+actualExitCode=36
+actualSignal=none
+actualExitCodeAccepted=true
+buildFinished=true
+artifactDirectoryExists=true
+entryFileExists=true
+artifactFileCount=126
+artifactManifestSha256=081787f53198ba683272c1dc3f9a2c0888474ad39fa24a696072dd1c8a772514
+requiredFiles=application.js:true,index.html:true,index.js:true,src/settings.json:true
+failureMarkers=none
+status=PASS
+rawOutputSha256=610d93961d50a39880b42878ac37045e3e9eadf7d4d16bf2db5859d51f0b241d
+
+# Exit-code decision
+Cocos/Electron returned 36 after emitting Build Assets success and the named build-finished marker. PASS additionally requires a fresh artifact directory, index.html, all required key files, a non-empty manifest, confirmed engine 3.8.8, and zero failure markers.
+
+# Sanitized key build lines
+Arguments:
+  project: <PROJECT_ROOT>
+[EditorQuickCompiler]Version information looks good.
+2026-8-2 00:36:30 - debug: [[Executor]] Register CP0ABattleShell
+engineVersion="3.8.8",
+2026-8-2 00:36:33 - log: run build task Build Assets success in 52 ms√, progress: 27%
+2026-8-2 00:36:33 - debug: ================================ build Task (cp0r-r0-a1-web-mobile) Finished in (3 s)ms ================================
