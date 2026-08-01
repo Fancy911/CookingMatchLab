@@ -5,6 +5,7 @@
     "assets/game/scripts/application/cp0c/**/*.ts",
     "assets/game/scripts/infrastructure/JsonConfigAdapter.ts",
     "assets/game/scripts/infrastructure/LocalSaveRepository.ts",
+    "assets/game/scripts/presentation/R1AStaticViewModels.ts",
     "tools/cp0b/**/*.ts",
     "tests/**/*.ts",
     "scripts/**/*.ts",

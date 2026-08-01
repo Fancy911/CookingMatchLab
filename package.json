@@ -11,6 +11,7 @@
     "test:unit": "vitest run --config vitest.config.mjs --configLoader native tests/r0/cp0r-r0-unit.test.ts tests/r0/cp0r-r0-architecture.test.ts",
     "test:scenarios": "vitest run --config vitest.config.mjs --configLoader native tests/r0/cp0r-r0-scenarios.test.ts",
     "test:r0": "vitest run --config vitest.config.mjs --configLoader native tests/r0",
+    "test:r1a": "vitest run --config vitest.config.mjs --configLoader native tests/r1a",
     "test:c1": "vitest run --config vitest.config.mjs --configLoader native tests/c1",
     "typecheck": "tsc -p tsconfig.cp0b.json --noEmit",
     "report:r0": "tsx scripts/generate-cp0r-r0-report.ts",
@@ -19,7 +20,10 @@
     "verify:c1": "node scripts/run-cp0c-c1-verification.mjs",
     "build-evidence:c1": "node scripts/capture-cp0c-c1-cocos-build.mjs",
     "verify:r0": "node scripts/run-cp0r-r0-verification.mjs",
-    "build-evidence:r0": "node scripts/capture-cp0r-r0-cocos-build.mjs"
+    "build-evidence:r0": "node scripts/capture-cp0r-r0-cocos-build.mjs",
+    "verify:r1a": "node scripts/run-cp0r-r1a-verification.mjs",
+    "build-evidence:r1a": "node scripts/capture-cp0r-r1a-cocos-build.mjs",
+    "report:r1a": "tsx scripts/generate-cp0r-r1a-report.ts"
   },
   "devDependencies": {
     "@types/node": "24.1.0",

@@ -104,14 +104,14 @@ describe('CP0-R0-A1 canonical architecture', () => {
     );
   });
 
-  it('A008 stage protection follows successful loading instead of the failure path', () => {
-    expect(shellSource).toContain('await new CocosJsonConfigLoader().load()');
-    expect(shellSource).toContain('this.showStageProtection(registry.configHash)');
-    expect(shellSource).toContain('CP0-R0规则验证完成');
-    expect(shellSource).toContain('新核心循环将在CP0-R1接入可玩界面');
-    expect(shellSource.indexOf('this.showStageProtection(registry.configHash)'))
-      .toBeGreaterThan(shellSource.indexOf('await new CocosJsonConfigLoader().load()'));
+  it('A008 authorized R1-A shell follows successful canonical loading', () => {
+    expect(shellSource).toContain('new CocosJsonConfigLoader().load()');
+    expect(shellSource).toContain("registry.configHash !== 'a35691f9'");
+    expect(shellSource).toContain('this.buildVisualShell()');
+    expect(shellSource).toContain('this.renderState(this.state)');
+    expect(shellSource).not.toContain('PrototypeSession');
+    expect(shellSource).not.toContain('BattleBoardController');
     expect(shellSource).toContain("this.bootstrap().catch");
-    expect(shellSource).toContain("'配置加载失败'");
+    expect(shellSource).toContain('R1-A 配置加载失败');
   });
 });
