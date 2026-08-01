@@ -5,11 +5,11 @@ import {
   BoardModel,
   CookingHistoryModel,
   PathValidator,
-  R0PotModel,
-  R0RecipeResolver,
-  R0StarCalculator,
+  PotModel,
+  RecipeResolver,
+  StarCalculator,
   TimedResearchSession,
-  calculateR0LinkScore,
+  calculateLinkScore,
   comboMultiplierFor,
   migrateSaveV1ToV2,
   processingLevelFor,
@@ -20,18 +20,18 @@ import type {
   CookingHistoryState,
   IngredientId,
   IngredientUnits,
-  R0CookResult,
-  R0ScenarioConfig,
+  CookResult,
+  ScenarioConfig,
   SaveDataV1,
 } from '../../assets/game/scripts/domain/cp0b/types';
-import { R0ConfigRegistry } from '../../assets/game/scripts/application/cp0c/R0ConfigRegistry';
+import { ConfigRegistry } from '../../assets/game/scripts/application/cp0c/ConfigRegistry';
 import {
-  defaultR0ConfigDirectory,
-  loadR0ConfigRegistry,
-} from '../../tools/cp0b/R0NodeConfigLoader';
-import { runR0ScenarioCase } from './helpers';
+  defaultConfigDirectory,
+  loadConfigRegistry,
+} from '../../tools/cp0b/NodeConfigLoader';
+import { runScenarioCase } from './helpers';
 
-const registry = loadR0ConfigRegistry();
+const registry = loadConfigRegistry();
 const cells = (
   ingredientId: IngredientId,
   count: number,
@@ -40,7 +40,7 @@ const cells = (
   ingredientId,
   inspiration: inspirationAt.includes(index),
 }));
-const scenario = (id: R0ScenarioConfig['id']): R0ScenarioConfig =>
+const scenario = (id: ScenarioConfig['id']): ScenarioConfig =>
   registry.scenarioById.get(id)!;
 
 const simpleSession = (pathIngredient: IngredientId = 'ING_TOMATO'): TimedResearchSession => {
@@ -64,7 +64,7 @@ const simpleSession = (pathIngredient: IngredientId = 'ING_TOMATO'): TimedResear
 describe('CP0-R0 R001-R024', () => {
   it('R001 3/5/7/9连均只增加1份', () => {
     [3, 5, 7, 9].forEach((length) => {
-      const pot = new R0PotModel(registry.gameplay);
+      const pot = new PotModel(registry.gameplay);
       const result = pot.addThrow(cells('ING_TOMATO', length), 1);
       expect(result.units).toBe(1);
       expect(pot.units).toEqual({ ING_TOMATO: 1 });
@@ -82,7 +82,7 @@ describe('CP0-R0 R001-R024', () => {
   });
 
   it('R003 4份可开火，6份进入满锅自动开火准备', () => {
-    const pot = new R0PotModel(registry.gameplay);
+    const pot = new PotModel(registry.gameplay);
     for (let index = 0; index < 4; index += 1) {
       pot.addThrow(cells('ING_TOMATO', 3), index + 1);
     }
@@ -142,7 +142,7 @@ describe('CP0-R0 R001-R024', () => {
     ] as const;
     cases.forEach(([length, level, score, audio]) => {
       expect(processingLevelFor(registry.gameplay, length)).toBe(level);
-      expect(calculateR0LinkScore(registry.gameplay, length, false, 1)).toBe(score);
+      expect(calculateLinkScore(registry.gameplay, length, false, 1)).toBe(score);
       expect(registry.gameplay.longLink.audioEvents[level]).toBe(audio);
     });
   });
@@ -180,7 +180,7 @@ describe('CP0-R0 R001-R024', () => {
   });
 
   it('R009 灵感格只投1份并写入INSPIRATION标签', () => {
-    const pot = new R0PotModel(registry.gameplay);
+    const pot = new PotModel(registry.gameplay);
     const result = pot.addThrow(cells('ING_MUSHROOM', 3, [2]), 1);
     expect(result.units).toBe(1);
     expect(pot.units).toEqual({ ING_MUSHROOM: 1 });
@@ -189,7 +189,7 @@ describe('CP0-R0 R001-R024', () => {
   });
 
   it('R010 六道配方标准输入得到唯一正确料理', () => {
-    const resolver = new R0RecipeResolver(registry.recipes);
+    const resolver = new RecipeResolver(registry.recipes);
     const cases: Array<[IngredientUnits, Array<'INSPIRATION' | 'MASTER'>, string]> = [
       [{ ING_TOMATO: 2, ING_EGG: 2, ING_SCALLION: 1 }, [], 'RCP_TOMATO_EGG'],
       [{ ING_POTATO: 3, ING_EGG: 1, ING_SCALLION: 1 }, [], 'RCP_SCALLION_POTATO_CAKE'],
@@ -203,7 +203,7 @@ describe('CP0-R0 R001-R024', () => {
   });
 
   it('R011 4～6份全量枚举无重叠、无空结果且稳定', () => {
-    const resolver = new R0RecipeResolver(registry.recipes);
+    const resolver = new RecipeResolver(registry.recipes);
     const ids = [...registry.ingredientById.keys()];
     const tagStates: Array<Array<'INSPIRATION' | 'MASTER'>> = [
       [], ['INSPIRATION'], ['MASTER'], ['INSPIRATION', 'MASTER'],
@@ -238,7 +238,7 @@ describe('CP0-R0 R001-R024', () => {
   });
 
   it('R012 星级公式正确且暖锅最高2星', () => {
-    const calculator = new R0StarCalculator(registry.gameplay);
+    const calculator = new StarCalculator(registry.gameplay);
     const explicit = registry.recipeById.get('RCP_TOMATO_EGG')!;
     expect(calculator.calculate(explicit, 60)).toEqual({
       stars: 2,
@@ -257,8 +257,8 @@ describe('CP0-R0 R001-R024', () => {
   });
 
   it('R013 研究线索不改变料理身份和星级', () => {
-    const resolver = new R0RecipeResolver(registry.recipes);
-    const calculator = new R0StarCalculator(registry.gameplay);
+    const resolver = new RecipeResolver(registry.recipes);
+    const calculator = new StarCalculator(registry.gameplay);
     const units = { ING_TOMATO: 2, ING_EGG: 2, ING_SCALLION: 1 };
     const recipe = resolver.resolve(units, []);
     const first = calculator.calculate(recipe, 80);
@@ -268,7 +268,7 @@ describe('CP0-R0 R001-R024', () => {
   });
 
   it('R014 同菜可在一局重复生成并从1计数到2', () => {
-    const run = runR0ScenarioCase(
+    const run = runScenarioCase(
       registry,
       scenario('RS01_TUTORIAL_REPEAT'),
       scenario('RS01_TUTORIAL_REPEAT').cases[0],
@@ -282,7 +282,7 @@ describe('CP0-R0 R001-R024', () => {
 
   it('R015 cookResultId重复提交不会二次累计', () => {
     const history = new CookingHistoryModel();
-    const result: R0CookResult = {
+    const result: CookResult = {
       cookResultId: 'fixed-result',
       recipeId: 'RCP_TOMATO_EGG',
       stars: 2,
@@ -331,7 +331,7 @@ describe('CP0-R0 R001-R024', () => {
   });
 
   it('R017 每道正式料理后研究线索确定推进', () => {
-    const run = runR0ScenarioCase(
+    const run = runScenarioCase(
       registry,
       scenario('RS02_MULTI_RECIPE'),
       scenario('RS02_MULTI_RECIPE').cases[0],
@@ -342,7 +342,7 @@ describe('CP0-R0 R001-R024', () => {
 
   it('R018 1～3份超时只生成半成品且不计制作次数', () => {
     const config = scenario('RS05_TIMER_END');
-    const run = runR0ScenarioCase(registry, config, config.cases[1]);
+    const run = runScenarioCase(registry, config, config.cases[1]);
     expect(run.session.phase).toBe('PARTIAL_RESULT');
     expect(run.session.partialResultCount).toBe(1);
     expect(run.session.cookResults).toHaveLength(0);
@@ -389,13 +389,13 @@ describe('CP0-R0 R001-R024', () => {
 
   it('R020 同配置、seed、时间脚本和操作得到同hash', () => {
     const config = scenario('RS04_INSPIRATION');
-    const first = runR0ScenarioCase(registry, config, config.cases[0]).session;
-    const second = runR0ScenarioCase(registry, config, config.cases[0]).session;
+    const first = runScenarioCase(registry, config, config.cases[0]).session;
+    const second = runScenarioCase(registry, config, config.cases[0]).session;
     expect(first.hash()).toBe(second.hash());
   });
 
   it('R021 缺字段、非法配方和非法时间在加载阶段明确失败', () => {
-    const directory = defaultR0ConfigDirectory();
+    const directory = defaultConfigDirectory();
     const read = (name: string) =>
       JSON.parse(readFileSync(join(directory, name), 'utf8')) as unknown;
     const base = {
@@ -408,15 +408,15 @@ describe('CP0-R0 R001-R024', () => {
     };
     const missing = deepClone(base) as typeof base;
     delete (missing.gameplay as Record<string, unknown>).session;
-    expect(() => R0ConfigRegistry.fromRaw(missing)).toThrow(/gameplay\.session/);
+    expect(() => ConfigRegistry.fromRaw(missing)).toThrow(/gameplay\.session/);
     const badTime = deepClone(base) as typeof base;
     ((badTime.gameplay as Record<string, unknown>).session as Record<string, unknown>)
       .activeTimeMs = -1;
-    expect(() => R0ConfigRegistry.fromRaw(badTime)).toThrow(/activeTimeMs/);
+    expect(() => ConfigRegistry.fromRaw(badTime)).toThrow(/activeTimeMs/);
     const badRecipe = deepClone(base) as typeof base;
     const recipeRoot = badRecipe.recipes as { recipes: Array<Record<string, unknown>> };
     recipeRoot.recipes[0].required = { ING_TOMATO: 2, ING_UNKNOWN: 3 };
-    expect(() => R0ConfigRegistry.fromRaw(badRecipe)).toThrow(/ING_UNKNOWN/);
+    expect(() => ConfigRegistry.fromRaw(badRecipe)).toThrow(/ING_UNKNOWN/);
   });
 
   it('R022 Domain无cc导入、无Math.random且只有单一规则目录', () => {

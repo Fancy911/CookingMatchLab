@@ -1,11 +1,7 @@
 import { JsonAsset, resources } from 'cc';
 import type { ConfigRegistry } from '../application/cp0c/ConfigRegistry';
 import {
-  assertC1ConfigHash,
-  C1_SCENARIO_IDS,
-  CONFIG_RESOURCE_ROOT,
-  registryFromDocuments,
-  type JsonConfigDocuments,
+  loadCanonicalConfig,
 } from './JsonConfigAdapter';
 
 const loadJson = (path: string): Promise<unknown> =>
@@ -21,6 +17,6 @@ const loadJson = (path: string): Promise<unknown> =>
 
 export class CocosJsonConfigLoader {
   public async load(): Promise<ConfigRegistry> {
-    throw new Error('CP0-R0规则迁移中，视觉接入待R1');
+    return loadCanonicalConfig(loadJson);
   }
 }

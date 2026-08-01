@@ -16,17 +16,27 @@ export type RecipeId =
 
 export type OrderId = 'ORD_01' | 'ORD_02' | 'ORD_03';
 export type ScenarioId =
-  | 'O1_TUTORIAL_001'
-  | 'O2_STANDARD'
-  | 'O2_BLACK'
-  | 'O3_STANDARD'
-  | 'O3_INSPIRATION';
+  | 'RS01_TUTORIAL_REPEAT'
+  | 'RS02_MULTI_RECIPE'
+  | 'RS03_DARK'
+  | 'RS04_INSPIRATION'
+  | 'RS05_TIMER_END';
 
-export type ProcessingTag =
-  | 'FINE'
-  | 'LONG_INSPIRATION'
-  | 'MASTER'
-  | 'INSPIRATION';
+export type ProcessingTag = 'INSPIRATION' | 'MASTER';
+export type ProcessingLevel = 'NORMAL' | 'PRECISE' | 'INSPIRATION' | 'MASTER';
+export type AudioEvent = 'GOOD' | 'GREAT' | 'UNBELIEVABLE';
+export type SessionPhase =
+  | 'READY'
+  | 'LINKING'
+  | 'TIMEOUT_GRACE'
+  | 'ANIMATING'
+  | 'AUTO_FIRE_READY'
+  | 'COOKING'
+  | 'REVEAL'
+  | 'PARTIAL_RESULT'
+  | 'SUMMARY'
+  | 'PAUSED'
+  | 'SHUFFLING';
 
 export interface Coord {
   row: number;
@@ -41,200 +51,6 @@ export interface Cell {
 export type BoardGrid = Cell[][];
 
 export interface GameplayConfig {
-  schemaVersion: number;
-  board: {
-    rows: number;
-    columns: number;
-    ingredientTypeCount: number;
-    connectionDirections: 4 | 8;
-    minimumLink: number;
-  };
-  pot: {
-    baseSlots: number;
-    temporarySlots: number;
-    minimumThrowsToCook: number;
-  };
-  longLink: {
-    fine: number;
-    inspiration: number;
-    master: number;
-  };
-  inspiration: {
-    unitValue: number;
-    spawnStrategy: 'PATH_END_COLUMN_FIRST_NEW_CELL';
-  };
-  shuffle: {
-    algorithm: 'fisher-yates-xorshift32-v1';
-    maximumAttempts: number;
-  };
-  star: {
-    quantityDeviationFactor: number;
-    recipeWeights: {
-      quantity: number;
-      ratio: number;
-    };
-    processingScores: {
-      normal: number;
-      fine: number;
-      inspiration: number;
-      master: number;
-      inspirationBonus: number;
-      maximum: number;
-    };
-    efficiencyScores: {
-      high: number;
-      pass: number;
-      low: number;
-    };
-    weights: {
-      recipe: number;
-      processing: number;
-      efficiency: number;
-    };
-    thresholds: {
-      two: number;
-      three: number;
-    };
-  };
-}
-
-export interface IngredientConfig {
-  id: IngredientId;
-  symbol: 'T' | 'E' | 'P' | 'C' | 'M' | 'S';
-  name: string;
-  tags: string[];
-  normalUnitValue: number;
-  boardSprite: string;
-  potLayer: string;
-  inspirationOverlay: string[];
-}
-
-export interface Range {
-  min: number;
-  max: number;
-  ideal: number;
-}
-
-export interface RatioRule {
-  numerator: IngredientId[];
-  denominator: IngredientId[];
-  accepted: [number, number];
-  ideal: [number, number];
-}
-
-export interface RecipeConfig {
-  id: RecipeId;
-  name: string;
-  rarity: 'NORMAL' | 'FEATURED' | 'RARE';
-  tags: string[];
-  required: Partial<Record<IngredientId, Range>>;
-  forbidden: IngredientId[];
-  ratios: RatioRule[];
-  requiredConditions: ProcessingTag[];
-  potId: 'POT_BASE_RESEARCH';
-  priority: number;
-  fallback: boolean;
-  revealProfile: 'NORMAL' | 'FEATURED' | 'RARE' | 'DARK';
-  dishAsset: string;
-}
-
-export interface OrderConfig {
-  id: OrderId;
-  title: string;
-  targetRecipeId: RecipeId;
-  initialSteps: number;
-  ingredientPool: IngredientId[];
-  orderMode: 'TUTORIAL' | 'KNOWN' | 'RESEARCH';
-  clues: string[];
-  highEfficiencySteps: number;
-  passEfficiencySteps: number;
-  defaultScenarioId: ScenarioId;
-  tutorialFlags: string[];
-}
-
-export interface ScenarioAction {
-  type: 'LINK' | 'FIRE' | 'CONTINUE';
-  path?: [number, number][];
-  expected?: ScenarioActionExpected;
-}
-
-export interface ScenarioActionExpected {
-  stepDelta?: number;
-  potUnits?: IngredientUnits;
-  inspirationAt?: string;
-  pathCells?: number;
-  throwUnits?: number;
-  recipeId?: RecipeId;
-  remainingSteps?: number;
-}
-
-export interface ScenarioConfig {
-  schemaVersion: number;
-  id: ScenarioId;
-  orderId: OrderId;
-  refillMode: 'COLUMN_QUEUE';
-  initialBoard: string[][];
-  columnQueues: Record<string, string[]>;
-  expectedActionScript: ScenarioAction[];
-  expectedFinalResult: RecipeId;
-}
-
-export interface TutorialConfig {
-  id: string;
-  trigger: string;
-  text: string;
-  once: boolean;
-}
-
-export interface ThrowRecord {
-  ingredientId: IngredientId;
-  pathLength: number;
-  units: number;
-  processingScore: number;
-  containsInspiration: boolean;
-}
-
-export type IngredientUnits = Partial<Record<IngredientId, number>>;
-
-export interface DiscoveryState {
-  tutorialFlags: {
-    inspirationUnitHintShown: boolean;
-  };
-  discoveredRecipeIds: RecipeId[];
-  bestStarsByRecipe: Partial<Record<RecipeId, number>>;
-  firstResearchRecordIds: RecipeId[];
-}
-
-export type OrderResult =
-  | 'IN_PROGRESS'
-  | 'SUCCESS'
-  | 'CONTINUE_AFTER_REVEAL'
-  | 'NOT_COMPLETED';
-
-export interface FireResult {
-  recipeId: RecipeId;
-  stars: number;
-  score: number;
-  orderResult: OrderResult;
-  isNewDiscovery: boolean;
-}
-
-export type ProcessingLevel = 'NORMAL' | 'PRECISE' | 'INSPIRATION' | 'MASTER';
-export type AudioEvent = 'GOOD' | 'GREAT' | 'UNBELIEVABLE';
-export type R0SessionPhase =
-  | 'READY'
-  | 'LINKING'
-  | 'TIMEOUT_GRACE'
-  | 'ANIMATING'
-  | 'AUTO_FIRE_READY'
-  | 'COOKING'
-  | 'REVEAL'
-  | 'PARTIAL_RESULT'
-  | 'SUMMARY'
-  | 'PAUSED'
-  | 'SHUFFLING';
-
-export interface R0GameplayConfig {
   schemaVersion: 2;
   board: {
     rows: 7;
@@ -313,7 +129,18 @@ export interface R0GameplayConfig {
   };
 }
 
-export interface R0RecipeConfig {
+export interface IngredientConfig {
+  id: IngredientId;
+  symbol: 'T' | 'E' | 'P' | 'C' | 'M' | 'S';
+  name: string;
+  tags: string[];
+  normalUnitValue: number;
+  boardSprite: string;
+  potLayer: string;
+  inspirationOverlay: string[];
+}
+
+export interface RecipeConfig {
   id: RecipeId;
   name: string;
   rarity: 'NORMAL' | 'FEATURED' | 'RARE';
@@ -331,7 +158,7 @@ export interface ResearchClueConfig {
   text: string;
 }
 
-export interface R0OrderConfig {
+export interface OrderConfig {
   id: OrderId;
   title: string;
   ingredientPool: IngredientId[];
@@ -339,25 +166,34 @@ export interface R0OrderConfig {
   clues: ResearchClueConfig[];
 }
 
-export interface R0ScenarioExpected {
+export interface TutorialConfig {
+  id: string;
+  trigger: string;
+  text: string;
+  once: boolean;
+}
+
+export type IngredientUnits = Partial<Record<IngredientId, number>>;
+
+export interface ScenarioExpected {
   potUnits: IngredientUnits;
   remainingActiveTimeMs: number;
   comboCount: number;
   totalScore: number;
   tags: Array<'INSPIRATION' | 'MASTER'>;
-  phase: R0SessionPhase;
+  phase: SessionPhase;
 }
 
-export type R0ScenarioAction =
+export type ScenarioAction =
   | {
     type: 'ADVANCE_ACTIVE_TIME';
     milliseconds: number;
-    expected: R0ScenarioExpected;
+    expected: ScenarioExpected;
   }
   | {
     type: 'LINK';
     path: [number, number][];
-    expected: R0ScenarioExpected & {
+    expected: ScenarioExpected & {
       pathLength: number;
       ingredientId: IngredientId;
       linkScore: number;
@@ -366,32 +202,28 @@ export type R0ScenarioAction =
   }
   | {
     type: 'COMPLETE_ANIMATION' | 'FIRE' | 'CONFIRM_AUTO_FIRE' | 'COMPLETE_REVEAL';
-    expected: R0ScenarioExpected;
+    expected: ScenarioExpected;
     expectedRecipeId?: RecipeId;
   };
 
-export interface R0ScenarioCase {
+export interface ScenarioCase {
   id: string;
   initialBoard: string[][];
   columnQueues: Record<string, string[]>;
   researchClueQueue: string[];
-  actions: R0ScenarioAction[];
+  actions: ScenarioAction[];
   expectedFinalSnapshotHash: string;
 }
 
-export interface R0ScenarioConfig {
+export interface ScenarioConfig {
   schemaVersion: 2;
-  id: 'RS01_TUTORIAL_REPEAT'
-    | 'RS02_MULTI_RECIPE'
-    | 'RS03_DARK'
-    | 'RS04_INSPIRATION'
-    | 'RS05_TIMER_END';
+  id: ScenarioId;
   orderId: OrderId;
   seed: number;
-  cases: R0ScenarioCase[];
+  cases: ScenarioCase[];
 }
 
-export interface R0ThrowRecord {
+export interface ThrowRecord {
   ingredientId: IngredientId;
   pathLength: number;
   units: 1;
@@ -413,7 +245,7 @@ export interface CookingHistoryState {
   processedCookResultIds: string[];
 }
 
-export interface R0CookResult {
+export interface CookResult {
   cookResultId: string;
   recipeId: RecipeId;
   stars: number;

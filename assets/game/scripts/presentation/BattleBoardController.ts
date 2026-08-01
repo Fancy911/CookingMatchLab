@@ -12,7 +12,7 @@ import {
   UITransform,
   Vec3,
 } from 'cc';
-import type { EffectPlan } from '../application/cp0c/EffectPlanBuilder';
+import type { EffectPlan } from '../application/cp0c/EffectPlan';
 import type { BoardGrid, Coord, IngredientId } from '../domain/cp0b/types';
 import { stableHash } from '../domain/cp0b/stable';
 

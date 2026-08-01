@@ -3,31 +3,31 @@ import {
 } from '../../assets/game/scripts/domain/cp0b/core';
 import { stableHash } from '../../assets/game/scripts/domain/cp0b/stable';
 import type {
-  R0CookResult,
-  R0ScenarioAction,
-  R0ScenarioCase,
-  R0ScenarioConfig,
+  CookResult,
+  ScenarioAction,
+  ScenarioCase,
+  ScenarioConfig,
 } from '../../assets/game/scripts/domain/cp0b/types';
-import type { R0ConfigRegistry } from '../../assets/game/scripts/application/cp0c/R0ConfigRegistry';
+import type { ConfigRegistry } from '../../assets/game/scripts/application/cp0c/ConfigRegistry';
 
-export interface R0ScenarioActionRun {
+export interface ScenarioActionRun {
   index: number;
-  type: R0ScenarioAction['type'];
+  type: ScenarioAction['type'];
   status: 'PASS' | 'FAIL';
   firstDifference?: string;
   snapshotHash: string;
   recipeId?: string;
 }
 
-export interface R0ScenarioCaseRun {
+export interface ScenarioCaseRun {
   scenarioId: string;
   caseId: string;
   status: 'PASS' | 'FAIL';
   firstDifference?: string;
-  actions: R0ScenarioActionRun[];
+  actions: ScenarioActionRun[];
   finalSnapshotHash: string;
   expectedFinalSnapshotHash: string;
-  cookResults: R0CookResult[];
+  cookResults: CookResult[];
 }
 
 const firstDifference = (
@@ -85,13 +85,13 @@ const expectedFields = (session: TimedResearchSession) => {
   };
 };
 
-export class R0ScenarioRunner {
-  public constructor(private readonly registry: R0ConfigRegistry) {}
+export class ScenarioRunner {
+  public constructor(private readonly registry: ConfigRegistry) {}
 
   public runCase(
-    scenario: R0ScenarioConfig,
-    testCase: R0ScenarioCase,
-  ): R0ScenarioCaseRun {
+    scenario: ScenarioConfig,
+    testCase: ScenarioCase,
+  ): ScenarioCaseRun {
     const session = new TimedResearchSession(
       this.registry,
       scenario.id,
@@ -101,7 +101,7 @@ export class R0ScenarioRunner {
       testCase.researchClueQueue,
       scenario.seed,
     );
-    const actions: R0ScenarioActionRun[] = [];
+    const actions: ScenarioActionRun[] = [];
     testCase.actions.forEach((action, index) => {
       let recipeId: string | undefined;
       let actionDifference: string | undefined;
@@ -194,7 +194,7 @@ export class R0ScenarioRunner {
     };
   }
 
-  public runAll(): R0ScenarioCaseRun[] {
+  public runAll(): ScenarioCaseRun[] {
     return this.registry.scenarios.flatMap((scenario) =>
       scenario.cases.map((testCase) => this.runCase(scenario, testCase)));
   }

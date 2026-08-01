@@ -2,17 +2,17 @@ import { readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import {
   TimedResearchSession,
-  type R0ConfigBundle,
+  type ConfigBundle,
 } from '../assets/game/scripts/domain/cp0b/core';
 import type {
   IngredientConfig,
   IngredientId,
-  R0GameplayConfig,
-  R0OrderConfig,
-  R0RecipeConfig,
-  R0ScenarioAction,
-  R0ScenarioCase,
-  R0ScenarioConfig,
+  GameplayConfig,
+  OrderConfig,
+  RecipeConfig,
+  ScenarioAction,
+  ScenarioCase,
+  ScenarioConfig,
   RecipeId,
 } from '../assets/game/scripts/domain/cp0b/types';
 
@@ -22,11 +22,11 @@ const scenarioDirectory = join(configDirectory, 'scenarios');
 const readJson = <T>(file: string): T =>
   JSON.parse(readFileSync(join(configDirectory, file), 'utf8')) as T;
 
-const gameplay = readJson<R0GameplayConfig>('gameplay.json');
+const gameplay = readJson<GameplayConfig>('gameplay.json');
 const ingredients = readJson<{ ingredients: IngredientConfig[] }>('ingredients.json').ingredients;
-const recipes = readJson<{ recipes: R0RecipeConfig[] }>('recipes.json').recipes;
-const orders = readJson<{ orders: R0OrderConfig[] }>('orders.json').orders;
-const bundle: R0ConfigBundle = {
+const recipes = readJson<{ recipes: RecipeConfig[] }>('recipes.json').recipes;
+const orders = readJson<{ orders: OrderConfig[] }>('orders.json').orders;
+const bundle: ConfigBundle = {
   gameplay,
   recipes,
   orders,
@@ -240,10 +240,10 @@ const expectedFor = (session: TimedResearchSession) => {
 };
 
 const materializeCase = (
-  scenarioId: R0ScenarioConfig['id'],
+  scenarioId: ScenarioConfig['id'],
   seed: number,
   blueprint: CaseBlueprint,
-): R0ScenarioCase => {
+): ScenarioCase => {
   const session = new TimedResearchSession(
     bundle,
     scenarioId,
@@ -253,7 +253,7 @@ const materializeCase = (
     blueprint.researchClueQueue,
     seed,
   );
-  const actions: R0ScenarioAction[] = [];
+  const actions: ScenarioAction[] = [];
   blueprint.actions.forEach((action) => {
     if (action.type === 'ADVANCE_ACTIVE_TIME') {
       session.advanceActiveTime(action.milliseconds);
@@ -311,8 +311,8 @@ const materializeCase = (
 };
 
 const scenarioBlueprints: Array<{
-  id: R0ScenarioConfig['id'];
-  orderId: R0ScenarioConfig['orderId'];
+  id: ScenarioConfig['id'];
+  orderId: ScenarioConfig['orderId'];
   seed: number;
   cases: CaseBlueprint[];
 }> = [
@@ -349,7 +349,7 @@ const scenarioBlueprints: Array<{
 ];
 
 scenarioBlueprints.forEach((blueprint) => {
-  const scenario: R0ScenarioConfig = {
+  const scenario: ScenarioConfig = {
     schemaVersion: 2,
     id: blueprint.id,
     orderId: blueprint.orderId,

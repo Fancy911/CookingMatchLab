@@ -1,25 +1,25 @@
 import { expect } from 'vitest';
 import {
   TimedResearchSession,
-  type R0LinkCommitResult,
+  type LinkCommitResult,
 } from '../../assets/game/scripts/domain/cp0b/core';
 import type {
-  R0CookResult,
-  R0ScenarioAction,
-  R0ScenarioCase,
-  R0ScenarioConfig,
+  CookResult,
+  ScenarioAction,
+  ScenarioCase,
+  ScenarioConfig,
 } from '../../assets/game/scripts/domain/cp0b/types';
-import type { R0ConfigRegistry } from '../../assets/game/scripts/application/cp0c/R0ConfigRegistry';
+import type { ConfigRegistry } from '../../assets/game/scripts/application/cp0c/ConfigRegistry';
 
-export interface R0ActionObservation {
-  action: R0ScenarioAction;
-  link?: R0LinkCommitResult;
-  cook?: R0CookResult;
+export interface ActionObservation {
+  action: ScenarioAction;
+  link?: LinkCommitResult;
+  cook?: CookResult;
 }
 
-export interface R0CaseRun {
+export interface CaseRun {
   session: TimedResearchSession;
-  observations: R0ActionObservation[];
+  observations: ActionObservation[];
 }
 
 const actualExpectedFields = (session: TimedResearchSession) => {
@@ -34,11 +34,11 @@ const actualExpectedFields = (session: TimedResearchSession) => {
   };
 };
 
-export const runR0ScenarioCase = (
-  registry: R0ConfigRegistry,
-  scenario: R0ScenarioConfig,
-  testCase: R0ScenarioCase,
-): R0CaseRun => {
+export const runScenarioCase = (
+  registry: ConfigRegistry,
+  scenario: ScenarioConfig,
+  testCase: ScenarioCase,
+): CaseRun => {
   const session = new TimedResearchSession(
     registry,
     scenario.id,
@@ -48,10 +48,10 @@ export const runR0ScenarioCase = (
     testCase.researchClueQueue,
     scenario.seed,
   );
-  const observations: R0ActionObservation[] = [];
+  const observations: ActionObservation[] = [];
   testCase.actions.forEach((action, index) => {
-    let link: R0LinkCommitResult | undefined;
-    let cook: R0CookResult | undefined;
+    let link: LinkCommitResult | undefined;
+    let cook: CookResult | undefined;
     if (action.type === 'ADVANCE_ACTIVE_TIME') {
       session.advanceActiveTime(action.milliseconds);
     } else if (action.type === 'LINK') {

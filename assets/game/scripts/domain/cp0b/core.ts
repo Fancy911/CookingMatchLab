@@ -2,26 +2,18 @@ import {
   type BoardGrid,
   type Cell,
   type Coord,
-  type DiscoveryState,
-  type FireResult,
   type GameplayConfig,
   type IngredientId,
   type IngredientUnits,
   type OrderConfig,
-  type OrderResult,
-  type ProcessingTag,
   type RecipeConfig,
   type RecipeId,
   type ThrowRecord,
   type AudioEvent,
+  type CookResult,
   type CookingHistoryState,
   type ProcessingLevel,
-  type R0CookResult,
-  type R0GameplayConfig,
-  type R0OrderConfig,
-  type R0RecipeConfig,
-  type R0SessionPhase,
-  type R0ThrowRecord,
+  type SessionPhase,
   type SaveDataV1,
   type SaveDataV2,
 } from './types';
@@ -203,283 +195,6 @@ export class BoardResolver {
   }
 }
 
-export class InspirationResolver {
-  public constructor(private readonly gameplay: GameplayConfig) {}
-
-  public tagsForPath(pathLength: number): ProcessingTag[] {
-    const tags: ProcessingTag[] = [];
-    if (pathLength >= this.gameplay.longLink.fine) {
-      tags.push('FINE');
-    }
-    if (pathLength >= this.gameplay.longLink.inspiration) {
-      tags.push('LONG_INSPIRATION');
-    }
-    if (pathLength >= this.gameplay.longLink.master) {
-      tags.push('MASTER');
-    }
-    return tags;
-  }
-
-  public shouldSpawn(pathLength: number): boolean {
-    return pathLength >= this.gameplay.longLink.inspiration;
-  }
-
-  public spawn(
-    resolution: BoardResolution,
-    pathEnd: Coord,
-    ingredientId: IngredientId,
-  ): Coord {
-    const preferred = resolution.newCells.find((entry) => entry.coord.column === pathEnd.column);
-    const fallback = [...resolution.newCells].sort(
-      (left, right) => left.coord.column - right.coord.column || left.coord.row - right.coord.row,
-    )[0];
-    const target = preferred ?? fallback;
-    if (!target) {
-      throw new Error('Inspiration spawn requires at least one newly refilled cell');
-    }
-    resolution.board.grid[target.coord.row][target.coord.column] = {
-      ingredientId,
-      inspiration: true,
-    };
-    return target.coord;
-  }
-}
-
-export class PotModel {
-  public units: IngredientUnits = {};
-  public throws: ThrowRecord[] = [];
-  public tags = new Set<ProcessingTag>();
-
-  public constructor(
-    private readonly gameplay: GameplayConfig,
-    private readonly normalUnitValueById: Record<IngredientId, number>,
-  ) {}
-
-  public addThrow(cells: Cell[]): ThrowRecord {
-    if (this.throws.length >= this.gameplay.pot.baseSlots) {
-      throw new Error('All base throw slots are occupied');
-    }
-    if (cells.length === 0) {
-      throw new Error('Cannot add an empty throw');
-    }
-    const ingredientId = cells[0].ingredientId;
-    const containsInspiration = cells.some((cell) => cell.inspiration);
-    const units = cells.reduce(
-      (total, cell) => total + (
-        cell.inspiration
-          ? this.gameplay.inspiration.unitValue
-          : this.normalUnitValueById[cell.ingredientId]
-      ),
-      0,
-    );
-    let processingScore = this.gameplay.star.processingScores.normal;
-    if (cells.length >= this.gameplay.longLink.master) {
-      processingScore = this.gameplay.star.processingScores.master;
-    } else if (cells.length >= this.gameplay.longLink.inspiration) {
-      processingScore = this.gameplay.star.processingScores.inspiration;
-    } else if (cells.length >= this.gameplay.longLink.fine) {
-      processingScore = this.gameplay.star.processingScores.fine;
-    }
-    if (containsInspiration) {
-      processingScore = Math.min(
-        this.gameplay.star.processingScores.maximum,
-        processingScore + this.gameplay.star.processingScores.inspirationBonus,
-      );
-      this.tags.add('INSPIRATION');
-    }
-    new InspirationResolver(this.gameplay).tagsForPath(cells.length).forEach((tag) => this.tags.add(tag));
-    const record: ThrowRecord = {
-      ingredientId,
-      pathLength: cells.length,
-      units,
-      processingScore,
-      containsInspiration,
-    };
-    this.throws.push(record);
-    this.units[ingredientId] = (this.units[ingredientId] ?? 0) + units;
-    return record;
-  }
-
-  public canFire(): boolean {
-    return this.throws.length >= this.gameplay.pot.minimumThrowsToCook;
-  }
-
-  public isFull(): boolean {
-    return this.throws.length >= this.gameplay.pot.baseSlots;
-  }
-
-  public processingQuality(): number {
-    if (this.throws.length === 0) {
-      return 0;
-    }
-    return this.throws.reduce((total, current) => total + current.processingScore, 0)
-      / this.throws.length;
-  }
-
-  public clear(): void {
-    this.units = {};
-    this.throws = [];
-    this.tags.clear();
-  }
-
-  public snapshot(): {
-    units: IngredientUnits;
-    throws: ThrowRecord[];
-    tags: ProcessingTag[];
-  } {
-    return {
-      units: deepClone(this.units),
-      throws: deepClone(this.throws),
-      tags: [...this.tags].sort(),
-    };
-  }
-}
-
-const unitsFor = (units: IngredientUnits, ids: IngredientId[]): number =>
-  ids.reduce((total, id) => total + (units[id] ?? 0), 0);
-
-export class RecipeResolver {
-  public constructor(private readonly recipes: RecipeConfig[]) {}
-
-  public matchingExplicit(units: IngredientUnits, tags: Iterable<ProcessingTag>): RecipeConfig[] {
-    const tagSet = new Set(tags);
-    return this.recipes
-      .filter((recipe) => !recipe.fallback)
-      .filter((recipe) => {
-        for (const [id, range] of Object.entries(recipe.required) as [IngredientId, NonNullable<RecipeConfig['required'][IngredientId]>][]) {
-          const actual = units[id] ?? 0;
-          if (actual < range.min || actual > range.max) {
-            return false;
-          }
-        }
-        if (recipe.forbidden.some((id) => (units[id] ?? 0) > 0)) {
-          return false;
-        }
-        if (recipe.requiredConditions.some((condition) => !tagSet.has(condition))) {
-          return false;
-        }
-        return recipe.ratios.every((ratio) => {
-          const denominator = unitsFor(units, ratio.denominator);
-          if (denominator <= 0) {
-            return false;
-          }
-          const value = unitsFor(units, ratio.numerator) / denominator;
-          return value >= ratio.accepted[0] && value <= ratio.accepted[1];
-        });
-      })
-      .sort((left, right) => right.priority - left.priority || left.id.localeCompare(right.id));
-  }
-
-  public resolve(units: IngredientUnits, tags: Iterable<ProcessingTag>): RecipeConfig {
-    const explicit = this.matchingExplicit(units, tags);
-    if (explicit.length > 0) {
-      return explicit[0];
-    }
-    const fallback = this.recipes.filter((recipe) => recipe.fallback);
-    if (fallback.length !== 1) {
-      throw new Error(`Expected exactly one fallback recipe, found ${fallback.length}`);
-    }
-    return fallback[0];
-  }
-}
-
-export interface StarResult {
-  stars: number;
-  totalScore: number;
-  recipeScore: number;
-  processingScore: number;
-  efficiencyScore: number;
-}
-
-export class StarCalculator {
-  public constructor(private readonly gameplay: GameplayConfig) {}
-
-  public calculate(
-    recipe: RecipeConfig,
-    units: IngredientUnits,
-    processingScore: number,
-    remainingSteps: number,
-    order: Pick<OrderConfig, 'highEfficiencySteps' | 'passEfficiencySteps'>,
-  ): StarResult {
-    let recipeScore = 50;
-    if (!recipe.fallback) {
-      const deviation = (Object.entries(recipe.required) as [IngredientId, NonNullable<RecipeConfig['required'][IngredientId]>][])
-        .reduce((sum, [id, range]) => sum + Math.abs((units[id] ?? 0) - range.ideal), 0);
-      const quantityScore = Math.max(
-        0,
-        100 - this.gameplay.star.quantityDeviationFactor * deviation,
-      );
-      const ratioScore = recipe.ratios.every((ratio) => {
-        const value = unitsFor(units, ratio.numerator) / unitsFor(units, ratio.denominator);
-        return value >= ratio.ideal[0] && value <= ratio.ideal[1];
-      }) ? 100 : 80;
-      recipeScore = quantityScore * this.gameplay.star.recipeWeights.quantity
-        + ratioScore * this.gameplay.star.recipeWeights.ratio;
-    }
-    const efficiencyScore = remainingSteps >= order.highEfficiencySteps
-      ? this.gameplay.star.efficiencyScores.high
-      : remainingSteps >= order.passEfficiencySteps
-        ? this.gameplay.star.efficiencyScores.pass
-        : this.gameplay.star.efficiencyScores.low;
-    const totalScore = recipeScore * this.gameplay.star.weights.recipe
-      + processingScore * this.gameplay.star.weights.processing
-      + efficiencyScore * this.gameplay.star.weights.efficiency;
-    const stars = totalScore >= this.gameplay.star.thresholds.three
-      ? 3
-      : totalScore >= this.gameplay.star.thresholds.two
-        ? 2
-        : 1;
-    return {
-      stars,
-      totalScore,
-      recipeScore,
-      processingScore,
-      efficiencyScore,
-    };
-  }
-}
-
-export class OrderResolver {
-  public resolve(recipeId: RecipeId, order: OrderConfig, remainingSteps: number): OrderResult {
-    if (recipeId === order.targetRecipeId) {
-      return 'SUCCESS';
-    }
-    return remainingSteps > 0 ? 'CONTINUE_AFTER_REVEAL' : 'NOT_COMPLETED';
-  }
-}
-
-export class DiscoveryModel {
-  public constructor(public readonly state: DiscoveryState = {
-    tutorialFlags: { inspirationUnitHintShown: false },
-    discoveredRecipeIds: [],
-    bestStarsByRecipe: {},
-    firstResearchRecordIds: [],
-  }) {}
-
-  public recordRecipe(recipeId: RecipeId, stars: number): boolean {
-    const isNew = !this.state.discoveredRecipeIds.includes(recipeId);
-    if (isNew) {
-      this.state.discoveredRecipeIds.push(recipeId);
-      this.state.discoveredRecipeIds.sort();
-      this.state.firstResearchRecordIds.push(recipeId);
-      this.state.firstResearchRecordIds.sort();
-    }
-    this.state.bestStarsByRecipe[recipeId] = Math.max(
-      this.state.bestStarsByRecipe[recipeId] ?? 0,
-      stars,
-    );
-    return isNew;
-  }
-
-  public showInspirationHintOnce(): boolean {
-    if (this.state.tutorialFlags.inspirationUnitHintShown) {
-      return false;
-    }
-    this.state.tutorialFlags.inspirationUnitHintShown = true;
-    return true;
-  }
-}
-
 export class DeterministicRng {
   public static readonly algorithm = 'xorshift32-v1';
   private state: number;
@@ -595,68 +310,15 @@ export class ShuffleResolver {
   }
 }
 
-export interface RunSnapshotData {
-  remainingSteps: number;
-  board: BoardGrid;
-  boardHash: string;
-  pot: ReturnType<PotModel['snapshot']>;
-  queueCursors: Record<string, number>;
-  orderResult: OrderResult;
-  discovery: DiscoveryState;
-}
-
-export class RunSnapshot {
-  public static create(data: Omit<RunSnapshotData, 'boardHash'>): RunSnapshotData {
-    const snapshot = deepClone(data) as RunSnapshotData;
-    snapshot.boardHash = stableHash(snapshot.board);
-    return snapshot;
-  }
-
-  public static hash(snapshot: RunSnapshotData): string {
-    return stableHash(snapshot);
-  }
-}
-
-export function settleFire(
-  recipeResolver: RecipeResolver,
-  starCalculator: StarCalculator,
-  orderResolver: OrderResolver,
-  discovery: DiscoveryModel,
-  pot: PotModel,
-  order: OrderConfig,
-  remainingSteps: number,
-): FireResult {
-  if (!pot.canFire()) {
-    throw new Error('At least two throws are required before cooking');
-  }
-  const recipe = recipeResolver.resolve(pot.units, pot.tags);
-  const score = starCalculator.calculate(
-    recipe,
-    pot.units,
-    pot.processingQuality(),
-    remainingSteps,
-    order,
-  );
-  const orderResult = orderResolver.resolve(recipe.id, order, remainingSteps);
-  const isNewDiscovery = discovery.recordRecipe(recipe.id, score.stars);
-  return {
-    recipeId: recipe.id,
-    stars: score.stars,
-    score: score.totalScore,
-    orderResult,
-    isNewDiscovery,
-  };
-}
-
-export interface R0ConfigBundle {
-  gameplay: R0GameplayConfig;
-  recipes: R0RecipeConfig[];
-  orders: R0OrderConfig[];
+export interface ConfigBundle {
+  gameplay: GameplayConfig;
+  recipes: RecipeConfig[];
+  orders: OrderConfig[];
   symbolToIngredient: Map<string, IngredientId>;
 }
 
 export const processingLevelFor = (
-  gameplay: R0GameplayConfig,
+  gameplay: GameplayConfig,
   pathLength: number,
 ): ProcessingLevel => {
   if (pathLength >= gameplay.longLink.master) {
@@ -672,7 +334,7 @@ export const processingLevelFor = (
 };
 
 export const comboMultiplierFor = (
-  gameplay: R0GameplayConfig,
+  gameplay: GameplayConfig,
   comboCount: number,
 ): number => {
   const tier = gameplay.combo.tiers.find((candidate) =>
@@ -684,8 +346,8 @@ export const comboMultiplierFor = (
   return tier.multiplier;
 };
 
-export const calculateR0LinkScore = (
-  gameplay: R0GameplayConfig,
+export const calculateLinkScore = (
+  gameplay: GameplayConfig,
   pathLength: number,
   containsInspiration: boolean,
   comboCount: number,
@@ -706,14 +368,14 @@ export const calculateR0LinkScore = (
   ) * comboMultiplierFor(gameplay, comboCount));
 };
 
-export class R0PotModel {
+export class PotModel {
   public units: IngredientUnits = {};
-  public throws: R0ThrowRecord[] = [];
+  public throws: ThrowRecord[] = [];
   public tags = new Set<'INSPIRATION' | 'MASTER'>();
 
-  public constructor(private readonly gameplay: R0GameplayConfig) {}
+  public constructor(private readonly gameplay: GameplayConfig) {}
 
-  public addThrow(cells: Cell[], comboCount: number): R0ThrowRecord {
+  public addThrow(cells: Cell[], comboCount: number): ThrowRecord {
     if (this.isFull()) {
       throw new Error('Pot is already at maximum capacity');
     }
@@ -737,14 +399,14 @@ export class R0PotModel {
     if (processingLevel === 'MASTER') {
       this.tags.add('MASTER');
     }
-    const record: R0ThrowRecord = {
+    const record: ThrowRecord = {
       ingredientId,
       pathLength: cells.length,
       units: 1,
       processingLevel,
       processingScore,
       containsInspiration,
-      linkScore: calculateR0LinkScore(
+      linkScore: calculateLinkScore(
         this.gameplay,
         cells.length,
         containsInspiration,
@@ -783,7 +445,7 @@ export class R0PotModel {
 
   public snapshot(): {
     units: IngredientUnits;
-    throws: R0ThrowRecord[];
+    throws: ThrowRecord[];
     tags: Array<'INSPIRATION' | 'MASTER'>;
   } {
     return {
@@ -794,13 +456,13 @@ export class R0PotModel {
   }
 }
 
-export class R0RecipeResolver {
-  public constructor(private readonly recipes: R0RecipeConfig[]) {}
+export class RecipeResolver {
+  public constructor(private readonly recipes: RecipeConfig[]) {}
 
   public matchingExplicit(
     units: IngredientUnits,
     tags: Iterable<'INSPIRATION' | 'MASTER'>,
-  ): R0RecipeConfig[] {
+  ): RecipeConfig[] {
     const tagSet = new Set(tags);
     return this.recipes
       .filter((recipe) => !recipe.fallback)
@@ -824,7 +486,7 @@ export class R0RecipeResolver {
   public resolve(
     units: IngredientUnits,
     tags: Iterable<'INSPIRATION' | 'MASTER'>,
-  ): R0RecipeConfig {
+  ): RecipeConfig {
     const matches = this.matchingExplicit(units, tags);
     if (matches.length > 0) {
       return matches[0];
@@ -837,17 +499,17 @@ export class R0RecipeResolver {
   }
 }
 
-export interface R0StarResult {
+export interface StarResult {
   stars: number;
   qualityScore: number;
   recipeAccuracyScore: number;
   processingScore: number;
 }
 
-export class R0StarCalculator {
-  public constructor(private readonly gameplay: R0GameplayConfig) {}
+export class StarCalculator {
+  public constructor(private readonly gameplay: GameplayConfig) {}
 
-  public calculate(recipe: R0RecipeConfig, processingScore: number): R0StarResult {
+  public calculate(recipe: RecipeConfig, processingScore: number): StarResult {
     const recipeAccuracyScore = recipe.fallback
       ? this.gameplay.star.recipeAccuracy.fallback
       : this.gameplay.star.recipeAccuracy.explicit;
@@ -891,7 +553,7 @@ export class CookingHistoryModel {
     return this.state.discoveredRecipeIds.includes(recipeId);
   }
 
-  public record(result: R0CookResult): boolean {
+  public record(result: CookResult): boolean {
     if (this.state.processedCookResultIds.includes(result.cookResultId)) {
       return false;
     }
@@ -974,38 +636,38 @@ export const migrateSaveV1ToV2 = (source: SaveDataV1): SaveDataV2 => {
   };
 };
 
-export interface R0SessionSnapshot {
+export interface SessionSnapshot {
   scenarioId: string;
   caseId: string;
-  phase: R0SessionPhase;
+  phase: SessionPhase;
   remainingActiveTimeMs: number;
   activeTimeElapsedMs: number;
   graceRemainingMs: number;
   board: BoardGrid;
   boardHash: string;
   queueCursors: Record<string, number>;
-  pot: ReturnType<R0PotModel['snapshot']>;
+  pot: ReturnType<PotModel['snapshot']>;
   comboCount: number;
   totalScore: number;
   linkScore: number;
   dishScore: number;
   researchClueIndex: number;
   currentResearchClueId?: string;
-  cookResults: R0CookResult[];
+  cookResults: CookResult[];
   partialResultCount: number;
   history: CookingHistoryState;
   eventLog: string[];
   rngState: number;
 }
 
-export interface R0LinkCommitResult {
+export interface LinkCommitResult {
   committed: boolean;
   reason?: string;
-  throwRecord?: R0ThrowRecord;
+  throwRecord?: ThrowRecord;
   inspirationCoord?: Coord;
 }
 
-const spawnR0Inspiration = (
+const spawnInspiration = (
   resolution: BoardResolution,
   pathEnd: Coord,
   ingredientId: IngredientId,
@@ -1027,8 +689,8 @@ const spawnR0Inspiration = (
 
 export class TimedResearchSession {
   public board: BoardModel;
-  public readonly pot: R0PotModel;
-  public phase: R0SessionPhase = 'READY';
+  public readonly pot: PotModel;
+  public phase: SessionPhase = 'READY';
   public remainingActiveTimeMs: number;
   public activeTimeElapsedMs = 0;
   public graceRemainingMs = 0;
@@ -1037,7 +699,7 @@ export class TimedResearchSession {
   public linkScore = 0;
   public dishScore = 0;
   public researchClueIndex = 0;
-  public readonly cookResults: R0CookResult[] = [];
+  public readonly cookResults: CookResult[] = [];
   public partialResultCount = 0;
   public readonly eventLog: string[] = [];
   public queueState: QueueState;
@@ -1046,13 +708,13 @@ export class TimedResearchSession {
 
   private readonly pathValidator: PathValidator;
   private readonly boardResolver = new BoardResolver();
-  private readonly recipeResolver: R0RecipeResolver;
-  private readonly starCalculator: R0StarCalculator;
+  private readonly recipeResolver: RecipeResolver;
+  private readonly starCalculator: StarCalculator;
   private lastLegalLinkAtMs?: number;
   private cookCounter = 0;
 
   public constructor(
-    private readonly config: R0ConfigBundle,
+    private readonly config: ConfigBundle,
     public readonly scenarioId: string,
     public readonly caseId: string,
     initialBoard: string[][],
@@ -1074,13 +736,13 @@ export class TimedResearchSession {
       )),
     };
     this.remainingActiveTimeMs = config.gameplay.session.activeTimeMs;
-    this.pot = new R0PotModel(config.gameplay);
+    this.pot = new PotModel(config.gameplay);
     this.pathValidator = new PathValidator(
       config.gameplay.board.connectionDirections,
       config.gameplay.board.minimumLink,
     );
-    this.recipeResolver = new R0RecipeResolver(config.recipes);
-    this.starCalculator = new R0StarCalculator(config.gameplay);
+    this.recipeResolver = new RecipeResolver(config.recipes);
+    this.starCalculator = new StarCalculator(config.gameplay);
     this.rng = new DeterministicRng(seed);
     this.history = history ?? new CookingHistoryModel(
       undefined,
@@ -1155,7 +817,7 @@ export class TimedResearchSession {
     return consumed;
   }
 
-  public commitLink(path: Coord[]): R0LinkCommitResult {
+  public commitLink(path: Coord[]): LinkCommitResult {
     if (!['READY', 'LINKING', 'TIMEOUT_GRACE'].includes(this.phase)) {
       throw new Error(`Cannot link while phase is ${this.phase}`);
     }
@@ -1195,7 +857,7 @@ export class TimedResearchSession {
       path.length >= this.config.gameplay.longLink.inspiration
       && path.length < this.config.gameplay.longLink.master
     ) {
-      inspirationCoord = spawnR0Inspiration(
+      inspirationCoord = spawnInspiration(
         resolution,
         path[path.length - 1],
         pathCells[0].ingredientId,
@@ -1207,7 +869,7 @@ export class TimedResearchSession {
     return { committed: true, throwRecord, inspirationCoord };
   }
 
-  public completeAnimation(): R0SessionPhase {
+  public completeAnimation(): SessionPhase {
     if (this.phase !== 'ANIMATING') {
       throw new Error(`Cannot complete animation from ${this.phase}`);
     }
@@ -1222,21 +884,21 @@ export class TimedResearchSession {
     return this.phase;
   }
 
-  public fire(): R0CookResult {
+  public fire(): CookResult {
     if (this.phase !== 'READY' || !this.pot.canFire()) {
       throw new Error(`Manual fire is unavailable in phase ${this.phase}`);
     }
     return this.settleCook('MANUAL');
   }
 
-  public confirmAutoFire(): R0CookResult {
+  public confirmAutoFire(): CookResult {
     if (this.phase !== 'AUTO_FIRE_READY') {
       throw new Error(`Auto fire confirmation is unavailable in phase ${this.phase}`);
     }
     return this.settleCook('AUTO');
   }
 
-  private settleCook(mode: 'MANUAL' | 'AUTO'): R0CookResult {
+  private settleCook(mode: 'MANUAL' | 'AUTO'): CookResult {
     if (!this.pot.canFire()) {
       throw new Error('At least four units are required before cooking');
     }
@@ -1254,7 +916,7 @@ export class TimedResearchSession {
       + star.stars * this.config.gameplay.dishScore.perStar
       + (isNewDiscovery ? this.config.gameplay.dishScore.firstDiscovery : 0)
       + (matchedResearchClue ? this.config.gameplay.dishScore.researchClueMatch : 0);
-    const result: R0CookResult = {
+    const result: CookResult = {
       cookResultId: `${this.scenarioId}:${this.caseId}:cook:${++this.cookCounter}`,
       recipeId: recipe.id,
       stars: star.stars,
@@ -1312,7 +974,7 @@ export class TimedResearchSession {
     this.eventLog.push('SESSION_SUMMARY_READY');
   }
 
-  public snapshot(): R0SessionSnapshot {
+  public snapshot(): SessionSnapshot {
     const board = deepClone(this.board.grid);
     return {
       scenarioId: this.scenarioId,

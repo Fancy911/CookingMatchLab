@@ -4,7 +4,7 @@ import {
   type ConfigRegistry,
 } from '../../assets/game/scripts/application/cp0c/ConfigRegistry';
 import {
-  C1_SCENARIO_IDS,
+  SCENARIO_IDS,
   registryFromDocuments,
 } from '../../assets/game/scripts/infrastructure/JsonConfigAdapter';
 
@@ -30,7 +30,7 @@ export const loadConfigRegistry = (
       .map((file) => [file.replace(/\.json$/, ''), readJson(join(scenarioDirectory, file))])),
   };
   const unknownScenarioIds = Object.keys(documents.scenarios)
-    .filter((id) => !C1_SCENARIO_IDS.includes(id as typeof C1_SCENARIO_IDS[number]));
+    .filter((id) => !SCENARIO_IDS.includes(id as typeof SCENARIO_IDS[number]));
   if (unknownScenarioIds.length > 0) {
     throw new Error(`Unexpected scenario documents: ${unknownScenarioIds.join(', ')}`);
   }

@@ -4,9 +4,9 @@ import { mkdirSync, writeFileSync } from 'node:fs';
 import { join, relative } from 'node:path';
 
 const root = process.cwd();
-const outputDirectory = join(root, 'reports', 'cp0-r', 'r0');
-const resultPath = join(outputDirectory, 'CP0R-R0-Command-Results.json');
-const logPath = join(outputDirectory, 'CP0R-R0-Verification.log');
+const outputDirectory = join(root, 'reports', 'cp0-r', 'r0', 'a1');
+const resultPath = join(outputDirectory, 'CP0R-R0-A1-Command-Results.json');
+const logPath = join(outputDirectory, 'CP0R-R0-A1-Verification.log');
 mkdirSync(outputDirectory, { recursive: true });
 
 const commands = [
@@ -18,7 +18,7 @@ const commands = [
 ];
 const results = [];
 const log = [
-  '# CP0-R0 reproducible command verification',
+  '# CP0-R0-A1 reproducible command verification',
   `generatedAt=${new Date().toISOString()}`,
   `node=${process.version}`,
   '',
@@ -58,7 +58,7 @@ for (const [executable, args] of commands) {
 }
 
 const summary = {
-  reportId: 'CP0-R-R0-COMMAND-RESULTS',
+  reportId: 'CP0-R-R0-A1-COMMAND-RESULTS',
   generatedAt: new Date().toISOString(),
   status: results.every((result) => result.status === 'PASS') ? 'PASS' : 'FAIL',
   nodeVersion: process.version,
@@ -67,14 +67,8 @@ const summary = {
 writeFileSync(resultPath, `${JSON.stringify(summary, null, 2)}\n`);
 writeFileSync(logPath, log.join('\n'));
 
-const reportResult = spawnSync('npm', ['run', 'report:r0'], {
-  cwd: root,
-  encoding: 'utf8',
-  maxBuffer: 64 * 1024 * 1024,
-});
-process.stdout.write(`${reportResult.stdout ?? ''}${reportResult.stderr ?? ''}`);
-console.log(`CP0-R0 command verification: ${summary.status}`);
+console.log(`CP0-R0-A1 command verification: ${summary.status}`);
 console.log(relative(root, resultPath));
-if (summary.status !== 'PASS' || reportResult.status !== 0) {
+if (summary.status !== 'PASS') {
   process.exitCode = 1;
 }
