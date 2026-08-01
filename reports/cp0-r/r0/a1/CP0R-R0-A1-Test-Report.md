@@ -5,6 +5,8 @@
 - A1 implementation commit: `4d6adefe97f04cf0411bb12482906d6702a9cd4f`
 - A1 report archive commit: `478a386bdab92f219a1bd28b6719be320bd8b6e0`
 - Report-generation HEAD: `478a386bdab92f219a1bd28b6719be320bd8b6e0`
+- Archive metadata status: **FINALIZED**
+- A2 finalization commit: returned separately and intentionally not self-referenced
 - Cocos Creator: **3.8.8**
 - Node.js: **v22.22.2**
 - Canonical schema/config hash: **2 / `a35691f9`**
