@@ -1,0 +1,251 @@
+{
+  "reportId": "CP0-R-R0",
+  "generatedAt": "2026-08-01T15:45:20.441Z",
+  "status": "PASS",
+  "scope": "CP0-R0 only; CP0-R1 not started",
+  "baselineCommit": "fb28633422d6807afc259b7922912f83db859496",
+  "implementationHeadAtReportGeneration": "fb28633422d6807afc259b7922912f83db859496",
+  "creatorVersion": "3.8.8",
+  "nodeVersion": "v22.22.2",
+  "config": {
+    "canonicalDirectory": "assets/resources/game/config/cp0-b",
+    "compatibilityPathNote": "The cp0-b directory name is retained for path compatibility; its schemaVersion 2 content is the sole v2 canonical configuration.",
+    "historicalV1Hash": "8737fa94",
+    "v2Hash": "a35691f9",
+    "repeatedHashStable": true
+  },
+  "sourceProtection": {
+    "canonicalDomainDirectory": "assets/game/scripts/domain/cp0b",
+    "ccImportCount": 0,
+    "mathRandomCount": 0,
+    "protectedDiff": [],
+    "c1NotStarted": true
+  },
+  "tests": {
+    "unitIds": [
+      "R001",
+      "R002",
+      "R003",
+      "R004",
+      "R005",
+      "R006",
+      "R007",
+      "R008",
+      "R009",
+      "R010",
+      "R011",
+      "R012",
+      "R013",
+      "R014",
+      "R015",
+      "R016",
+      "R017",
+      "R018",
+      "R019",
+      "R020",
+      "R021",
+      "R022",
+      "R023",
+      "R024"
+    ],
+    "unitStatus": "PASS",
+    "scenarios": [
+      {
+        "scenarioId": "RS01_TUTORIAL_REPEAT",
+        "caseId": "REPEAT_TOMATO_EGG",
+        "status": "PASS"
+      },
+      {
+        "scenarioId": "RS02_MULTI_RECIPE",
+        "caseId": "POTATO_CAKE_THEN_SOUP",
+        "status": "PASS"
+      },
+      {
+        "scenarioId": "RS03_DARK",
+        "caseId": "DARK_THEN_NORMAL",
+        "status": "PASS"
+      },
+      {
+        "scenarioId": "RS04_INSPIRATION",
+        "caseId": "INSPIRATION_THEN_NEXT_POT",
+        "status": "PASS"
+      },
+      {
+        "scenarioId": "RS05_TIMER_END",
+        "caseId": "FIVE_UNITS_AUTO_FIRE",
+        "status": "PASS"
+      },
+      {
+        "scenarioId": "RS05_TIMER_END",
+        "caseId": "THREE_UNITS_PARTIAL",
+        "status": "PASS"
+      }
+    ]
+  },
+  "enumerationSummary": {
+    "reportId": "CP0-R-R0-RECIPE-ENUMERATION",
+    "generatedAt": "2026-08-01T15:45:20.409Z",
+    "status": "PASS",
+    "configHash": "a35691f9",
+    "ingredientCount": 6,
+    "totalUnitRange": [
+      4,
+      5,
+      6
+    ],
+    "tagStates": [
+      "NONE",
+      "INSPIRATION",
+      "MASTER",
+      "INSPIRATION+MASTER"
+    ],
+    "baseCombinationCount": 840,
+    "evaluatedInputCount": 3360,
+    "recipeHitCounts": {
+      "RCP_TOMATO_EGG": 4,
+      "RCP_SCALLION_POTATO_CAKE": 4,
+      "RCP_GARDEN_MUSHROOM_SOUP": 4,
+      "RCP_WARM_HOTPOT_MIX": 3342,
+      "RCP_CHARRED_TOMATO_POTATO_BALL": 4,
+      "RCP_STAR_MUSHROOM_EGG_CUP": 2
+    },
+    "conflictCount": 0,
+    "noResultCount": 0,
+    "unstableSnapshotCount": 0,
+    "assertions": {
+      "uniqueResultPerInput": true,
+      "explicitRecipesDoNotOverlap": true,
+      "rareRecipeRequiresInspiration": true,
+      "fallbackCoversAllOtherInputs": true,
+      "allFourToSixUnitInputsResolve": true,
+      "repeatedInputHashStable": true
+    }
+  },
+  "historicalMigration": [
+    {
+      "historical": "U01-U03",
+      "disposition": "MIGRATED",
+      "replacement": "R002, R005"
+    },
+    {
+      "historical": "U04-U05",
+      "disposition": "SUPERSEDED_BY_V2",
+      "replacement": "R001, R009"
+    },
+    {
+      "historical": "U06-U11",
+      "disposition": "MIGRATED",
+      "replacement": "R006, R009, R020, R022"
+    },
+    {
+      "historical": "U12-U13",
+      "disposition": "SUPERSEDED_BY_V2",
+      "replacement": "R001, R003"
+    },
+    {
+      "historical": "U14-U16",
+      "disposition": "MIGRATED",
+      "replacement": "R010, R011, R013"
+    },
+    {
+      "historical": "U17-U19",
+      "disposition": "SUPERSEDED_BY_V2",
+      "replacement": "R012, R013"
+    },
+    {
+      "historical": "U20-U22",
+      "disposition": "SUPERSEDED_BY_V2",
+      "replacement": "R014-R018"
+    },
+    {
+      "historical": "U23-U24",
+      "disposition": "MIGRATED",
+      "replacement": "R020-R022"
+    },
+    {
+      "historical": "S01-S09",
+      "disposition": "SUPERSEDED_BY_V2",
+      "replacement": "RS01-RS05"
+    },
+    {
+      "historical": "C001-C011",
+      "disposition": "UI_DEFERRED_TO_R1",
+      "replacement": "R0 build smoke only"
+    }
+  ],
+  "commandResults": {
+    "reportId": "CP0-R-R0-COMMAND-RESULTS",
+    "generatedAt": "2026-08-01T15:44:39.320Z",
+    "status": "PASS",
+    "nodeVersion": "v22.22.2",
+    "commands": [
+      {
+        "command": "npm test",
+        "startedAt": "2026-08-01T15:44:36.447Z",
+        "finishedAt": "2026-08-01T15:44:37.004Z",
+        "durationMs": 557,
+        "exitCode": 0,
+        "signal": null,
+        "status": "PASS",
+        "outputSha256": "5ecada5c73acf15350f290cbecc72e68e41216bfe8d903c8868bf95b65d4d59a"
+      },
+      {
+        "command": "npm run test:unit",
+        "startedAt": "2026-08-01T15:44:37.004Z",
+        "finishedAt": "2026-08-01T15:44:37.562Z",
+        "durationMs": 557,
+        "exitCode": 0,
+        "signal": null,
+        "status": "PASS",
+        "outputSha256": "4c2d49c2ede48b497135d92430466882af037de986e8939ca3dadfa356d7abee"
+      },
+      {
+        "command": "npm run test:scenarios",
+        "startedAt": "2026-08-01T15:44:37.562Z",
+        "finishedAt": "2026-08-01T15:44:38.107Z",
+        "durationMs": 545,
+        "exitCode": 0,
+        "signal": null,
+        "status": "PASS",
+        "outputSha256": "dae99d73d9ae3a386cfba784b89d9cdaa7f9b8d79774c8f257484bc301340bdc"
+      },
+      {
+        "command": "npm run test:r0",
+        "startedAt": "2026-08-01T15:44:38.107Z",
+        "finishedAt": "2026-08-01T15:44:38.639Z",
+        "durationMs": 533,
+        "exitCode": 0,
+        "signal": null,
+        "status": "PASS",
+        "outputSha256": "aa2e786fb82af2a5e30f47d0de59dfac444a14709910167d821eae436087c920"
+      },
+      {
+        "command": "npm run typecheck",
+        "startedAt": "2026-08-01T15:44:38.639Z",
+        "finishedAt": "2026-08-01T15:44:39.320Z",
+        "durationMs": 680,
+        "exitCode": 0,
+        "signal": null,
+        "status": "PASS",
+        "outputSha256": "aae295b7a6d53a806fd95bbd8ac992dc8b13a1e291666431e0395f141e25078d"
+      }
+    ]
+  },
+  "cocos": {
+    "status": "PASS",
+    "buildResult": "reports/cp0-r/r0/CP0R-R0-Cocos-Build-Result.json",
+    "buildLog": "reports/cp0-r/r0/CP0R-R0-Cocos-Build-3.8.8.log",
+    "smokeScreenshot": "reports/cp0-r/r0/CP0R-R0-Cocos-Smoke-390x844.png",
+    "smokePngAudit": {
+      "status": "PASS",
+      "pngSignature": true,
+      "width": 390,
+      "height": 844
+    },
+    "note": "The smoke screen is an explicit R0 migration guard, not a v2 playable UI claim."
+  },
+  "knownIssues": [
+    "CP0-C Battle remains intentionally blocked from v2 runtime configuration until CP0-R1.",
+    "No Cocos UI, audio playback, map, or formal save I/O is implemented in R0."
+  ]
+}

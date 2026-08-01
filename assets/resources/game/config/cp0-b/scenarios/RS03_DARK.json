@@ -1,0 +1,806 @@
+{
+  "schemaVersion": 2,
+  "id": "RS03_DARK",
+  "orderId": "ORD_03",
+  "seed": 1381183539,
+  "cases": [
+    {
+      "id": "DARK_THEN_NORMAL",
+      "initialBoard": [
+        [
+          "T",
+          "T",
+          "T",
+          "T",
+          "T",
+          "T",
+          "T"
+        ],
+        [
+          "E",
+          "E",
+          "E",
+          "E",
+          "E",
+          "E",
+          "E"
+        ],
+        [
+          "P",
+          "P",
+          "P",
+          "P",
+          "P",
+          "P",
+          "P"
+        ],
+        [
+          "C",
+          "C",
+          "C",
+          "C",
+          "C",
+          "C",
+          "C"
+        ],
+        [
+          "M",
+          "M",
+          "M",
+          "M",
+          "M",
+          "M",
+          "M"
+        ],
+        [
+          "S",
+          "S",
+          "S",
+          "S",
+          "S",
+          "S",
+          "S"
+        ],
+        [
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T"
+        ]
+      ],
+      "columnQueues": {
+        "0": [
+          "T",
+          "P",
+          "P",
+          "M",
+          "T",
+          "T",
+          "E",
+          "E",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S"
+        ],
+        "1": [
+          "T",
+          "P",
+          "P",
+          "M",
+          "T",
+          "T",
+          "E",
+          "E",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S"
+        ],
+        "2": [
+          "T",
+          "P",
+          "P",
+          "M",
+          "T",
+          "T",
+          "E",
+          "E",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S"
+        ],
+        "3": [
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S"
+        ],
+        "4": [
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S"
+        ],
+        "5": [
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S"
+        ],
+        "6": [
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S"
+        ]
+      },
+      "researchClueQueue": [
+        "CLUE_DARK",
+        "CLUE_TOMATO_EGG_C"
+      ],
+      "actions": [
+        {
+          "type": "ADVANCE_ACTIVE_TIME",
+          "milliseconds": 2500,
+          "expected": {
+            "potUnits": {},
+            "remainingActiveTimeMs": 87500,
+            "comboCount": 0,
+            "totalScore": 0,
+            "tags": [],
+            "phase": "READY"
+          }
+        },
+        {
+          "type": "LINK",
+          "path": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ]
+          ],
+          "expected": {
+            "potUnits": {
+              "ING_TOMATO": 1
+            },
+            "remainingActiveTimeMs": 87500,
+            "comboCount": 1,
+            "totalScore": 30,
+            "tags": [],
+            "phase": "READY",
+            "pathLength": 3,
+            "ingredientId": "ING_TOMATO",
+            "linkScore": 30
+          }
+        },
+        {
+          "type": "LINK",
+          "path": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ]
+          ],
+          "expected": {
+            "potUnits": {
+              "ING_TOMATO": 2
+            },
+            "remainingActiveTimeMs": 87500,
+            "comboCount": 2,
+            "totalScore": 60,
+            "tags": [],
+            "phase": "READY",
+            "pathLength": 3,
+            "ingredientId": "ING_TOMATO",
+            "linkScore": 30
+          }
+        },
+        {
+          "type": "LINK",
+          "path": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ]
+          ],
+          "expected": {
+            "potUnits": {
+              "ING_TOMATO": 2,
+              "ING_POTATO": 1
+            },
+            "remainingActiveTimeMs": 87500,
+            "comboCount": 3,
+            "totalScore": 96,
+            "tags": [],
+            "phase": "READY",
+            "pathLength": 3,
+            "ingredientId": "ING_POTATO",
+            "linkScore": 36
+          }
+        },
+        {
+          "type": "LINK",
+          "path": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ]
+          ],
+          "expected": {
+            "potUnits": {
+              "ING_TOMATO": 2,
+              "ING_POTATO": 2
+            },
+            "remainingActiveTimeMs": 87500,
+            "comboCount": 4,
+            "totalScore": 132,
+            "tags": [],
+            "phase": "READY",
+            "pathLength": 3,
+            "ingredientId": "ING_POTATO",
+            "linkScore": 36
+          }
+        },
+        {
+          "type": "LINK",
+          "path": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ]
+          ],
+          "expected": {
+            "potUnits": {
+              "ING_TOMATO": 2,
+              "ING_POTATO": 2,
+              "ING_MUSHROOM": 1
+            },
+            "remainingActiveTimeMs": 87500,
+            "comboCount": 5,
+            "totalScore": 177,
+            "tags": [],
+            "phase": "READY",
+            "pathLength": 3,
+            "ingredientId": "ING_MUSHROOM",
+            "linkScore": 45
+          }
+        },
+        {
+          "type": "FIRE",
+          "expectedRecipeId": "RCP_CHARRED_TOMATO_POTATO_BALL",
+          "expected": {
+            "potUnits": {},
+            "remainingActiveTimeMs": 87500,
+            "comboCount": 5,
+            "totalScore": 2327,
+            "tags": [],
+            "phase": "READY"
+          }
+        },
+        {
+          "type": "LINK",
+          "path": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ]
+          ],
+          "expected": {
+            "potUnits": {
+              "ING_TOMATO": 1
+            },
+            "remainingActiveTimeMs": 87500,
+            "comboCount": 6,
+            "totalScore": 2372,
+            "tags": [],
+            "phase": "READY",
+            "pathLength": 3,
+            "ingredientId": "ING_TOMATO",
+            "linkScore": 45
+          }
+        },
+        {
+          "type": "LINK",
+          "path": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ]
+          ],
+          "expected": {
+            "potUnits": {
+              "ING_TOMATO": 2
+            },
+            "remainingActiveTimeMs": 87500,
+            "comboCount": 7,
+            "totalScore": 2432,
+            "tags": [],
+            "phase": "READY",
+            "pathLength": 3,
+            "ingredientId": "ING_TOMATO",
+            "linkScore": 60
+          }
+        },
+        {
+          "type": "LINK",
+          "path": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ]
+          ],
+          "expected": {
+            "potUnits": {
+              "ING_TOMATO": 2,
+              "ING_EGG": 1
+            },
+            "remainingActiveTimeMs": 87500,
+            "comboCount": 8,
+            "totalScore": 2492,
+            "tags": [],
+            "phase": "READY",
+            "pathLength": 3,
+            "ingredientId": "ING_EGG",
+            "linkScore": 60
+          }
+        },
+        {
+          "type": "LINK",
+          "path": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ]
+          ],
+          "expected": {
+            "potUnits": {
+              "ING_TOMATO": 2,
+              "ING_EGG": 2
+            },
+            "remainingActiveTimeMs": 87500,
+            "comboCount": 9,
+            "totalScore": 2552,
+            "tags": [],
+            "phase": "READY",
+            "pathLength": 3,
+            "ingredientId": "ING_EGG",
+            "linkScore": 60
+          }
+        },
+        {
+          "type": "LINK",
+          "path": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ]
+          ],
+          "expected": {
+            "potUnits": {
+              "ING_TOMATO": 2,
+              "ING_EGG": 2,
+              "ING_SCALLION": 1
+            },
+            "remainingActiveTimeMs": 87500,
+            "comboCount": 10,
+            "totalScore": 2642,
+            "tags": [],
+            "phase": "READY",
+            "pathLength": 3,
+            "ingredientId": "ING_SCALLION",
+            "linkScore": 90
+          }
+        },
+        {
+          "type": "FIRE",
+          "expectedRecipeId": "RCP_TOMATO_EGG",
+          "expected": {
+            "potUnits": {},
+            "remainingActiveTimeMs": 87500,
+            "comboCount": 10,
+            "totalScore": 4342,
+            "tags": [],
+            "phase": "READY"
+          }
+        }
+      ],
+      "expectedFinalSnapshotHash": "a2a56101"
+    }
+  ]
+}

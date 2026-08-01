@@ -7,16 +7,20 @@
     "version": "3.8.8"
   },
   "scripts": {
-    "test": "vitest run --config vitest.config.mjs --configLoader native && npm run report",
-    "test:unit": "vitest run --config vitest.config.mjs --configLoader native tests/unit",
-    "test:scenarios": "vitest run --config vitest.config.mjs --configLoader native tests/scenarios",
+    "test": "vitest run --config vitest.config.mjs --configLoader native",
+    "test:unit": "vitest run --config vitest.config.mjs --configLoader native tests/r0/cp0r-r0-unit.test.ts",
+    "test:scenarios": "vitest run --config vitest.config.mjs --configLoader native tests/r0/cp0r-r0-scenarios.test.ts",
+    "test:r0": "vitest run --config vitest.config.mjs --configLoader native tests/r0",
     "test:c1": "vitest run --config vitest.config.mjs --configLoader native tests/c1",
     "typecheck": "tsc -p tsconfig.cp0b.json --noEmit",
     "report": "tsx scripts/generate-cp0b-report.ts",
+    "report:r0": "tsx scripts/generate-cp0r-r0-report.ts",
     "verify:c0": "node scripts/run-cp0c-c0-verification.mjs",
     "build-evidence:c0": "node scripts/capture-cp0c-c0-cocos-build.mjs",
     "verify:c1": "node scripts/run-cp0c-c1-verification.mjs",
-    "build-evidence:c1": "node scripts/capture-cp0c-c1-cocos-build.mjs"
+    "build-evidence:c1": "node scripts/capture-cp0c-c1-cocos-build.mjs",
+    "verify:r0": "node scripts/run-cp0r-r0-verification.mjs",
+    "build-evidence:r0": "node scripts/capture-cp0r-r0-cocos-build.mjs"
   },
   "devDependencies": {
     "@types/node": "24.1.0",

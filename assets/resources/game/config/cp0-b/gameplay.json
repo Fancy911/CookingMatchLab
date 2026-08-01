@@ -1,57 +1,94 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "board": {
     "rows": 7,
     "columns": 7,
-    "ingredientTypeCount": 5,
+    "ingredientTypeCount": 6,
     "connectionDirections": 8,
     "minimumLink": 3
   },
+  "session": {
+    "activeTimeMs": 90000,
+    "linkingGraceMs": 1000,
+    "activeTimeStates": ["READY", "LINKING"]
+  },
   "pot": {
-    "baseSlots": 3,
-    "temporarySlots": 1,
-    "minimumThrowsToCook": 2
+    "minimumUnitsToCook": 4,
+    "maximumUnits": 6
   },
   "longLink": {
-    "fine": 5,
+    "precise": 5,
     "inspiration": 7,
-    "master": 9
+    "master": 9,
+    "processingScores": {
+      "NORMAL": 60,
+      "PRECISE": 80,
+      "INSPIRATION": 90,
+      "MASTER": 100
+    },
+    "audioEvents": {
+      "PRECISE": "GOOD",
+      "INSPIRATION": "GREAT",
+      "MASTER": "UNBELIEVABLE"
+    }
   },
   "inspiration": {
-    "unitValue": 2,
-    "spawnStrategy": "PATH_END_COLUMN_FIRST_NEW_CELL"
+    "spawnStrategy": "PATH_END_COLUMN_FIRST_NEW_CELL",
+    "collectedScoreBonus": 50,
+    "processingBonus": 10,
+    "processingMaximum": 100
+  },
+  "combo": {
+    "windowMs": 3000,
+    "tiers": [
+      { "minimumCount": 1, "maximumCount": 2, "multiplier": 1 },
+      { "minimumCount": 3, "maximumCount": 4, "multiplier": 1.2 },
+      { "minimumCount": 5, "maximumCount": 6, "multiplier": 1.5 },
+      { "minimumCount": 7, "maximumCount": 9, "multiplier": 2 },
+      { "minimumCount": 10, "maximumCount": null, "multiplier": 3 }
+    ]
+  },
+  "linkScore": {
+    "pointsPerCell": 10,
+    "lengthRewards": [
+      { "minimumLength": 3, "maximumLength": 4, "bonus": 0 },
+      { "minimumLength": 5, "maximumLength": 6, "bonus": 30 },
+      { "minimumLength": 7, "maximumLength": 8, "bonus": 80 },
+      { "minimumLength": 9, "maximumLength": null, "bonus": 150 }
+    ]
   },
   "shuffle": {
     "algorithm": "fisher-yates-xorshift32-v1",
     "maximumAttempts": 256
   },
   "star": {
-    "quantityDeviationFactor": 12.5,
-    "recipeWeights": {
-      "quantity": 0.7,
-      "ratio": 0.3
-    },
-    "processingScores": {
-      "normal": 60,
-      "fine": 80,
-      "inspiration": 90,
-      "master": 100,
-      "inspirationBonus": 10,
-      "maximum": 100
-    },
-    "efficiencyScores": {
-      "high": 100,
-      "pass": 70,
-      "low": 40
+    "recipeAccuracy": {
+      "explicit": 100,
+      "fallback": 50
     },
     "weights": {
-      "recipe": 0.6,
-      "processing": 0.25,
-      "efficiency": 0.15
+      "accuracy": 0.6,
+      "processing": 0.4
     },
     "thresholds": {
-      "two": 65,
-      "three": 85
-    }
+      "two": 70,
+      "three": 90
+    },
+    "fallbackMaximumScore": 70,
+    "fallbackMaximumStars": 2
+  },
+  "dishScore": {
+    "rarityBase": {
+      "NORMAL": 500,
+      "FEATURED": 750,
+      "RARE": 1200
+    },
+    "darkTagBonus": 200,
+    "perStar": 200,
+    "firstDiscovery": 500,
+    "researchClueMatch": 300
+  },
+  "history": {
+    "processedCookResultLimit": 128
   }
 }

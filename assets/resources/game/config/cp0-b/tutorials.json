@@ -1,10 +1,16 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "tutorials": [
     {
       "id": "INSPIRATION_UNIT_HINT",
       "trigger": "FIRST_INSPIRATION_SPAWN",
-      "text": "灵感食材：连接时占1格，入锅时算2份。",
+      "text": "灵感食材：连接时仍算1格，入锅会为这一份料理加入灵感。",
+      "once": true
+    },
+    {
+      "id": "ONE_LINK_ONE_UNIT",
+      "trigger": "FIRST_LEGAL_LINK",
+      "text": "一次合法连线会融合成1份投料；路径越长，处理与得分越高。",
       "once": true
     }
   ]

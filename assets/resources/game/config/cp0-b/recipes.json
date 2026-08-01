@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "recipes": [
     {
       "id": "RCP_TOMATO_EGG",
@@ -7,24 +7,14 @@
       "rarity": "NORMAL",
       "tags": [],
       "required": {
-        "ING_TOMATO": { "min": 4, "max": 6, "ideal": 5 },
-        "ING_EGG": { "min": 3, "max": 5, "ideal": 4 }
+        "ING_TOMATO": 2,
+        "ING_EGG": 2,
+        "ING_SCALLION": 1
       },
-      "forbidden": ["ING_POTATO", "ING_CARROT", "ING_MUSHROOM", "ING_SCALLION"],
-      "ratios": [
-        {
-          "numerator": ["ING_TOMATO"],
-          "denominator": ["ING_EGG"],
-          "accepted": [1.0, 1.67],
-          "ideal": [1.1, 1.4]
-        }
-      ],
       "requiredConditions": [],
       "potId": "POT_BASE_RESEARCH",
       "priority": 300,
-      "fallback": false,
-      "revealProfile": "NORMAL",
-      "dishAsset": "game/art/dishes/dish_tomato_egg"
+      "fallback": false
     },
     {
       "id": "RCP_SCALLION_POTATO_CAKE",
@@ -32,25 +22,14 @@
       "rarity": "FEATURED",
       "tags": [],
       "required": {
-        "ING_POTATO": { "min": 5, "max": 7, "ideal": 6 },
-        "ING_EGG": { "min": 3, "max": 4, "ideal": 3 },
-        "ING_SCALLION": { "min": 3, "max": 4, "ideal": 3 }
+        "ING_POTATO": 3,
+        "ING_EGG": 1,
+        "ING_SCALLION": 1
       },
-      "forbidden": ["ING_TOMATO", "ING_CARROT", "ING_MUSHROOM"],
-      "ratios": [
-        {
-          "numerator": ["ING_POTATO"],
-          "denominator": ["ING_EGG", "ING_SCALLION"],
-          "accepted": [0.71, 1.17],
-          "ideal": [0.85, 1.05]
-        }
-      ],
       "requiredConditions": [],
       "potId": "POT_BASE_RESEARCH",
       "priority": 300,
-      "fallback": false,
-      "revealProfile": "FEATURED",
-      "dishAsset": "game/art/dishes/dish_scallion_potato_cake"
+      "fallback": false
     },
     {
       "id": "RCP_GARDEN_MUSHROOM_SOUP",
@@ -58,25 +37,15 @@
       "rarity": "FEATURED",
       "tags": [],
       "required": {
-        "ING_MUSHROOM": { "min": 4, "max": 6, "ideal": 5 },
-        "ING_CARROT": { "min": 3, "max": 5, "ideal": 4 },
-        "ING_POTATO": { "min": 3, "max": 5, "ideal": 3 }
+        "ING_MUSHROOM": 2,
+        "ING_CARROT": 1,
+        "ING_POTATO": 1,
+        "ING_SCALLION": 1
       },
-      "forbidden": ["ING_TOMATO", "ING_EGG", "ING_SCALLION"],
-      "ratios": [
-        {
-          "numerator": ["ING_MUSHROOM"],
-          "denominator": ["ING_CARROT", "ING_POTATO"],
-          "accepted": [0.5, 1.0],
-          "ideal": [0.65, 0.8]
-        }
-      ],
       "requiredConditions": [],
       "potId": "POT_BASE_RESEARCH",
       "priority": 300,
-      "fallback": false,
-      "revealProfile": "FEATURED",
-      "dishAsset": "game/art/dishes/dish_garden_mushroom_soup"
+      "fallback": false
     },
     {
       "id": "RCP_WARM_HOTPOT_MIX",
@@ -84,14 +53,10 @@
       "rarity": "NORMAL",
       "tags": [],
       "required": {},
-      "forbidden": [],
-      "ratios": [],
       "requiredConditions": [],
       "potId": "POT_BASE_RESEARCH",
       "priority": 0,
-      "fallback": true,
-      "revealProfile": "NORMAL",
-      "dishAsset": "game/art/dishes/dish_warm_hotpot_mix"
+      "fallback": true
     },
     {
       "id": "RCP_CHARRED_TOMATO_POTATO_BALL",
@@ -99,25 +64,14 @@
       "rarity": "FEATURED",
       "tags": ["DARK"],
       "required": {
-        "ING_TOMATO": { "min": 6, "max": 8, "ideal": 7 },
-        "ING_POTATO": { "min": 6, "max": 8, "ideal": 7 },
-        "ING_MUSHROOM": { "min": 3, "max": 5, "ideal": 4 }
+        "ING_TOMATO": 2,
+        "ING_POTATO": 2,
+        "ING_MUSHROOM": 1
       },
-      "forbidden": ["ING_EGG", "ING_CARROT", "ING_SCALLION"],
-      "ratios": [
-        {
-          "numerator": ["ING_TOMATO", "ING_POTATO"],
-          "denominator": ["ING_MUSHROOM"],
-          "accepted": [2.8, 4.5],
-          "ideal": [3.2, 3.8]
-        }
-      ],
       "requiredConditions": [],
       "potId": "POT_BASE_RESEARCH",
       "priority": 500,
-      "fallback": false,
-      "revealProfile": "DARK",
-      "dishAsset": "game/art/dishes/dish_sticky_tomato_potato_ball"
+      "fallback": false
     },
     {
       "id": "RCP_STAR_MUSHROOM_EGG_CUP",
@@ -125,24 +79,13 @@
       "rarity": "RARE",
       "tags": [],
       "required": {
-        "ING_MUSHROOM": { "min": 10, "max": 12, "ideal": 11 },
-        "ING_EGG": { "min": 4, "max": 5, "ideal": 4 }
+        "ING_MUSHROOM": 3,
+        "ING_EGG": 2
       },
-      "forbidden": ["ING_TOMATO", "ING_POTATO", "ING_CARROT", "ING_SCALLION"],
-      "ratios": [
-        {
-          "numerator": ["ING_MUSHROOM"],
-          "denominator": ["ING_EGG"],
-          "accepted": [2.0, 3.0],
-          "ideal": [2.5, 2.9]
-        }
-      ],
       "requiredConditions": ["INSPIRATION"],
       "potId": "POT_BASE_RESEARCH",
       "priority": 600,
-      "fallback": false,
-      "revealProfile": "RARE",
-      "dishAsset": "game/art/dishes/dish_star_mushroom_egg_cup"
+      "fallback": false
     }
   ]
 }

@@ -1,0 +1,19 @@
+# CP0-R0 Cocos Creator build evidence
+generatedAt=2026-08-01T15:45:05.517Z
+creatorVersion=3.8.8
+platform=web-mobile
+debug=false
+actualExitCode=36
+actualSignal=none
+status=PASS
+rawOutputSha256=1a12c30c3169db38c1a8af3eb30a75c912a27edbb77b6f0bcb1ad77550fb3557
+failureMarkers=none
+
+# Sanitized key build lines
+Arguments:
+  project: <PROJECT_ROOT>
+[EditorQuickCompiler]Version information looks good.
+2026-8-1 23:45:02 - debug: [[Executor]] Register CP0ABattleShell
+engineVersion="3.8.8",
+2026-8-1 23:45:05 - log: run build task Build Assets success in 51 ms√, progress: 27%
+2026-8-1 23:45:05 - debug: ================================ build Task (cp0r-r0-web-mobile) Finished in (3 s)ms ================================

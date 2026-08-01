@@ -1,0 +1,105 @@
+# CP0-R0 reproducible command verification
+generatedAt=2026-08-01T15:44:36.446Z
+node=v22.22.2
+
+## npm test
+status=PASS
+exitCode=0
+durationMs=557
+outputSha256=5ecada5c73acf15350f290cbecc72e68e41216bfe8d903c8868bf95b65d4d59a
+
+
+> test
+> vitest run --config vitest.config.mjs --configLoader native
+
+
+ RUN  v3.2.7 /Users/cc/项目/CookingMatchLab
+
+ ✓ tests/r0/cp0r-r0-scenarios.test.ts (5 tests) 19ms
+ ✓ tests/r0/cp0r-r0-unit.test.ts (24 tests) 56ms
+
+ Test Files  2 passed (2)
+      Tests  29 passed (29)
+   Start at  23:44:36
+   Duration  298ms (transform 75ms, setup 0ms, collect 143ms, tests 74ms, environment 0ms, prepare 77ms)
+
+
+
+## npm run test:unit
+status=PASS
+exitCode=0
+durationMs=557
+outputSha256=4c2d49c2ede48b497135d92430466882af037de986e8939ca3dadfa356d7abee
+
+
+> test:unit
+> vitest run --config vitest.config.mjs --configLoader native tests/r0/cp0r-r0-unit.test.ts
+
+
+ RUN  v3.2.7 /Users/cc/项目/CookingMatchLab
+
+ ✓ tests/r0/cp0r-r0-unit.test.ts (24 tests) 53ms
+
+ Test Files  1 passed (1)
+      Tests  24 passed (24)
+   Start at  23:44:37
+   Duration  275ms (transform 58ms, setup 0ms, collect 76ms, tests 53ms, environment 0ms, prepare 35ms)
+
+
+
+## npm run test:scenarios
+status=PASS
+exitCode=0
+durationMs=545
+outputSha256=dae99d73d9ae3a386cfba784b89d9cdaa7f9b8d79774c8f257484bc301340bdc
+
+
+> test:scenarios
+> vitest run --config vitest.config.mjs --configLoader native tests/r0/cp0r-r0-scenarios.test.ts
+
+
+ RUN  v3.2.7 /Users/cc/项目/CookingMatchLab
+
+ ✓ tests/r0/cp0r-r0-scenarios.test.ts (5 tests) 18ms
+
+ Test Files  1 passed (1)
+      Tests  5 passed (5)
+   Start at  23:44:37
+   Duration  249ms (transform 48ms, setup 0ms, collect 67ms, tests 18ms, environment 0ms, prepare 29ms)
+
+
+
+## npm run test:r0
+status=PASS
+exitCode=0
+durationMs=533
+outputSha256=aa2e786fb82af2a5e30f47d0de59dfac444a14709910167d821eae436087c920
+
+
+> test:r0
+> vitest run --config vitest.config.mjs --configLoader native tests/r0
+
+
+ RUN  v3.2.7 /Users/cc/项目/CookingMatchLab
+
+ ✓ tests/r0/cp0r-r0-scenarios.test.ts (5 tests) 17ms
+ ✓ tests/r0/cp0r-r0-unit.test.ts (24 tests) 52ms
+
+ Test Files  2 passed (2)
+      Tests  29 passed (29)
+   Start at  23:44:38
+   Duration  268ms (transform 74ms, setup 0ms, collect 137ms, tests 68ms, environment 0ms, prepare 75ms)
+
+
+
+## npm run typecheck
+status=PASS
+exitCode=0
+durationMs=680
+outputSha256=aae295b7a6d53a806fd95bbd8ac992dc8b13a1e291666431e0395f141e25078d
+
+
+> typecheck
+> tsc -p tsconfig.cp0b.json --noEmit
+
+

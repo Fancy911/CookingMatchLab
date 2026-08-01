@@ -21,28 +21,6 @@ const loadJson = (path: string): Promise<unknown> =>
 
 export class CocosJsonConfigLoader {
   public async load(): Promise<ConfigRegistry> {
-    const [gameplay, ingredients, recipes, orders, tutorials, ...scenarios] =
-      await Promise.all([
-        loadJson(`${CONFIG_RESOURCE_ROOT}/gameplay`),
-        loadJson(`${CONFIG_RESOURCE_ROOT}/ingredients`),
-        loadJson(`${CONFIG_RESOURCE_ROOT}/recipes`),
-        loadJson(`${CONFIG_RESOURCE_ROOT}/orders`),
-        loadJson(`${CONFIG_RESOURCE_ROOT}/tutorials`),
-        ...C1_SCENARIO_IDS.map((id) =>
-          loadJson(`${CONFIG_RESOURCE_ROOT}/scenarios/${id}`)),
-      ]);
-    const documents: JsonConfigDocuments = {
-      gameplay,
-      ingredients,
-      recipes,
-      orders,
-      tutorials,
-      scenarios: Object.fromEntries(
-        C1_SCENARIO_IDS.map((id, index) => [id, scenarios[index]]),
-      ),
-    };
-    const registry = registryFromDocuments(documents);
-    assertC1ConfigHash(registry);
-    return registry;
+    throw new Error('CP0-R0规则迁移中，视觉接入待R1');
   }
 }

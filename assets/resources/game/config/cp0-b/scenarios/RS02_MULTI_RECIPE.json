@@ -1,0 +1,807 @@
+{
+  "schemaVersion": 2,
+  "id": "RS02_MULTI_RECIPE",
+  "orderId": "ORD_02",
+  "seed": 1381183538,
+  "cases": [
+    {
+      "id": "POTATO_CAKE_THEN_SOUP",
+      "initialBoard": [
+        [
+          "P",
+          "P",
+          "P",
+          "P",
+          "P",
+          "P",
+          "P"
+        ],
+        [
+          "E",
+          "E",
+          "E",
+          "E",
+          "E",
+          "E",
+          "E"
+        ],
+        [
+          "P",
+          "P",
+          "P",
+          "P",
+          "P",
+          "P",
+          "P"
+        ],
+        [
+          "C",
+          "C",
+          "C",
+          "C",
+          "C",
+          "C",
+          "C"
+        ],
+        [
+          "M",
+          "M",
+          "M",
+          "M",
+          "M",
+          "M",
+          "M"
+        ],
+        [
+          "S",
+          "S",
+          "S",
+          "S",
+          "S",
+          "S",
+          "S"
+        ],
+        [
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T"
+        ]
+      ],
+      "columnQueues": {
+        "0": [
+          "P",
+          "P",
+          "E",
+          "S",
+          "M",
+          "M",
+          "C",
+          "P",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S"
+        ],
+        "1": [
+          "P",
+          "P",
+          "E",
+          "S",
+          "M",
+          "M",
+          "C",
+          "P",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S"
+        ],
+        "2": [
+          "P",
+          "P",
+          "E",
+          "S",
+          "M",
+          "M",
+          "C",
+          "P",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S"
+        ],
+        "3": [
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S"
+        ],
+        "4": [
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S"
+        ],
+        "5": [
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S"
+        ],
+        "6": [
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S",
+          "T",
+          "E",
+          "P",
+          "C",
+          "M",
+          "S"
+        ]
+      },
+      "researchClueQueue": [
+        "CLUE_POTATO_CAKE",
+        "CLUE_GARDEN_SOUP"
+      ],
+      "actions": [
+        {
+          "type": "ADVANCE_ACTIVE_TIME",
+          "milliseconds": 2500,
+          "expected": {
+            "potUnits": {},
+            "remainingActiveTimeMs": 87500,
+            "comboCount": 0,
+            "totalScore": 0,
+            "tags": [],
+            "phase": "READY"
+          }
+        },
+        {
+          "type": "LINK",
+          "path": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ]
+          ],
+          "expected": {
+            "potUnits": {
+              "ING_POTATO": 1
+            },
+            "remainingActiveTimeMs": 87500,
+            "comboCount": 1,
+            "totalScore": 30,
+            "tags": [],
+            "phase": "READY",
+            "pathLength": 3,
+            "ingredientId": "ING_POTATO",
+            "linkScore": 30
+          }
+        },
+        {
+          "type": "LINK",
+          "path": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ]
+          ],
+          "expected": {
+            "potUnits": {
+              "ING_POTATO": 2
+            },
+            "remainingActiveTimeMs": 87500,
+            "comboCount": 2,
+            "totalScore": 60,
+            "tags": [],
+            "phase": "READY",
+            "pathLength": 3,
+            "ingredientId": "ING_POTATO",
+            "linkScore": 30
+          }
+        },
+        {
+          "type": "LINK",
+          "path": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ]
+          ],
+          "expected": {
+            "potUnits": {
+              "ING_POTATO": 3
+            },
+            "remainingActiveTimeMs": 87500,
+            "comboCount": 3,
+            "totalScore": 96,
+            "tags": [],
+            "phase": "READY",
+            "pathLength": 3,
+            "ingredientId": "ING_POTATO",
+            "linkScore": 36
+          }
+        },
+        {
+          "type": "LINK",
+          "path": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ]
+          ],
+          "expected": {
+            "potUnits": {
+              "ING_POTATO": 3,
+              "ING_EGG": 1
+            },
+            "remainingActiveTimeMs": 87500,
+            "comboCount": 4,
+            "totalScore": 132,
+            "tags": [],
+            "phase": "READY",
+            "pathLength": 3,
+            "ingredientId": "ING_EGG",
+            "linkScore": 36
+          }
+        },
+        {
+          "type": "LINK",
+          "path": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ]
+          ],
+          "expected": {
+            "potUnits": {
+              "ING_POTATO": 3,
+              "ING_EGG": 1,
+              "ING_SCALLION": 1
+            },
+            "remainingActiveTimeMs": 87500,
+            "comboCount": 5,
+            "totalScore": 177,
+            "tags": [],
+            "phase": "READY",
+            "pathLength": 3,
+            "ingredientId": "ING_SCALLION",
+            "linkScore": 45
+          }
+        },
+        {
+          "type": "FIRE",
+          "expectedRecipeId": "RCP_SCALLION_POTATO_CAKE",
+          "expected": {
+            "potUnits": {},
+            "remainingActiveTimeMs": 87500,
+            "comboCount": 5,
+            "totalScore": 2127,
+            "tags": [],
+            "phase": "READY"
+          }
+        },
+        {
+          "type": "LINK",
+          "path": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ]
+          ],
+          "expected": {
+            "potUnits": {
+              "ING_MUSHROOM": 1
+            },
+            "remainingActiveTimeMs": 87500,
+            "comboCount": 6,
+            "totalScore": 2172,
+            "tags": [],
+            "phase": "READY",
+            "pathLength": 3,
+            "ingredientId": "ING_MUSHROOM",
+            "linkScore": 45
+          }
+        },
+        {
+          "type": "LINK",
+          "path": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ]
+          ],
+          "expected": {
+            "potUnits": {
+              "ING_MUSHROOM": 2
+            },
+            "remainingActiveTimeMs": 87500,
+            "comboCount": 7,
+            "totalScore": 2232,
+            "tags": [],
+            "phase": "READY",
+            "pathLength": 3,
+            "ingredientId": "ING_MUSHROOM",
+            "linkScore": 60
+          }
+        },
+        {
+          "type": "LINK",
+          "path": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ]
+          ],
+          "expected": {
+            "potUnits": {
+              "ING_MUSHROOM": 2,
+              "ING_CARROT": 1
+            },
+            "remainingActiveTimeMs": 87500,
+            "comboCount": 8,
+            "totalScore": 2292,
+            "tags": [],
+            "phase": "READY",
+            "pathLength": 3,
+            "ingredientId": "ING_CARROT",
+            "linkScore": 60
+          }
+        },
+        {
+          "type": "LINK",
+          "path": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ]
+          ],
+          "expected": {
+            "potUnits": {
+              "ING_MUSHROOM": 2,
+              "ING_CARROT": 1,
+              "ING_POTATO": 1
+            },
+            "remainingActiveTimeMs": 87500,
+            "comboCount": 9,
+            "totalScore": 2352,
+            "tags": [],
+            "phase": "READY",
+            "pathLength": 3,
+            "ingredientId": "ING_POTATO",
+            "linkScore": 60
+          }
+        },
+        {
+          "type": "LINK",
+          "path": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ]
+          ],
+          "expected": {
+            "potUnits": {
+              "ING_MUSHROOM": 2,
+              "ING_CARROT": 1,
+              "ING_POTATO": 1,
+              "ING_SCALLION": 1
+            },
+            "remainingActiveTimeMs": 87500,
+            "comboCount": 10,
+            "totalScore": 2442,
+            "tags": [],
+            "phase": "READY",
+            "pathLength": 3,
+            "ingredientId": "ING_SCALLION",
+            "linkScore": 90
+          }
+        },
+        {
+          "type": "FIRE",
+          "expectedRecipeId": "RCP_GARDEN_MUSHROOM_SOUP",
+          "expected": {
+            "potUnits": {},
+            "remainingActiveTimeMs": 87500,
+            "comboCount": 10,
+            "totalScore": 4392,
+            "tags": [],
+            "phase": "READY"
+          }
+        }
+      ],
+      "expectedFinalSnapshotHash": "a1d83213"
+    }
+  ]
+}

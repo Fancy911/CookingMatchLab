@@ -1,0 +1,39 @@
+{
+  "reportId": "CP0-R-R0-RECIPE-ENUMERATION",
+  "generatedAt": "2026-08-01T15:45:20.409Z",
+  "status": "PASS",
+  "configHash": "a35691f9",
+  "ingredientCount": 6,
+  "totalUnitRange": [
+    4,
+    5,
+    6
+  ],
+  "tagStates": [
+    "NONE",
+    "INSPIRATION",
+    "MASTER",
+    "INSPIRATION+MASTER"
+  ],
+  "baseCombinationCount": 840,
+  "evaluatedInputCount": 3360,
+  "recipeHitCounts": {
+    "RCP_TOMATO_EGG": 4,
+    "RCP_SCALLION_POTATO_CAKE": 4,
+    "RCP_GARDEN_MUSHROOM_SOUP": 4,
+    "RCP_WARM_HOTPOT_MIX": 3342,
+    "RCP_CHARRED_TOMATO_POTATO_BALL": 4,
+    "RCP_STAR_MUSHROOM_EGG_CUP": 2
+  },
+  "conflictCount": 0,
+  "noResultCount": 0,
+  "unstableSnapshotCount": 0,
+  "assertions": {
+    "uniqueResultPerInput": true,
+    "explicitRecipesDoNotOverlap": true,
+    "rareRecipeRequiresInspiration": true,
+    "fallbackCoversAllOtherInputs": true,
+    "allFourToSixUnitInputsResolve": true,
+    "repeatedInputHashStable": true
+  }
+}

@@ -1,3 +1,4 @@
+// SUPERSEDED_BY_V2: historical CP0-B assertions retained for audit only.
 import { describe, expect, it } from 'vitest';
 import {
   BoardModel,

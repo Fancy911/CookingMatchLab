@@ -1,0 +1,566 @@
+{
+  "reportId": "CP0-R-R0-FIXED-SCENARIOS",
+  "generatedAt": "2026-08-01T15:45:20.423Z",
+  "status": "PASS",
+  "configHash": "a35691f9",
+  "caseCount": 6,
+  "scenarioCount": 5,
+  "runs": [
+    {
+      "scenarioId": "RS01_TUTORIAL_REPEAT",
+      "caseId": "REPEAT_TOMATO_EGG",
+      "status": "PASS",
+      "actions": [
+        {
+          "index": 0,
+          "type": "ADVANCE_ACTIVE_TIME",
+          "status": "PASS",
+          "snapshotHash": "b5f52805"
+        },
+        {
+          "index": 1,
+          "type": "LINK",
+          "status": "PASS",
+          "snapshotHash": "d748fcbe"
+        },
+        {
+          "index": 2,
+          "type": "LINK",
+          "status": "PASS",
+          "snapshotHash": "7fa079e3"
+        },
+        {
+          "index": 3,
+          "type": "LINK",
+          "status": "PASS",
+          "snapshotHash": "e47fbd92"
+        },
+        {
+          "index": 4,
+          "type": "LINK",
+          "status": "PASS",
+          "snapshotHash": "a2a8b3ba"
+        },
+        {
+          "index": 5,
+          "type": "LINK",
+          "status": "PASS",
+          "snapshotHash": "eccc1e0c"
+        },
+        {
+          "index": 6,
+          "type": "FIRE",
+          "status": "PASS",
+          "snapshotHash": "321ca520",
+          "recipeId": "RCP_TOMATO_EGG"
+        },
+        {
+          "index": 7,
+          "type": "LINK",
+          "status": "PASS",
+          "snapshotHash": "4403b371"
+        },
+        {
+          "index": 8,
+          "type": "LINK",
+          "status": "PASS",
+          "snapshotHash": "3c614987"
+        },
+        {
+          "index": 9,
+          "type": "LINK",
+          "status": "PASS",
+          "snapshotHash": "bcb1041c"
+        },
+        {
+          "index": 10,
+          "type": "LINK",
+          "status": "PASS",
+          "snapshotHash": "61630d17"
+        },
+        {
+          "index": 11,
+          "type": "LINK",
+          "status": "PASS",
+          "snapshotHash": "5a8f5dec"
+        },
+        {
+          "index": 12,
+          "type": "FIRE",
+          "status": "PASS",
+          "snapshotHash": "e1a6696c",
+          "recipeId": "RCP_TOMATO_EGG"
+        }
+      ],
+      "finalSnapshotHash": "e1a6696c",
+      "expectedFinalSnapshotHash": "e1a6696c",
+      "cookResults": [
+        {
+          "cookResultId": "RS01_TUTORIAL_REPEAT:REPEAT_TOMATO_EGG:cook:1",
+          "recipeId": "RCP_TOMATO_EGG",
+          "stars": 2,
+          "qualityScore": 84,
+          "dishScore": 1700,
+          "isNewDiscovery": true,
+          "matchedResearchClue": true,
+          "tags": []
+        },
+        {
+          "cookResultId": "RS01_TUTORIAL_REPEAT:REPEAT_TOMATO_EGG:cook:2",
+          "recipeId": "RCP_TOMATO_EGG",
+          "stars": 2,
+          "qualityScore": 84,
+          "dishScore": 1200,
+          "isNewDiscovery": false,
+          "matchedResearchClue": true,
+          "tags": []
+        }
+      ]
+    },
+    {
+      "scenarioId": "RS02_MULTI_RECIPE",
+      "caseId": "POTATO_CAKE_THEN_SOUP",
+      "status": "PASS",
+      "actions": [
+        {
+          "index": 0,
+          "type": "ADVANCE_ACTIVE_TIME",
+          "status": "PASS",
+          "snapshotHash": "aca5663f"
+        },
+        {
+          "index": 1,
+          "type": "LINK",
+          "status": "PASS",
+          "snapshotHash": "62b36e4e"
+        },
+        {
+          "index": 2,
+          "type": "LINK",
+          "status": "PASS",
+          "snapshotHash": "c237ae4a"
+        },
+        {
+          "index": 3,
+          "type": "LINK",
+          "status": "PASS",
+          "snapshotHash": "5b499b69"
+        },
+        {
+          "index": 4,
+          "type": "LINK",
+          "status": "PASS",
+          "snapshotHash": "546da8ca"
+        },
+        {
+          "index": 5,
+          "type": "LINK",
+          "status": "PASS",
+          "snapshotHash": "d08bf9d5"
+        },
+        {
+          "index": 6,
+          "type": "FIRE",
+          "status": "PASS",
+          "snapshotHash": "290bff38",
+          "recipeId": "RCP_SCALLION_POTATO_CAKE"
+        },
+        {
+          "index": 7,
+          "type": "LINK",
+          "status": "PASS",
+          "snapshotHash": "832990a2"
+        },
+        {
+          "index": 8,
+          "type": "LINK",
+          "status": "PASS",
+          "snapshotHash": "97037377"
+        },
+        {
+          "index": 9,
+          "type": "LINK",
+          "status": "PASS",
+          "snapshotHash": "627674f6"
+        },
+        {
+          "index": 10,
+          "type": "LINK",
+          "status": "PASS",
+          "snapshotHash": "3c284d72"
+        },
+        {
+          "index": 11,
+          "type": "LINK",
+          "status": "PASS",
+          "snapshotHash": "554a73f4"
+        },
+        {
+          "index": 12,
+          "type": "FIRE",
+          "status": "PASS",
+          "snapshotHash": "a1d83213",
+          "recipeId": "RCP_GARDEN_MUSHROOM_SOUP"
+        }
+      ],
+      "finalSnapshotHash": "a1d83213",
+      "expectedFinalSnapshotHash": "a1d83213",
+      "cookResults": [
+        {
+          "cookResultId": "RS02_MULTI_RECIPE:POTATO_CAKE_THEN_SOUP:cook:1",
+          "recipeId": "RCP_SCALLION_POTATO_CAKE",
+          "stars": 2,
+          "qualityScore": 84,
+          "dishScore": 1950,
+          "isNewDiscovery": true,
+          "matchedResearchClue": true,
+          "tags": []
+        },
+        {
+          "cookResultId": "RS02_MULTI_RECIPE:POTATO_CAKE_THEN_SOUP:cook:2",
+          "recipeId": "RCP_GARDEN_MUSHROOM_SOUP",
+          "stars": 2,
+          "qualityScore": 84,
+          "dishScore": 1950,
+          "isNewDiscovery": true,
+          "matchedResearchClue": true,
+          "tags": []
+        }
+      ]
+    },
+    {
+      "scenarioId": "RS03_DARK",
+      "caseId": "DARK_THEN_NORMAL",
+      "status": "PASS",
+      "actions": [
+        {
+          "index": 0,
+          "type": "ADVANCE_ACTIVE_TIME",
+          "status": "PASS",
+          "snapshotHash": "75af8ad5"
+        },
+        {
+          "index": 1,
+          "type": "LINK",
+          "status": "PASS",
+          "snapshotHash": "439baf72"
+        },
+        {
+          "index": 2,
+          "type": "LINK",
+          "status": "PASS",
+          "snapshotHash": "8cef3bec"
+        },
+        {
+          "index": 3,
+          "type": "LINK",
+          "status": "PASS",
+          "snapshotHash": "a875e451"
+        },
+        {
+          "index": 4,
+          "type": "LINK",
+          "status": "PASS",
+          "snapshotHash": "c545aa03"
+        },
+        {
+          "index": 5,
+          "type": "LINK",
+          "status": "PASS",
+          "snapshotHash": "34b5c59e"
+        },
+        {
+          "index": 6,
+          "type": "FIRE",
+          "status": "PASS",
+          "snapshotHash": "fd3437cc",
+          "recipeId": "RCP_CHARRED_TOMATO_POTATO_BALL"
+        },
+        {
+          "index": 7,
+          "type": "LINK",
+          "status": "PASS",
+          "snapshotHash": "637ec76c"
+        },
+        {
+          "index": 8,
+          "type": "LINK",
+          "status": "PASS",
+          "snapshotHash": "a63ff51d"
+        },
+        {
+          "index": 9,
+          "type": "LINK",
+          "status": "PASS",
+          "snapshotHash": "b9670642"
+        },
+        {
+          "index": 10,
+          "type": "LINK",
+          "status": "PASS",
+          "snapshotHash": "b7c75a19"
+        },
+        {
+          "index": 11,
+          "type": "LINK",
+          "status": "PASS",
+          "snapshotHash": "6b28c1a9"
+        },
+        {
+          "index": 12,
+          "type": "FIRE",
+          "status": "PASS",
+          "snapshotHash": "a2a56101",
+          "recipeId": "RCP_TOMATO_EGG"
+        }
+      ],
+      "finalSnapshotHash": "a2a56101",
+      "expectedFinalSnapshotHash": "a2a56101",
+      "cookResults": [
+        {
+          "cookResultId": "RS03_DARK:DARK_THEN_NORMAL:cook:1",
+          "recipeId": "RCP_CHARRED_TOMATO_POTATO_BALL",
+          "stars": 2,
+          "qualityScore": 84,
+          "dishScore": 2150,
+          "isNewDiscovery": true,
+          "matchedResearchClue": true,
+          "tags": [
+            "DARK"
+          ]
+        },
+        {
+          "cookResultId": "RS03_DARK:DARK_THEN_NORMAL:cook:2",
+          "recipeId": "RCP_TOMATO_EGG",
+          "stars": 2,
+          "qualityScore": 84,
+          "dishScore": 1700,
+          "isNewDiscovery": true,
+          "matchedResearchClue": true,
+          "tags": []
+        }
+      ]
+    },
+    {
+      "scenarioId": "RS04_INSPIRATION",
+      "caseId": "INSPIRATION_THEN_NEXT_POT",
+      "status": "PASS",
+      "actions": [
+        {
+          "index": 0,
+          "type": "ADVANCE_ACTIVE_TIME",
+          "status": "PASS",
+          "snapshotHash": "1d304830"
+        },
+        {
+          "index": 1,
+          "type": "LINK",
+          "status": "PASS",
+          "snapshotHash": "12720591"
+        },
+        {
+          "index": 2,
+          "type": "LINK",
+          "status": "PASS",
+          "snapshotHash": "d6b623e3"
+        },
+        {
+          "index": 3,
+          "type": "LINK",
+          "status": "PASS",
+          "snapshotHash": "fd169b31"
+        },
+        {
+          "index": 4,
+          "type": "LINK",
+          "status": "PASS",
+          "snapshotHash": "87dd3cb1"
+        },
+        {
+          "index": 5,
+          "type": "LINK",
+          "status": "PASS",
+          "snapshotHash": "1b72ba6f"
+        },
+        {
+          "index": 6,
+          "type": "FIRE",
+          "status": "PASS",
+          "snapshotHash": "74200c9f",
+          "recipeId": "RCP_STAR_MUSHROOM_EGG_CUP"
+        },
+        {
+          "index": 7,
+          "type": "LINK",
+          "status": "PASS",
+          "snapshotHash": "cf8f3956"
+        },
+        {
+          "index": 8,
+          "type": "LINK",
+          "status": "PASS",
+          "snapshotHash": "c0624094"
+        },
+        {
+          "index": 9,
+          "type": "LINK",
+          "status": "PASS",
+          "snapshotHash": "6d134c02"
+        },
+        {
+          "index": 10,
+          "type": "LINK",
+          "status": "PASS",
+          "snapshotHash": "d3a8b5e4"
+        },
+        {
+          "index": 11,
+          "type": "LINK",
+          "status": "PASS",
+          "snapshotHash": "79706bdd"
+        },
+        {
+          "index": 12,
+          "type": "FIRE",
+          "status": "PASS",
+          "snapshotHash": "55428571",
+          "recipeId": "RCP_TOMATO_EGG"
+        }
+      ],
+      "finalSnapshotHash": "55428571",
+      "expectedFinalSnapshotHash": "55428571",
+      "cookResults": [
+        {
+          "cookResultId": "RS04_INSPIRATION:INSPIRATION_THEN_NEXT_POT:cook:1",
+          "recipeId": "RCP_STAR_MUSHROOM_EGG_CUP",
+          "stars": 2,
+          "qualityScore": 87.2,
+          "dishScore": 2400,
+          "isNewDiscovery": true,
+          "matchedResearchClue": true,
+          "tags": []
+        },
+        {
+          "cookResultId": "RS04_INSPIRATION:INSPIRATION_THEN_NEXT_POT:cook:2",
+          "recipeId": "RCP_TOMATO_EGG",
+          "stars": 2,
+          "qualityScore": 84,
+          "dishScore": 1700,
+          "isNewDiscovery": true,
+          "matchedResearchClue": true,
+          "tags": []
+        }
+      ]
+    },
+    {
+      "scenarioId": "RS05_TIMER_END",
+      "caseId": "FIVE_UNITS_AUTO_FIRE",
+      "status": "PASS",
+      "actions": [
+        {
+          "index": 0,
+          "type": "ADVANCE_ACTIVE_TIME",
+          "status": "PASS",
+          "snapshotHash": "2cc2b442"
+        },
+        {
+          "index": 1,
+          "type": "LINK",
+          "status": "PASS",
+          "snapshotHash": "8010ebfb"
+        },
+        {
+          "index": 2,
+          "type": "LINK",
+          "status": "PASS",
+          "snapshotHash": "93a0d988"
+        },
+        {
+          "index": 3,
+          "type": "LINK",
+          "status": "PASS",
+          "snapshotHash": "9aec9b19"
+        },
+        {
+          "index": 4,
+          "type": "LINK",
+          "status": "PASS",
+          "snapshotHash": "c7971fdd"
+        },
+        {
+          "index": 5,
+          "type": "LINK",
+          "status": "PASS",
+          "snapshotHash": "a650f44b"
+        },
+        {
+          "index": 6,
+          "type": "ADVANCE_ACTIVE_TIME",
+          "status": "PASS",
+          "snapshotHash": "625bc5c8"
+        },
+        {
+          "index": 7,
+          "type": "CONFIRM_AUTO_FIRE",
+          "status": "PASS",
+          "snapshotHash": "c9742611",
+          "recipeId": "RCP_TOMATO_EGG"
+        }
+      ],
+      "finalSnapshotHash": "c9742611",
+      "expectedFinalSnapshotHash": "c9742611",
+      "cookResults": [
+        {
+          "cookResultId": "RS05_TIMER_END:FIVE_UNITS_AUTO_FIRE:cook:1",
+          "recipeId": "RCP_TOMATO_EGG",
+          "stars": 2,
+          "qualityScore": 84,
+          "dishScore": 1700,
+          "isNewDiscovery": true,
+          "matchedResearchClue": true,
+          "tags": []
+        }
+      ]
+    },
+    {
+      "scenarioId": "RS05_TIMER_END",
+      "caseId": "THREE_UNITS_PARTIAL",
+      "status": "PASS",
+      "actions": [
+        {
+          "index": 0,
+          "type": "ADVANCE_ACTIVE_TIME",
+          "status": "PASS",
+          "snapshotHash": "4981da1b"
+        },
+        {
+          "index": 1,
+          "type": "LINK",
+          "status": "PASS",
+          "snapshotHash": "749f5db2"
+        },
+        {
+          "index": 2,
+          "type": "LINK",
+          "status": "PASS",
+          "snapshotHash": "6d604c4b"
+        },
+        {
+          "index": 3,
+          "type": "LINK",
+          "status": "PASS",
+          "snapshotHash": "db6279f4"
+        },
+        {
+          "index": 4,
+          "type": "ADVANCE_ACTIVE_TIME",
+          "status": "PASS",
+          "snapshotHash": "56d47970"
+        }
+      ],
+      "finalSnapshotHash": "56d47970",
+      "expectedFinalSnapshotHash": "56d47970",
+      "cookResults": []
+    }
+  ]
+}

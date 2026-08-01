@@ -1,5 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
+// SUPERSEDED_BY_V2: historical CP0-C integration assertions retained for audit only.
 import { describe, expect, it, vi } from 'vitest';
 import { PrototypeSession } from '../../assets/game/scripts/application/cp0c/PrototypeSession';
 import { DiscoveryModel } from '../../assets/game/scripts/domain/cp0b/core';
