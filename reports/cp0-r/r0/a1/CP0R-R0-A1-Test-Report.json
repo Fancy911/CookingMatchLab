@@ -1,13 +1,13 @@
 {
   "reportId": "CP0-R-R0-A1",
-  "generatedAt": "2026-08-01T16:41:30.557Z",
+  "generatedAt": "2026-08-01T16:42:31.439Z",
   "status": "PASS",
   "scope": "CP0-R0 acceptance fix A1 only; CP0-R1 not started",
   "commits": {
     "originalR0Commit": "bce05a6a67a35e212f011e99194ad4523fea444e",
     "implementationCommit": "4d6adefe97f04cf0411bb12482906d6702a9cd4f",
-    "reportArchiveCommit": "PENDING_REPORT_ARCHIVE_COMMIT",
-    "reportGenerationHead": "4d6adefe97f04cf0411bb12482906d6702a9cd4f"
+    "reportArchiveCommit": "478a386bdab92f219a1bd28b6719be320bd8b6e0",
+    "reportGenerationHead": "478a386bdab92f219a1bd28b6719be320bd8b6e0"
   },
   "environment": {
     "creatorVersion": "3.8.8",
@@ -21,7 +21,7 @@
   },
   "architecture": {
     "reportId": "CP0-R-R0-A1-ARCHITECTURE",
-    "generatedAt": "2026-08-01T16:41:30.547Z",
+    "generatedAt": "2026-08-01T16:42:31.429Z",
     "status": "PASS",
     "checks": {
       "A001": true,
