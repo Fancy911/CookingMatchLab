@@ -1,0 +1,68 @@
+{
+  "reportId": "CP0-R-R1-A-COMMAND-RESULTS",
+  "generatedAt": "2026-08-01T18:28:25.804Z",
+  "status": "PASS",
+  "nodeVersion": "v22.22.2",
+  "commands": [
+    {
+      "command": "npm test",
+      "startedAt": "2026-08-01T18:28:22.469Z",
+      "finishedAt": "2026-08-01T18:28:23.071Z",
+      "durationMs": 601,
+      "exitCode": 0,
+      "signal": null,
+      "status": "PASS",
+      "outputSha256": "c4d70c0f998f0207478e0bc756da79394910015a3d7b38d992e308834a4ee6dc"
+    },
+    {
+      "command": "npm run test:unit",
+      "startedAt": "2026-08-01T18:28:23.071Z",
+      "finishedAt": "2026-08-01T18:28:23.651Z",
+      "durationMs": 581,
+      "exitCode": 0,
+      "signal": null,
+      "status": "PASS",
+      "outputSha256": "faac472b525ee63d5fb83e890c63806f38a5eb74be2059df5374cd03bc77b319"
+    },
+    {
+      "command": "npm run test:scenarios",
+      "startedAt": "2026-08-01T18:28:23.652Z",
+      "finishedAt": "2026-08-01T18:28:24.163Z",
+      "durationMs": 511,
+      "exitCode": 0,
+      "signal": null,
+      "status": "PASS",
+      "outputSha256": "da41de247a307fa36acd730d8bf4517fc62b2b3ec556d0023f17724df505e942"
+    },
+    {
+      "command": "npm run test:r0",
+      "startedAt": "2026-08-01T18:28:24.163Z",
+      "finishedAt": "2026-08-01T18:28:24.737Z",
+      "durationMs": 574,
+      "exitCode": 0,
+      "signal": null,
+      "status": "PASS",
+      "outputSha256": "a360dda9b10883ba2a3e0e56e64880c0b509702a0711af5db34cfcea1ff7a069"
+    },
+    {
+      "command": "npm run test:r1a",
+      "startedAt": "2026-08-01T18:28:24.737Z",
+      "finishedAt": "2026-08-01T18:28:25.197Z",
+      "durationMs": 460,
+      "exitCode": 0,
+      "signal": null,
+      "status": "PASS",
+      "outputSha256": "3a783caf80ca4cbde1114f68640e28d4e5fe05e11802fdde3e67c2c5b2215489"
+    },
+    {
+      "command": "npm run typecheck",
+      "startedAt": "2026-08-01T18:28:25.197Z",
+      "finishedAt": "2026-08-01T18:28:25.804Z",
+      "durationMs": 607,
+      "exitCode": 0,
+      "signal": null,
+      "status": "PASS",
+      "outputSha256": "aae295b7a6d53a806fd95bbd8ac992dc8b13a1e291666431e0395f141e25078d"
+    }
+  ]
+}

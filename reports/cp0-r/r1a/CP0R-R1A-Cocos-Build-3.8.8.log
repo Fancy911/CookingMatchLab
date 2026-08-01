@@ -1,0 +1,24 @@
+# CP0-R1-A Cocos Creator build evidence
+generatedAt=2026-08-01T17:58:38.284Z
+creatorVersion=3.8.8
+platform=web-mobile
+actualExitCode=36
+actualSignal=none
+actualExitCodeAccepted=true
+buildFinished=true
+artifactExists=true
+artifactFileCount=132
+artifactManifestSha256=721a173612b847e98c6569ebb9dab32eb16eae75a1f4d33281f32faee0febc4d
+requiredFiles=application.js:true,index.html:true,index.js:true,src/settings.json:true
+failureMarkers=none
+status=PASS
+rawOutputSha256=fe5fdf2d8318525cbd79cdc94739cf7ff11451d0180aa6abbef1aad0c91a43e5
+
+# Sanitized key build lines
+Arguments:
+  project: <PROJECT_ROOT>
+[EditorQuickCompiler]Version information looks good.
+2026-8-2 01:58:34 - debug: [[Executor]] Register CP0ABattleShell
+engineVersion="3.8.8",
+2026-8-2 01:58:38 - log: run build task Build Assets success in 57 ms√, progress: 27%
+2026-8-2 01:58:38 - debug: ================================ build Task (cp0r-r1a-web-mobile) Finished in (3 s)ms ================================

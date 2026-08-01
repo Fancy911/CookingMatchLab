@@ -65,7 +65,7 @@ writeFileSync(
 );
 writeFileSync(
   join(reportDirectory, 'CP0R-R1A-Verification.log'),
-  log.join('\n'),
+  `${log.join('\n').trimEnd()}\n`,
 );
 console.log(`CP0-R1-A command verification: ${summary.status}`);
 console.log(relative(root, reportDirectory));

@@ -1,0 +1,375 @@
+{
+  "reportId": "CP0-R-R1-A-TEST-REPORT",
+  "generatedAt": "2026-08-01T18:28:26.074Z",
+  "status": "PASS",
+  "scope": "CP0-R1-A static visual shell only",
+  "startCommit": "a2e662883d73062b57e05a8d311543c06ab24762",
+  "baselineTag": "cp0-r1a-baseline",
+  "completionImplementationCommit": "4bea8b773e53ec32915462e30827dff2b3c02a90",
+  "branch": "main",
+  "creatorVersion": "3.8.8",
+  "canonicalConfig": {
+    "schemaVersion": 2,
+    "hash": "a35691f9"
+  },
+  "states": {
+    "READY": {
+      "id": "READY",
+      "timer": "01:30",
+      "score": "0",
+      "goodSticker": false,
+      "potIngredients": [],
+      "slots": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {}
+      ],
+      "fireEnabled": false,
+      "quickReveal": false
+    },
+    "POT_REVIEW": {
+      "id": "POT_REVIEW",
+      "timer": "01:08",
+      "score": "12,480",
+      "combo": "COMBO ×1.5",
+      "goodSticker": true,
+      "potIngredients": [
+        "tomato",
+        "egg",
+        "scallion"
+      ],
+      "slots": [
+        {
+          "ingredientId": "tomato",
+          "units": 1
+        },
+        {
+          "ingredientId": "egg",
+          "units": 1
+        },
+        {
+          "ingredientId": "tomato",
+          "units": 1
+        },
+        {
+          "ingredientId": "egg",
+          "units": 1
+        },
+        {
+          "ingredientId": "scallion",
+          "units": 1
+        },
+        {}
+      ],
+      "fireEnabled": true,
+      "quickReveal": false
+    },
+    "QUICK_REVEAL_REPEAT": {
+      "id": "QUICK_REVEAL_REPEAT",
+      "timer": "01:08",
+      "score": "12,480",
+      "combo": "COMBO ×1.5",
+      "goodSticker": false,
+      "potIngredients": [
+        "tomato",
+        "egg",
+        "scallion"
+      ],
+      "slots": [
+        {
+          "ingredientId": "tomato",
+          "units": 1
+        },
+        {
+          "ingredientId": "egg",
+          "units": 1
+        },
+        {
+          "ingredientId": "tomato",
+          "units": 1
+        },
+        {
+          "ingredientId": "egg",
+          "units": 1
+        },
+        {
+          "ingredientId": "scallion",
+          "units": 1
+        },
+        {}
+      ],
+      "fireEnabled": true,
+      "quickReveal": true
+    }
+  },
+  "layoutBasis": {
+    "designResolution": "390×844",
+    "safeAreaStrategy": "FIXED_WIDTH 390×844 SafeAreaRoot; critical HUD starts at y=46, side content uses at least 14 px logical inset.",
+    "bounds": {
+      "pause": [
+        14,
+        46,
+        44,
+        44
+      ],
+      "timer": [
+        72,
+        46,
+        112,
+        50
+      ],
+      "score": [
+        196,
+        46,
+        178,
+        50
+      ],
+      "clue": [
+        16,
+        104,
+        358,
+        66
+      ],
+      "board": [
+        13,
+        178,
+        364,
+        364
+      ],
+      "pot": [
+        48,
+        548,
+        294,
+        144
+      ],
+      "slots": [
+        14,
+        700,
+        260,
+        110
+      ],
+      "fire": [
+        286,
+        712,
+        88,
+        88
+      ]
+    }
+  },
+  "evidence": {
+    "screenshots": [
+      {
+        "name": "CP0R-R1A-01-Ready-390x844.png",
+        "status": "PASS",
+        "pngSignature": true,
+        "width": 390,
+        "height": 844,
+        "sha256": "3effe7f04ac5624b6841247cf46a15c340505b6d8c4cc283ddbf3b99e25d0c8c"
+      },
+      {
+        "name": "CP0R-R1A-02-Pot-Review-390x844.png",
+        "status": "PASS",
+        "pngSignature": true,
+        "width": 390,
+        "height": 844,
+        "sha256": "99ddf068b68f56b907b2478cb8adeb0fc2c20ec1bf2b835314039157d95154ad"
+      },
+      {
+        "name": "CP0R-R1A-03-Quick-Reveal-Repeat-390x844.png",
+        "status": "PASS",
+        "pngSignature": true,
+        "width": 390,
+        "height": 844,
+        "sha256": "2a4be31b2b3b33fba126cc3d6b1af10883175888126fc061dc38e032395ab420"
+      }
+    ],
+    "video": {
+      "name": "CP0R-R1A-V01-Static-States-390x844.mp4",
+      "status": "PASS",
+      "codec": "h264",
+      "width": 390,
+      "height": 844,
+      "fps": "15/1",
+      "frames": 180,
+      "durationSeconds": 12,
+      "sha256": "acef1f714ba0e9479d90935a62aa12a366540d3f9e5ae05ca2010ce0af8eab1f",
+      "captureMethod": "180 consecutive screenshots captured from one live Cocos instance while hidden keys 1/2/3 switched READY, POT_REVIEW and QUICK_REVEAL_REPEAT; encoded at 15 fps without visible debug controls or cursor."
+    },
+    "commands": {
+      "reportId": "CP0-R-R1-A-COMMAND-RESULTS",
+      "generatedAt": "2026-08-01T18:28:25.804Z",
+      "status": "PASS",
+      "nodeVersion": "v22.22.2",
+      "commands": [
+        {
+          "command": "npm test",
+          "startedAt": "2026-08-01T18:28:22.469Z",
+          "finishedAt": "2026-08-01T18:28:23.071Z",
+          "durationMs": 601,
+          "exitCode": 0,
+          "signal": null,
+          "status": "PASS",
+          "outputSha256": "c4d70c0f998f0207478e0bc756da79394910015a3d7b38d992e308834a4ee6dc"
+        },
+        {
+          "command": "npm run test:unit",
+          "startedAt": "2026-08-01T18:28:23.071Z",
+          "finishedAt": "2026-08-01T18:28:23.651Z",
+          "durationMs": 581,
+          "exitCode": 0,
+          "signal": null,
+          "status": "PASS",
+          "outputSha256": "faac472b525ee63d5fb83e890c63806f38a5eb74be2059df5374cd03bc77b319"
+        },
+        {
+          "command": "npm run test:scenarios",
+          "startedAt": "2026-08-01T18:28:23.652Z",
+          "finishedAt": "2026-08-01T18:28:24.163Z",
+          "durationMs": 511,
+          "exitCode": 0,
+          "signal": null,
+          "status": "PASS",
+          "outputSha256": "da41de247a307fa36acd730d8bf4517fc62b2b3ec556d0023f17724df505e942"
+        },
+        {
+          "command": "npm run test:r0",
+          "startedAt": "2026-08-01T18:28:24.163Z",
+          "finishedAt": "2026-08-01T18:28:24.737Z",
+          "durationMs": 574,
+          "exitCode": 0,
+          "signal": null,
+          "status": "PASS",
+          "outputSha256": "a360dda9b10883ba2a3e0e56e64880c0b509702a0711af5db34cfcea1ff7a069"
+        },
+        {
+          "command": "npm run test:r1a",
+          "startedAt": "2026-08-01T18:28:24.737Z",
+          "finishedAt": "2026-08-01T18:28:25.197Z",
+          "durationMs": 460,
+          "exitCode": 0,
+          "signal": null,
+          "status": "PASS",
+          "outputSha256": "3a783caf80ca4cbde1114f68640e28d4e5fe05e11802fdde3e67c2c5b2215489"
+        },
+        {
+          "command": "npm run typecheck",
+          "startedAt": "2026-08-01T18:28:25.197Z",
+          "finishedAt": "2026-08-01T18:28:25.804Z",
+          "durationMs": 607,
+          "exitCode": 0,
+          "signal": null,
+          "status": "PASS",
+          "outputSha256": "aae295b7a6d53a806fd95bbd8ac992dc8b13a1e291666431e0395f141e25078d"
+        }
+      ]
+    },
+    "cocosBuild": {
+      "reportId": "CP0-R-R1-A-COCOS-BUILD",
+      "generatedAt": "2026-08-01T17:58:38.284Z",
+      "status": "PASS",
+      "creatorVersion": "3.8.8",
+      "platform": "web-mobile",
+      "debug": false,
+      "command": {
+        "executable": "/Applications/CocosCreator.app/Contents/MacOS/CocosCreator",
+        "args": [
+          "--project",
+          "<PROJECT_ROOT>",
+          "--build",
+          "platform=web-mobile;debug=false;buildPath=project://build;outputName=cp0r-r1a-web-mobile"
+        ],
+        "startedAt": "2026-08-01T17:58:28.359Z",
+        "finishedAt": "2026-08-01T17:58:38.284Z",
+        "durationMs": 9938
+      },
+      "buildArtifact": {
+        "directory": "build/cp0r-r1a-web-mobile",
+        "fileCount": 132,
+        "manifestSha256": "721a173612b847e98c6569ebb9dab32eb16eae75a1f4d33281f32faee0febc4d"
+      },
+      "verification": {
+        "actualExitCode": 36,
+        "actualSignal": null,
+        "actualExitCodeAccepted": true,
+        "creatorVersionConfigured": true,
+        "shellRegistered": true,
+        "engineVersionConfirmed": true,
+        "buildFinished": true,
+        "artifactExists": true,
+        "artifactFileCount": 132,
+        "requiredFiles": [
+          {
+            "path": "application.js",
+            "exists": true
+          },
+          {
+            "path": "index.html",
+            "exists": true
+          },
+          {
+            "path": "index.js",
+            "exists": true
+          },
+          {
+            "path": "src/settings.json",
+            "exists": true
+          }
+        ],
+        "manifestSha256": "721a173612b847e98c6569ebb9dab32eb16eae75a1f4d33281f32faee0febc4d",
+        "failureMarkers": []
+      },
+      "rawOutputSha256": "fe5fdf2d8318525cbd79cdc94739cf7ff11451d0180aa6abbef1aad0c91a43e5",
+      "retainedLog": "reports/cp0-r/r1a/CP0R-R1A-Cocos-Build-3.8.8.log"
+    }
+  },
+  "generatedAssets": {
+    "tool": "OpenAI imagegen (model identifier not exposed by the tool)",
+    "assets": [
+      {
+        "path": "assets/resources/game/art/ingredients/ingredient_scallion.png",
+        "width": 400,
+        "height": 400,
+        "sha256": "efc596fe5c9db64d572dca03f60302441ec82f366341217c28c9f8325aa4f442"
+      },
+      {
+        "path": "assets/resources/game/art/pot/pot_scallion.png",
+        "width": 400,
+        "height": 400,
+        "sha256": "708c21a07eaccc3046ff8687c60f20ce11b56260d58f7e634de3084b2dd78d8f"
+      }
+    ],
+    "prompts": [
+      "G1-B jelly-toy kitchen board icon: three plump scallion stalks, unified upper-left light, isolated chroma background.",
+      "G1-B jelly-toy kitchen pot module: three chunky green-and-ivory scallion segments, unified upper-left light, isolated chroma background."
+    ],
+    "processing": "Chroma key removed with the imagegen skill helper using soft matte and despill; final PNGs were imported and inspected in the real Cocos build."
+  },
+  "checks": {
+    "commands": true,
+    "cocosBuild": true,
+    "screenshots": true,
+    "video": true,
+    "canonicalSchema": true,
+    "canonicalHash": true,
+    "protectedTreeZeroDiff": true,
+    "states": true,
+    "sixSlots": true,
+    "fiveFilledSlots": true
+  },
+  "protectedPaths": [
+    "assets/game/scripts/domain",
+    "assets/game/scripts/application/cp0c",
+    "assets/game/scripts/infrastructure/JsonConfigAdapter.ts",
+    "assets/game/scripts/infrastructure/CocosJsonConfigLoader.ts",
+    "assets/resources/game/config"
+  ],
+  "protectedDiff": [],
+  "knownTemporaryItems": [
+    "All three states are static acceptance ViewModels.",
+    "No playable Domain session, countdown, touch linking, audio, or multi-pot flow is connected.",
+    "CP0-R1-B has not started."
+  ]
+}
