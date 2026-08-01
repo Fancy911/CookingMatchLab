@@ -1,0 +1,24 @@
+# CP0-R1-A Visual Fix Cocos Creator build evidence
+generatedAt=2026-08-01T18:59:44.780Z
+creatorVersion=3.8.8
+platform=web-mobile
+actualExitCode=36
+actualSignal=none
+actualExitCodeAccepted=true
+buildFinished=true
+artifactExists=true
+artifactFileCount=135
+artifactManifestSha256=33da51b6bb48e5a23708ca90f339e36cf900dfcb4a4279fd511633c4765b33c9
+requiredFiles=application.js:true,index.html:true,index.js:true,src/settings.json:true
+failureMarkers=none
+status=PASS
+rawOutputSha256=3664eb3c7dedc10693af4b64241597b5dadfd1d0254506d05595eb55a562c202
+
+# Sanitized key build lines
+Arguments:
+  project: <PROJECT_ROOT>
+[EditorQuickCompiler]Version information looks good.
+2026-8-2 02:59:41 - debug: [[Executor]] Register CP0ABattleShell
+engineVersion="3.8.8",
+2026-8-2 02:59:44 - log: run build task Build Assets success in 54 ms√, progress: 27%
+2026-8-2 02:59:44 - debug: ================================ build Task (cp0r-r1a-visual-fix-web-mobile) Finished in (3 s)ms ================================

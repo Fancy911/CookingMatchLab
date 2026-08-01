@@ -1,0 +1,129 @@
+# CP0-R1-A reproducible verification
+generatedAt=2026-08-01T18:59:07.423Z
+node=v22.22.2
+
+## npm test
+status=PASS
+exitCode=0
+durationMs=522
+outputSha256=aa97bbd4e4521042dada6a058cd0379a65b76302e27d9a31ee6558c1e978ed26
+
+
+> test
+> vitest run --config vitest.config.mjs --configLoader native
+
+
+ RUN  v3.2.7 /Users/cc/项目/CookingMatchLab
+
+ ✓ tests/r1a/cp0r-r1a-static.test.ts (12 tests) 14ms
+ ✓ tests/r0/cp0r-r0-architecture.test.ts (8 tests) 30ms
+ ✓ tests/r0/cp0r-r0-scenarios.test.ts (5 tests) 19ms
+ ✓ tests/r0/cp0r-r0-unit.test.ts (24 tests) 77ms
+
+ Test Files  4 passed (4)
+      Tests  49 passed (49)
+   Start at  02:59:07
+   Duration  285ms (transform 115ms, setup 0ms, collect 236ms, tests 139ms, environment 0ms, prepare 122ms)
+
+
+
+## npm run test:unit
+status=PASS
+exitCode=0
+durationMs=503
+outputSha256=3d29c7ab61e968f68ed9ea3461f5a9682be8426424d00096da6ef0658ae605f7
+
+
+> test:unit
+> vitest run --config vitest.config.mjs --configLoader native tests/r0/cp0r-r0-unit.test.ts tests/r0/cp0r-r0-architecture.test.ts
+
+
+ RUN  v3.2.7 /Users/cc/项目/CookingMatchLab
+
+ ✓ tests/r0/cp0r-r0-architecture.test.ts (8 tests) 23ms
+ ✓ tests/r0/cp0r-r0-unit.test.ts (24 tests) 63ms
+
+ Test Files  2 passed (2)
+      Tests  32 passed (32)
+   Start at  02:59:08
+   Duration  265ms (transform 73ms, setup 0ms, collect 127ms, tests 85ms, environment 0ms, prepare 46ms)
+
+
+
+## npm run test:scenarios
+status=PASS
+exitCode=0
+durationMs=445
+outputSha256=8ce76dc1311dc2cf99cf5e904d6a85f0794bb1c38b14ebb63dd3bf727eee70af
+
+
+> test:scenarios
+> vitest run --config vitest.config.mjs --configLoader native tests/r0/cp0r-r0-scenarios.test.ts
+
+
+ RUN  v3.2.7 /Users/cc/项目/CookingMatchLab
+
+ ✓ tests/r0/cp0r-r0-scenarios.test.ts (5 tests) 16ms
+
+ Test Files  1 passed (1)
+      Tests  5 passed (5)
+   Start at  02:59:08
+   Duration  204ms (transform 44ms, setup 0ms, collect 65ms, tests 16ms, environment 0ms, prepare 22ms)
+
+
+
+## npm run test:r0
+status=PASS
+exitCode=0
+durationMs=494
+outputSha256=586567a6d13c7896db0025e1588bbc6189a746e99558981a441f411f3b341159
+
+
+> test:r0
+> vitest run --config vitest.config.mjs --configLoader native tests/r0
+
+
+ RUN  v3.2.7 /Users/cc/项目/CookingMatchLab
+
+ ✓ tests/r0/cp0r-r0-architecture.test.ts (8 tests) 20ms
+ ✓ tests/r0/cp0r-r0-scenarios.test.ts (5 tests) 17ms
+ ✓ tests/r0/cp0r-r0-unit.test.ts (24 tests) 55ms
+
+ Test Files  3 passed (3)
+      Tests  37 passed (37)
+   Start at  02:59:09
+   Duration  257ms (transform 99ms, setup 0ms, collect 190ms, tests 93ms, environment 0ms, prepare 80ms)
+
+
+
+## npm run test:r1a
+status=PASS
+exitCode=0
+durationMs=394
+outputSha256=7f13abd68eb363dc4ffce5bbd2a00c02d5755715b38d73f15b7c347ca604185b
+
+
+> test:r1a
+> vitest run --config vitest.config.mjs --configLoader native tests/r1a
+
+
+ RUN  v3.2.7 /Users/cc/项目/CookingMatchLab
+
+ ✓ tests/r1a/cp0r-r1a-static.test.ts (12 tests) 12ms
+
+ Test Files  1 passed (1)
+      Tests  12 passed (12)
+   Start at  02:59:09
+   Duration  156ms (transform 21ms, setup 0ms, collect 21ms, tests 12ms, environment 0ms, prepare 21ms)
+
+
+
+## npm run typecheck
+status=PASS
+exitCode=0
+durationMs=537
+outputSha256=aae295b7a6d53a806fd95bbd8ac992dc8b13a1e291666431e0395f141e25078d
+
+
+> typecheck
+> tsc -p tsconfig.cp0b.json --noEmit

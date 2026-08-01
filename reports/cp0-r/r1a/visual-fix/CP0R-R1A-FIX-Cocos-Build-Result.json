@@ -1,0 +1,58 @@
+{
+  "reportId": "CP0-R-R1-A-VISUAL-FIX-COCOS-BUILD",
+  "generatedAt": "2026-08-01T18:59:44.780Z",
+  "status": "PASS",
+  "creatorVersion": "3.8.8",
+  "platform": "web-mobile",
+  "debug": false,
+  "command": {
+    "executable": "/Applications/CocosCreator.app/Contents/MacOS/CocosCreator",
+    "args": [
+      "--project",
+      "<PROJECT_ROOT>",
+      "--build",
+      "platform=web-mobile;debug=false;buildPath=project://build;outputName=cp0r-r1a-visual-fix-web-mobile"
+    ],
+    "startedAt": "2026-08-01T18:59:35.804Z",
+    "finishedAt": "2026-08-01T18:59:44.780Z",
+    "durationMs": 8988
+  },
+  "buildArtifact": {
+    "directory": "build/cp0r-r1a-visual-fix-web-mobile",
+    "fileCount": 135,
+    "manifestSha256": "33da51b6bb48e5a23708ca90f339e36cf900dfcb4a4279fd511633c4765b33c9"
+  },
+  "verification": {
+    "actualExitCode": 36,
+    "actualSignal": null,
+    "actualExitCodeAccepted": true,
+    "creatorVersionConfigured": true,
+    "shellRegistered": true,
+    "engineVersionConfirmed": true,
+    "buildFinished": true,
+    "artifactExists": true,
+    "artifactFileCount": 135,
+    "requiredFiles": [
+      {
+        "path": "application.js",
+        "exists": true
+      },
+      {
+        "path": "index.html",
+        "exists": true
+      },
+      {
+        "path": "index.js",
+        "exists": true
+      },
+      {
+        "path": "src/settings.json",
+        "exists": true
+      }
+    ],
+    "manifestSha256": "33da51b6bb48e5a23708ca90f339e36cf900dfcb4a4279fd511633c4765b33c9",
+    "failureMarkers": []
+  },
+  "rawOutputSha256": "3664eb3c7dedc10693af4b64241597b5dadfd1d0254506d05595eb55a562c202",
+  "retainedLog": "reports/cp0-r/r1a/visual-fix/CP0R-R1A-FIX-Cocos-Build-3.8.8.log"
+}
