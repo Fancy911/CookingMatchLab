@@ -155,5 +155,12 @@ describe('CP0-R1-A static visual shell', () => {
     expect(shell).toContain('`ThrowSlot${index + 1}`');
     expect(shell).toContain('SCREEN_WIDTH = 390');
     expect(shell).toContain('SCREEN_HEIGHT = 844');
+    expect(shell).toContain('const slotSize = 70');
+    expect(shell).toContain('const iconSize = 52');
+    expect(shell).toContain('const step = 49');
+    expect(shell).toContain("'throwTraySix'");
+    expect(shell).toContain("'hudShell'");
+    expect(shell).toContain("'nameplate'");
+    expect(shell).not.toContain('roundedPanel');
   });
 });

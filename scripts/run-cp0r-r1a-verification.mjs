@@ -4,7 +4,16 @@ import { mkdirSync, writeFileSync } from 'node:fs';
 import { join, relative } from 'node:path';
 
 const root = process.cwd();
-const reportDirectory = join(root, 'reports', 'cp0-r', 'r1a');
+const variant = process.env.R1A_VARIANT ?? 'base';
+const isVisualFix = variant === 'visual-fix';
+const reportDirectory = join(
+  root,
+  'reports',
+  'cp0-r',
+  'r1a',
+  ...(isVisualFix ? ['visual-fix'] : []),
+);
+const evidencePrefix = isVisualFix ? 'CP0R-R1A-FIX' : 'CP0R-R1A';
 mkdirSync(reportDirectory, { recursive: true });
 const commands = [
   ['npm', ['test']],
@@ -53,20 +62,24 @@ for (const [executable, args] of commands) {
   );
 }
 const summary = {
-  reportId: 'CP0-R-R1-A-COMMAND-RESULTS',
+  reportId: isVisualFix
+    ? 'CP0-R-R1-A-VISUAL-FIX-COMMAND-RESULTS'
+    : 'CP0-R-R1-A-COMMAND-RESULTS',
   generatedAt: new Date().toISOString(),
   status: records.every(({ status }) => status === 'PASS') ? 'PASS' : 'FAIL',
   nodeVersion: process.version,
   commands: records,
 };
 writeFileSync(
-  join(reportDirectory, 'CP0R-R1A-Command-Results.json'),
+  join(reportDirectory, `${evidencePrefix}-Command-Results.json`),
   `${JSON.stringify(summary, null, 2)}\n`,
 );
 writeFileSync(
-  join(reportDirectory, 'CP0R-R1A-Verification.log'),
+  join(reportDirectory, `${evidencePrefix}-Verification.log`),
   `${log.join('\n').trimEnd()}\n`,
 );
-console.log(`CP0-R1-A command verification: ${summary.status}`);
+console.log(
+  `CP0-R1-A${isVisualFix ? ' Visual Fix' : ''} command verification: ${summary.status}`,
+);
 console.log(relative(root, reportDirectory));
 if (summary.status !== 'PASS') process.exitCode = 1;

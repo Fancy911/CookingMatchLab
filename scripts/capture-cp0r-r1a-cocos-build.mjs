@@ -12,11 +12,22 @@ import {
 import { join, relative } from 'node:path';
 
 const root = process.cwd();
-const reportDirectory = join(root, 'reports', 'cp0-r', 'r1a');
-const outputName = 'cp0r-r1a-web-mobile';
+const variant = process.env.R1A_VARIANT ?? 'base';
+const isVisualFix = variant === 'visual-fix';
+const reportDirectory = join(
+  root,
+  'reports',
+  'cp0-r',
+  'r1a',
+  ...(isVisualFix ? ['visual-fix'] : []),
+);
+const outputName = isVisualFix
+  ? 'cp0r-r1a-visual-fix-web-mobile'
+  : 'cp0r-r1a-web-mobile';
 const buildDirectory = join(root, 'build', outputName);
-const resultPath = join(reportDirectory, 'CP0R-R1A-Cocos-Build-Result.json');
-const logPath = join(reportDirectory, 'CP0R-R1A-Cocos-Build-3.8.8.log');
+const evidencePrefix = isVisualFix ? 'CP0R-R1A-FIX' : 'CP0R-R1A';
+const resultPath = join(reportDirectory, `${evidencePrefix}-Cocos-Build-Result.json`);
+const logPath = join(reportDirectory, `${evidencePrefix}-Cocos-Build-3.8.8.log`);
 const creatorBinary = process.env.COCOS_CREATOR_BIN
   ?? '/Applications/CocosCreator.app/Contents/MacOS/CocosCreator';
 const buildArgument =
@@ -42,7 +53,8 @@ const sanitized = raw
   .replaceAll(root, '<PROJECT_ROOT>')
   .replaceAll(process.env.HOME ?? '<NO_HOME>', '<USER_HOME>');
 const keyLines = sanitized.split('\n').filter((line) =>
-  /Arguments:|project: <PROJECT_ROOT>|Version information looks good|Register CP0ABattleShell|engineVersion="3\.8\.8"|Build Assets success|build Task \(cp0r-r1a-web-mobile\) Finished/.test(line));
+  /Arguments:|project: <PROJECT_ROOT>|Version information looks good|Register CP0ABattleShell|engineVersion="3\.8\.8"|Build Assets success/.test(line)
+  || line.includes(`build Task (${outputName}) Finished`));
 const failureMarkers = [
   'Missing class',
   'missing or invalid',
@@ -96,7 +108,9 @@ const passed = verification.creatorVersionConfigured
   && requiredFiles.every((item) => item.exists)
   && failureMarkers.length === 0;
 const record = {
-  reportId: 'CP0-R-R1-A-COCOS-BUILD',
+  reportId: isVisualFix
+    ? 'CP0-R-R1-A-VISUAL-FIX-COCOS-BUILD'
+    : 'CP0-R-R1-A-COCOS-BUILD',
   generatedAt: finishedAt.toISOString(),
   status: passed ? 'PASS' : 'FAIL',
   creatorVersion: '3.8.8',
@@ -120,7 +134,7 @@ const record = {
 };
 writeFileSync(resultPath, `${JSON.stringify(record, null, 2)}\n`);
 writeFileSync(logPath, [
-  '# CP0-R1-A Cocos Creator build evidence',
+  `# CP0-R1-A${isVisualFix ? ' Visual Fix' : ''} Cocos Creator build evidence`,
   `generatedAt=${record.generatedAt}`,
   'creatorVersion=3.8.8',
   'platform=web-mobile',
@@ -140,6 +154,6 @@ writeFileSync(logPath, [
   ...keyLines,
   '',
 ].join('\n'));
-console.log(`CP0-R1-A Cocos build evidence: ${record.status}`);
+console.log(`CP0-R1-A${isVisualFix ? ' Visual Fix' : ''} Cocos build evidence: ${record.status}`);
 console.log(relative(root, resultPath));
 if (!passed) process.exitCode = 1;

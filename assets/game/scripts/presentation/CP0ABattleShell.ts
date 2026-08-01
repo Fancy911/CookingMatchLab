@@ -39,7 +39,9 @@ type AssetKey =
   | 'boardFrame'
   | 'tile'
   | 'pause'
+  | 'hudShell'
   | 'clueTray'
+  | 'throwTraySix'
   | 'pot'
   | 'potFront'
   | 'potTomato'
@@ -55,6 +57,7 @@ type AssetKey =
   | 'dish'
   | 'pedestal'
   | 'halo'
+  | 'nameplate'
   | 'rarity'
   | 'star';
 
@@ -63,7 +66,9 @@ const ASSETS: Record<AssetKey, string> = {
   boardFrame: 'game/art/ui/battle/board_frame/spriteFrame',
   tile: 'game/art/ui/battle/tile_normal/spriteFrame',
   pause: 'game/art/ui/battle/pause_button/spriteFrame',
+  hudShell: 'game/art/ui/battle/step_badge/spriteFrame',
   clueTray: 'game/art/ui/battle/order_tray/spriteFrame',
+  throwTraySix: 'game/art/ui/battle/throw_tray_six/spriteFrame',
   pot: 'game/art/pot/research_pot/spriteFrame',
   potFront: 'game/art/pot/research_pot_front/spriteFrame',
   potTomato: 'game/art/pot/pot_tomato/spriteFrame',
@@ -79,6 +84,7 @@ const ASSETS: Record<AssetKey, string> = {
   dish: 'game/art/dishes/dish_tomato_egg/spriteFrame',
   pedestal: 'game/art/ui/reveal/reveal_pedestal/spriteFrame',
   halo: 'game/art/ui/reveal/reveal_halo/spriteFrame',
+  nameplate: 'game/art/ui/reveal/reveal_nameplate/spriteFrame',
   rarity: 'game/art/ui/reveal/rarity_normal/spriteFrame',
   star: 'game/art/ui/reveal/star_on/spriteFrame',
 };
@@ -199,121 +205,113 @@ export class CP0ABattleShell extends Component {
   }
 
   private buildTopHud(parent: Node): void {
-    this.sprite('PauseButton', 'pause', parent, 14, 46, 44, 44);
-
-    this.roundedPanel(
+    this.sprite('PauseButton', 'pause', parent, 7, 37, 60, 60);
+    this.sprite(
       'KitchenTimer',
+      'hudShell',
       parent,
-      72,
-      46,
-      112,
-      50,
-      18,
-      new Color(255, 239, 190, 255),
-      new Color(128, 70, 43, 255),
-      4,
+      68,
+      35,
+      122,
+      64,
+      true,
     );
     this.label(
       'TimerCaption',
       '研究时间',
       parent,
-      79,
-      50,
-      98,
-      14,
+      81,
+      43,
+      96,
+      16,
       10,
-      new Color(148, 89, 48, 255),
+      new Color(111, 57, 38, 255),
     );
     this.timerLabel = this.label(
       'TimerValue',
       '01:30',
       parent,
-      77,
-      61,
-      102,
-      31,
-      25,
-      new Color(105, 54, 37, 255),
+      76,
+      55,
+      106,
+      34,
+      27,
+      new Color(255, 251, 224, 255),
     );
-
-    this.roundedPanel(
+    this.sprite(
       'ScoreBoard',
+      'nameplate',
       parent,
-      196,
-      46,
-      178,
-      50,
-      18,
-      new Color(255, 224, 147, 255),
-      new Color(128, 70, 43, 255),
-      4,
+      190,
+      36,
+      190,
+      62,
+      true,
     );
     this.label(
       'ScoreCaption',
       '研究分数',
       parent,
       204,
-      50,
-      63,
-      14,
+      43,
+      66,
+      16,
       10,
-      new Color(148, 89, 48, 255),
+      new Color(141, 80, 48, 255),
     );
     this.scoreLabel = this.label(
       'ScoreValue',
       '0',
       parent,
-      253,
-      52,
+      251,
+      49,
       112,
-      26,
-      22,
-      new Color(105, 54, 37, 255),
+      34,
+      27,
+      new Color(104, 53, 36, 255),
     );
 
-    this.comboRoot = this.roundedPanel(
-      'ComboBadge',
-      parent,
-      262,
-      77,
-      106,
-      18,
-      8,
-      new Color(255, 158, 87, 255),
-      new Color(120, 58, 38, 255),
-      3,
+    this.comboRoot = this.makeRoot('ComboBadge', parent);
+    this.sprite(
+      'ComboBadgeShell',
+      'hudShell',
+      this.comboRoot,
+      255,
+      78,
+      114,
+      27,
+      true,
     );
     this.label(
-      'ComboValue',
+      'ComboBadge',
       'COMBO ×1.5',
       this.comboRoot,
-      0,
-      0,
-      106,
-      18,
-      11,
-      new Color(255, 250, 218, 255),
-      true,
+      262,
+      80,
+      100,
+      22,
+      12,
+      new Color(255, 249, 218, 255),
     );
   }
 
   private buildClueTray(parent: Node): void {
     const clue = this.makeRoot('ResearchClueTray', parent);
-    this.sprite('ClueTrayBody', 'clueTray', clue, 16, 104, 358, 66);
+    this.sprite('ClueTrayBody', 'clueTray', clue, 0, 76, 390, 120);
     this.label(
       'ClueTitle',
-      '本轮研究线索',
+      '研究线索',
       clue,
-      30,
-      119,
-      98,
-      30,
-      15,
+      34,
+      118,
+      92,
+      31,
+      16,
       new Color(112, 59, 39, 255),
     );
-    this.buildClueGroup(clue, 'TomatoClue', 137, 'tomato', '2');
-    this.buildClueGroup(clue, 'EggClue', 213, 'egg', '2');
-    this.buildClueGroup(clue, 'ScallionClue', 289, 'scallion', '1');
+    this.buildClueGroup(clue, 'TomatoClue', 132, 'tomato', '2');
+    this.buildClueGroup(clue, 'EggClue', 210, 'egg', '2');
+    this.buildClueGroup(clue, 'ScallionClue', 288, 'scallion', '1');
   }
 
   private buildClueGroup(
@@ -324,149 +322,129 @@ export class CP0ABattleShell extends Component {
     amount: string,
   ): void {
     const group = this.makeRoot(name, parent);
-    this.sprite(`${name}Icon`, INGREDIENT_ASSET[ingredient], group, x, 119, 31, 31);
+    this.sprite(`${name}Icon`, INGREDIENT_ASSET[ingredient], group, x, 115, 38, 38);
     this.label(
       `${name}Amount`,
       `×${amount}`,
       group,
-      x + 31,
-      120,
-      32,
+      x + 36,
+      119,
+      36,
       30,
-      17,
+      18,
       new Color(108, 60, 40, 255),
     );
   }
 
   private buildBoard(parent: Node): void {
     const board = this.makeRoot('BoardRoot', parent);
-    this.sprite('BoardFrame', 'boardFrame', board, 13, 178, 364, 364);
+    this.sprite('BoardFrame', 'boardFrame', board, -55, 110, 500, 480);
     const slots = this.makeRoot('BoardSlots', board);
     const ingredients = this.makeRoot('BoardIngredients', board);
-    const cellSize = 44;
-    const gap = 5;
-    const gridSize = cellSize * 7 + gap * 6;
-    const left = Math.round((SCREEN_WIDTH - gridSize) / 2);
-    const top = 191;
+    const slotSize = 70;
+    const iconSize = 52;
+    const step = 49;
+    const left = 13;
+    const top = 181;
     R1A_BOARD.forEach((row, rowIndex) => {
       row.forEach((ingredient, columnIndex) => {
-        const x = left + columnIndex * (cellSize + gap);
-        const y = top + rowIndex * (cellSize + gap);
+        const x = left + columnIndex * step;
+        const y = top + rowIndex * step;
         this.sprite(
           `BoardCell_${rowIndex}_${columnIndex}`,
           'tile',
           slots,
           x,
           y,
-          cellSize,
-          cellSize,
+          slotSize,
+          slotSize,
         );
         this.sprite(
           `BoardIngredient_${rowIndex}_${columnIndex}`,
           INGREDIENT_ASSET[ingredient],
           ingredients,
-          x + 3,
-          y + 3,
-          38,
-          38,
+          x + (slotSize - iconSize) / 2,
+          y + (slotSize - iconSize) / 2,
+          iconSize,
+          iconSize,
         );
       });
     });
 
-    this.goodSticker = this.roundedPanel(
-      'GoodSticker',
-      board,
-      139,
-      196,
-      112,
-      42,
-      18,
-      new Color(255, 153, 76, 255),
-      new Color(255, 244, 199, 255),
-      4,
+    this.goodSticker = this.makeRoot('GoodSticker', board);
+    this.sprite(
+      'GoodStickerShell',
+      'hudShell',
+      this.goodSticker,
+      130,
+      185,
+      130,
+      48,
+      true,
     );
-    this.goodSticker.angle = -7;
     this.label(
       'GoodStickerText',
       'GOOD!',
       this.goodSticker,
-      0,
-      0,
+      139,
+      192,
       112,
-      42,
-      24,
-      new Color(255, 252, 223, 255),
-      true,
+      33,
+      25,
+      new Color(255, 251, 218, 255),
     );
+    this.goodSticker.angle = -7;
   }
 
   private buildResearchPot(parent: Node): void {
     const pot = this.makeRoot('ResearchPot', parent);
-    this.sprite('ResearchPotBack', 'pot', pot, 70, 527, 250, 180);
+    this.sprite('ResearchPotBack', 'pot', pot, 45, 525, 300, 224);
     this.potIngredientLayer = this.makeRoot('PotIngredientLayer', pot);
-    this.sprite('ResearchPotFront', 'potFront', pot, 70, 579, 250, 128);
+    this.sprite('ResearchPotFront', 'potFront', pot, 45, 593, 300, 156);
     this.label(
       'PotCaption',
-      '研究锅',
+      '基础研究锅',
       pot,
-      154,
-      657,
-      82,
+      108,
+      665,
+      174,
       24,
-      14,
+      15,
       new Color(105, 57, 40, 255),
     );
   }
 
   private buildSixSlotBoard(parent: Node): void {
-    const board = this.roundedPanel(
+    this.sprite(
       'SixSlotBoard',
+      'throwTraySix',
       parent,
-      14,
-      700,
-      260,
-      110,
-      18,
-      new Color(255, 226, 158, 255),
-      new Color(126, 70, 44, 255),
-      4,
+      6,
+      695,
+      274,
+      122,
+      true,
     );
     this.slotContentLayer = this.makeRoot('ThrowSlotContentLayer', parent);
 
     for (let index = 0; index < 6; index += 1) {
-      const column = index % 3;
-      const row = Math.floor(index / 3);
-      const x = 9 + column * 83;
-      const y = 7 + row * 49;
-      this.roundedPanel(
-        `ThrowSlot${index + 1}`,
-        board,
-        x,
-        y,
-        76,
-        45,
-        15,
-        new Color(201, 151, 92, 255),
-        new Color(113, 65, 43, 255),
-        3,
-        true,
-      );
+      this.makeRoot(`ThrowSlot${index + 1}`, parent);
     }
   }
 
   private buildFireButton(parent: Node): void {
     const root = this.makeRoot('FireButton', parent);
-    this.fireSprite = this.sprite('FireButtonBody', 'fire', root, 286, 712, 88, 88);
+    this.fireSprite = this.sprite('FireButtonBody', 'fire', root, 272, 703, 118, 130);
     this.fireLabel = this.label(
       'FireButtonLabel',
-      '待投料',
+      '开火研究',
       root,
-      294,
-      744,
-      72,
-      28,
+      283,
+      791,
+      96,
+      26,
       15,
-      new Color(255, 250, 222, 255),
+      new Color(114, 61, 34, 255),
     );
   }
 
@@ -475,102 +453,110 @@ export class CP0ABattleShell extends Component {
     overlay.addComponent(UITransform).setContentSize(SCREEN_WIDTH, SCREEN_HEIGHT);
     overlay.addComponent(BlockInputEvents);
     const dim = overlay.addComponent(Graphics);
-    dim.fillColor = new Color(62, 35, 29, 220);
+    dim.fillColor = new Color(43, 28, 23, 246);
     dim.rect(-SCREEN_WIDTH / 2, -SCREEN_HEIGHT / 2, SCREEN_WIDTH, SCREEN_HEIGHT);
     dim.fill();
 
-    this.sprite('RevealHalo', 'halo', overlay, 47, 155, 296, 296);
-    this.sprite('RevealPedestal', 'pedestal', overlay, 70, 373, 250, 250);
-    this.sprite('RevealDish', 'dish', overlay, 89, 209, 212, 212);
-    this.sprite('RevealRarity', 'rarity', overlay, 135, 158, 120, 52);
+    this.sprite('RevealHalo', 'halo', overlay, 42, 130, 306, 306);
+    this.sprite('RevealRarity', 'rarity', overlay, 137, 48, 116, 116);
     this.label(
       'RevealRarityLabel',
       '普通料理',
       overlay,
-      143,
-      168,
-      104,
+      126,
+      145,
+      138,
       28,
-      16,
-      new Color(111, 63, 40, 255),
+      18,
+      new Color(255, 247, 226, 255),
     );
+    this.label(
+      'RevealRepeatStatus',
+      '再次完成',
+      overlay,
+      124,
+      171,
+      142,
+      25,
+      15,
+      new Color(238, 222, 199, 255),
+    );
+    this.sprite('RevealPedestal', 'pedestal', overlay, 18, 333, 354, 354);
+    this.sprite('RevealDish', 'dish', overlay, 27, 184, 336, 336);
+    this.sprite('RevealNameplate', 'nameplate', overlay, 25, 503, 340, 168);
     this.label(
       'RevealDishName',
       '番茄炒蛋',
       overlay,
-      93,
-      411,
-      204,
-      45,
-      26,
-      new Color(255, 244, 204, 255),
+      71,
+      554,
+      248,
+      42,
+      28,
+      new Color(104, 57, 37, 255),
     );
     for (let index = 0; index < 3; index += 1) {
       this.sprite(
         `RevealStar${index + 1}`,
         'star',
         overlay,
-        124 + index * 48,
-        458,
-        46,
-        46,
+        81 + index * 76,
+        603,
+        76,
+        76,
       );
     }
-    this.roundedPanel(
+    this.sprite(
       'RevealScoreRibbon',
+      'nameplate',
       overlay,
-      95,
-      511,
-      200,
-      66,
-      22,
-      new Color(255, 169, 75, 255),
-      new Color(111, 56, 38, 255),
-      4,
+      56,
+      682,
+      278,
+      58,
+      true,
     );
     this.label(
       'RevealScoreGain',
       '+1,100',
       overlay,
-      104,
-      516,
-      182,
-      36,
-      26,
-      new Color(255, 252, 225, 255),
+      77,
+      691,
+      132,
+      34,
+      25,
+      new Color(106, 56, 37, 255),
     );
     this.label(
       'RevealRepeatStamp',
       '累计 ×2',
       overlay,
-      121,
-      550,
-      148,
-      24,
-      15,
-      new Color(112, 60, 40, 255),
+      205,
+      695,
+      104,
+      28,
+      16,
+      new Color(132, 77, 45, 255),
     );
-    this.roundedPanel(
+    this.sprite(
       'NextResearchClue',
+      'nameplate',
       overlay,
+      69,
+      746,
+      252,
       48,
-      605,
-      294,
-      60,
-      19,
-      new Color(255, 237, 188, 255),
-      new Color(119, 66, 43, 255),
-      4,
+      true,
     );
     this.label(
       'NextResearchClueText',
       '下一条线索：尝试新的投料组合',
       overlay,
-      62,
-      615,
-      266,
-      39,
-      17,
+      82,
+      756,
+      226,
+      27,
+      14,
       new Color(111, 61, 41, 255),
     );
     this.quickRevealOverlay = overlay;
@@ -593,9 +579,9 @@ export class CP0ABattleShell extends Component {
   private renderPot(model: R1AViewModel): void {
     this.potIngredientLayer.removeAllChildren();
     const placements = [
-      { x: 111, y: 552, w: 78, h: 70, angle: -8 },
-      { x: 158, y: 548, w: 78, h: 72, angle: 4 },
-      { x: 205, y: 554, w: 74, h: 65, angle: 9 },
+      { x: 92, y: 527, w: 108, h: 104, angle: -7 },
+      { x: 143, y: 526, w: 106, h: 104, angle: 4 },
+      { x: 203, y: 536, w: 92, h: 88, angle: 9 },
     ];
     model.potIngredients.forEach((ingredient, index) => {
       const asset = POT_ASSET[ingredient];
@@ -620,52 +606,48 @@ export class CP0ABattleShell extends Component {
       if (!slot.ingredientId || !slot.units) return;
       const column = index % 3;
       const row = Math.floor(index / 3);
-      const x = 24 + column * 83;
-      const y = 708 + row * 49;
+      const centerX = 55 + column * 88;
+      const centerY = 728 + row * 51;
       this.sprite(
         `ThrowSlot${index + 1}Ingredient`,
         INGREDIENT_ASSET[slot.ingredientId],
         this.slotContentLayer,
-        x,
-        y,
-        31,
-        31,
+        centerX - 22,
+        centerY - 22,
+        40,
+        40,
       );
       this.label(
         `ThrowSlot${index + 1}Units`,
         '1份',
         this.slotContentLayer,
-        x + 29,
-        y + 8,
-        35,
-        22,
-        13,
+        centerX + 3,
+        centerY + 5,
+        38,
+        20,
+        12,
         new Color(255, 246, 209, 255),
       );
-      const mark = this.makeRoot(
+      this.sprite(
         `ThrowSlot${index + 1}ProcessingMark`,
+        'star',
         this.slotContentLayer,
+        centerX + 19,
+        centerY - 21,
+        15,
+        15,
       );
-      mark.addComponent(UITransform).setContentSize(12, 12);
-      this.place(mark, x + 54, y + 2, 12, 12);
-      const graphics = mark.addComponent(Graphics);
-      graphics.fillColor = new Color(255, 207, 88, 255);
-      graphics.strokeColor = new Color(111, 63, 41, 255);
-      graphics.lineWidth = 2;
-      graphics.circle(0, 0, 5);
-      graphics.fill();
-      graphics.stroke();
     });
   }
 
   private renderFire(enabled: boolean): void {
     this.fireSprite.color = enabled
       ? Color.WHITE
-      : new Color(151, 132, 117, 255);
-    this.fireLabel.string = enabled ? '开火研究' : '待投料';
+      : new Color(151, 155, 139, 225);
+    this.fireLabel.string = '开火研究';
     this.fireLabel.color = enabled
-      ? new Color(255, 250, 222, 255)
-      : new Color(230, 217, 197, 255);
+      ? new Color(112, 58, 30, 255)
+      : new Color(135, 115, 94, 255);
   }
 
   private makeRoot(name: string, parent: Node = this.node): Node {
@@ -683,12 +665,13 @@ export class CP0ABattleShell extends Component {
     y: number,
     width: number,
     height: number,
+    trim = false,
   ): Sprite {
     const node = this.makeRoot(name, parent);
     node.addComponent(UITransform).setContentSize(width, height);
     const sprite = node.addComponent(Sprite);
     sprite.sizeMode = Sprite.SizeMode.CUSTOM;
-    sprite.trim = false;
+    sprite.trim = trim;
     sprite.spriteFrame = typeof frameOrKey === 'string'
       ? this.frames.get(frameOrKey)!
       : frameOrKey;
@@ -728,40 +711,6 @@ export class CP0ABattleShell extends Component {
       this.place(node, x, y, width, height);
     }
     return label;
-  }
-
-  private roundedPanel(
-    name: string,
-    parent: Node,
-    x: number,
-    y: number,
-    width: number,
-    height: number,
-    radius: number,
-    fill: Color,
-    stroke: Color,
-    lineWidth: number,
-    local = false,
-  ): Node {
-    const node = this.makeRoot(name, parent);
-    node.addComponent(UITransform).setContentSize(width, height);
-    if (local) {
-      node.setPosition(
-        x + width / 2 - 130,
-        55 - y - height / 2,
-        0,
-      );
-    } else {
-      this.place(node, x, y, width, height);
-    }
-    const graphics = node.addComponent(Graphics);
-    graphics.fillColor = fill;
-    graphics.strokeColor = stroke;
-    graphics.lineWidth = lineWidth;
-    graphics.roundRect(-width / 2, -height / 2, width, height, radius);
-    graphics.fill();
-    graphics.stroke();
-    return node;
   }
 
   private place(

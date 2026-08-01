@@ -22,8 +22,11 @@
     "verify:r0": "node scripts/run-cp0r-r0-verification.mjs",
     "build-evidence:r0": "node scripts/capture-cp0r-r0-cocos-build.mjs",
     "verify:r1a": "node scripts/run-cp0r-r1a-verification.mjs",
+    "verify:r1a:visual-fix": "node scripts/run-cp0r-r1a-visual-fix-verification.mjs",
     "build-evidence:r1a": "node scripts/capture-cp0r-r1a-cocos-build.mjs",
-    "report:r1a": "tsx scripts/generate-cp0r-r1a-report.ts"
+    "build-evidence:r1a:visual-fix": "node scripts/capture-cp0r-r1a-visual-fix-cocos-build.mjs",
+    "report:r1a": "tsx scripts/generate-cp0r-r1a-report.ts",
+    "report:r1a:visual-fix": "tsx scripts/generate-cp0r-r1a-visual-fix-report.ts"
   },
   "devDependencies": {
     "@types/node": "24.1.0",
