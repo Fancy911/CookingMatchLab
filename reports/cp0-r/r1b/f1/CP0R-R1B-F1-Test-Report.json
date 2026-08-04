@@ -1,0 +1,363 @@
+{
+  "reportId": "CP0-R-R1-B-F1-TEST-REPORT",
+  "generatedAt": "2026-08-04T15:22:38.897Z",
+  "status": "PASS",
+  "scope": "CP0-R1-B-F1 natural board and dead-board protection repair only; CP0-R2 not started",
+  "baselineCommit": "47b7d80d04f29983c3739bfde97427111879c9f3",
+  "implementationCommit": "3cf7ac3ddac28257e7bef2d8babf8ee6cbf0e95f",
+  "branch": "main",
+  "environment": {
+    "creatorVersion": "3.8.8",
+    "nodeVersion": "v22.22.2",
+    "platform": "darwin",
+    "architecture": "arm64"
+  },
+  "canonicalConfig": {
+    "schemaVersion": 2,
+    "hash": "a35691f9"
+  },
+  "verification": {
+    "checks": {
+      "commands": true,
+      "cocosBuild": true,
+      "screenshots": true,
+      "video": true,
+      "performance": true,
+      "canonicalSchema": true,
+      "canonicalHash": true,
+      "protectedDomainConfigScenePrefabZeroDiff": true,
+      "exactR1BTests": true,
+      "f1Coverage": true,
+      "hiddenLongFixture": true,
+      "manualReshufflePortOnly": true,
+      "warmHotpotIndependent": true
+    },
+    "commands": {
+      "reportId": "CP0R-R1B-F1-COMMAND-RESULTS",
+      "generatedAt": "2026-08-04T15:16:32.965Z",
+      "status": "PASS",
+      "nodeVersion": "v22.22.2",
+      "commands": [
+        {
+          "command": "npm test",
+          "startedAt": "2026-08-04T15:16:28.577Z",
+          "finishedAt": "2026-08-04T15:16:29.353Z",
+          "durationMs": 775,
+          "exitCode": 0,
+          "signal": null,
+          "status": "PASS",
+          "outputSha256": "9c88b06122056133523e553cc1362bb86fbd4ac316b474256f407b5fb964416d"
+        },
+        {
+          "command": "npm run test:unit",
+          "startedAt": "2026-08-04T15:16:29.353Z",
+          "finishedAt": "2026-08-04T15:16:29.950Z",
+          "durationMs": 596,
+          "exitCode": 0,
+          "signal": null,
+          "status": "PASS",
+          "outputSha256": "936ce1559038e0056aab3fa39428d599ee697024c0b5bd3568c955faca1834f1"
+        },
+        {
+          "command": "npm run test:scenarios",
+          "startedAt": "2026-08-04T15:16:29.950Z",
+          "finishedAt": "2026-08-04T15:16:30.515Z",
+          "durationMs": 565,
+          "exitCode": 0,
+          "signal": null,
+          "status": "PASS",
+          "outputSha256": "7c13b7cac53851e3903bf14160ff03cd0ac4faf2c77816f913eae232040c8469"
+        },
+        {
+          "command": "npm run test:r0",
+          "startedAt": "2026-08-04T15:16:30.515Z",
+          "finishedAt": "2026-08-04T15:16:31.130Z",
+          "durationMs": 615,
+          "exitCode": 0,
+          "signal": null,
+          "status": "PASS",
+          "outputSha256": "7fc29a2f4fc1bdd3e9f54f6644b9229e782874dc778dddaa415a3b82e65139be"
+        },
+        {
+          "command": "npm run test:r1a",
+          "startedAt": "2026-08-04T15:16:31.130Z",
+          "finishedAt": "2026-08-04T15:16:31.619Z",
+          "durationMs": 488,
+          "exitCode": 0,
+          "signal": null,
+          "status": "PASS",
+          "outputSha256": "d9923acf1f6c512e63a3a45fb7bc1cd93d09ceffeafdc583ef435eb2c62695a8"
+        },
+        {
+          "command": "npm run test:r1b",
+          "startedAt": "2026-08-04T15:16:31.619Z",
+          "finishedAt": "2026-08-04T15:16:32.236Z",
+          "durationMs": 618,
+          "exitCode": 0,
+          "signal": null,
+          "status": "PASS",
+          "outputSha256": "f28c815ed8d87d1cde2084b058a552aea562e7a7b6ff261c1ecdbc5ea448df84"
+        },
+        {
+          "command": "npm run typecheck",
+          "startedAt": "2026-08-04T15:16:32.236Z",
+          "finishedAt": "2026-08-04T15:16:32.965Z",
+          "durationMs": 728,
+          "exitCode": 0,
+          "signal": null,
+          "status": "PASS",
+          "outputSha256": "aae295b7a6d53a806fd95bbd8ac992dc8b13a1e291666431e0395f141e25078d"
+        }
+      ]
+    },
+    "cocosBuild": {
+      "reportId": "CP0R-R1B-F1-COCOS-BUILD",
+      "generatedAt": "2026-08-04T15:12:31.449Z",
+      "status": "PASS",
+      "creatorVersion": "3.8.8",
+      "platform": "web-mobile",
+      "debug": false,
+      "command": {
+        "executable": "/Applications/CocosCreator.app/Contents/MacOS/CocosCreator",
+        "args": [
+          "--project",
+          "<PROJECT_ROOT>",
+          "--build",
+          "platform=web-mobile;debug=false;buildPath=project://build;outputName=cp0r-r1b-f1-web-mobile"
+        ],
+        "startedAt": "2026-08-04T15:12:15.783Z",
+        "finishedAt": "2026-08-04T15:12:31.449Z",
+        "durationMs": 15682
+      },
+      "buildArtifact": {
+        "directory": "build/cp0r-r1b-f1-web-mobile",
+        "fileCount": 150,
+        "manifestSha256": "0a46f0d89c74fdfaf8bf0ffc3a0654aec4cd7c7322f8a502f0cc9d92f4fb18ad"
+      },
+      "verification": {
+        "actualExitCode": 36,
+        "actualSignal": null,
+        "actualExitCodeAccepted": true,
+        "creatorVersionConfigured": true,
+        "shellRegistered": true,
+        "engineVersionConfirmed": true,
+        "buildFinished": true,
+        "artifactExists": true,
+        "artifactFileCount": 150,
+        "requiredFiles": [
+          {
+            "path": "application.js",
+            "exists": true
+          },
+          {
+            "path": "index.html",
+            "exists": true
+          },
+          {
+            "path": "index.js",
+            "exists": true
+          },
+          {
+            "path": "src/settings.json",
+            "exists": true
+          }
+        ],
+        "manifestSha256": "0a46f0d89c74fdfaf8bf0ffc3a0654aec4cd7c7322f8a502f0cc9d92f4fb18ad",
+        "failureMarkers": []
+      },
+      "rawOutputSha256": "a935a17c9bd551f8ab679adde01c6f05e3648478a69de7ec2ca6e9711ffe4df4",
+      "retainedLog": "reports/cp0-r/r1b/f1/CP0R-R1B-F1-Cocos-Build-3.8.8.log"
+    },
+    "existingR1BTests": {
+      "ids": [
+        "B101",
+        "B102",
+        "B103",
+        "B104",
+        "B105",
+        "B106",
+        "B107",
+        "B108",
+        "B109",
+        "B110",
+        "B111",
+        "B112",
+        "B113",
+        "B114",
+        "B115",
+        "B116",
+        "B117",
+        "B118",
+        "B119",
+        "B120",
+        "B121",
+        "B122",
+        "B123",
+        "B124"
+      ],
+      "count": 24,
+      "status": "PASS"
+    },
+    "f1Tests": {
+      "ids": [
+        "F101",
+        "F102",
+        "F103",
+        "F104",
+        "F105",
+        "F106",
+        "F107",
+        "F108",
+        "F109",
+        "F110",
+        "F111"
+      ],
+      "count": 11,
+      "status": "PASS"
+    }
+  },
+  "behavior": {
+    "defaultMenu": "DEV_MENU_MULTI → RS02; natural controlled board; potato, egg, scallion, mushroom and carrot only",
+    "naturalBoard": "49 cells; every ingredient count is 7–12; at least six legal 3-cell paths across at least three ingredient types; no H/V/diagonal straight run of five or more.",
+    "refill": "Mixed controlled queue followed by playability protection after every settle.",
+    "deadBoard": "Application-layer free automatic shuffle pauses effective countdown until acknowledgement, preserves score/pot/commercial counters, then exposes at least three legal ingredient types.",
+    "longLink": "Nine visible flights use 20 ms staggering and 320 ms travel for 480 ms total.",
+    "warmHotpot": "RECIPE_WARM_HOTPOT_MIX uses an independent G1-B casserole image and no longer reuses tomato scrambled egg."
+  },
+  "performance": {
+    "sampledAt": "2026-08-04T15:16:01.548Z",
+    "sampleFrames": 3600,
+    "averageFps": 59.98460395179539,
+    "p50FrameMs": 16.699999809265137,
+    "p95FrameMs": 17.799999952316284,
+    "maxFrameMs": 25.09999990463257,
+    "longestFlightMs": 480,
+    "peakActiveFlightNodes": 9,
+    "menuId": "DEV_MENU_LONG",
+    "boardHash": "0b4004b2",
+    "autoShuffleNotice": false,
+    "playability": {
+      "shuffled": false,
+      "beforeBoardHash": "0b4004b2",
+      "afterBoardHash": "0b4004b2",
+      "legalIngredientIds": [
+        "ING_EGG",
+        "ING_MUSHROOM",
+        "ING_POTATO",
+        "ING_SCALLION"
+      ]
+    }
+  },
+  "evidence": {
+    "screenshots": [
+      {
+        "name": "CP0R-R1B-F1-01-Natural-Ready-390x844.png",
+        "status": "PASS",
+        "pngSignature": true,
+        "width": 390,
+        "height": 844,
+        "bytes": 513737,
+        "sha256": "b853238ac7e5dfc81c8efd60af5a1c0bfeec0ec38a5c877fd3fc347671396364"
+      },
+      {
+        "name": "CP0R-R1B-F1-02-After-First-Pot-390x844.png",
+        "status": "PASS",
+        "pngSignature": true,
+        "width": 390,
+        "height": 844,
+        "bytes": 522144,
+        "sha256": "504766660f7f5d8f9558da4855fe4f0016523630dccb59d0cae27d032dfa5eb2"
+      },
+      {
+        "name": "CP0R-R1B-F1-03-Natural-GOOD-390x844.png",
+        "status": "PASS",
+        "pngSignature": true,
+        "width": 390,
+        "height": 844,
+        "bytes": 514383,
+        "sha256": "59ec4badc9695801eb7c04fdc808dd8e431968c8c1c59e85fd28c0458fdece64"
+      },
+      {
+        "name": "CP0R-R1B-F1-04-Natural-GREAT-Inspiration-390x844.png",
+        "status": "PASS",
+        "pngSignature": true,
+        "width": 390,
+        "height": 844,
+        "bytes": 516103,
+        "sha256": "0703729cb919a8ea66b4515e81f2b89c80542e2a2a9921a65b60d66bc1faa51a"
+      },
+      {
+        "name": "CP0R-R1B-F1-05-Natural-UNBELIEVABLE-390x844.png",
+        "status": "PASS",
+        "pngSignature": true,
+        "width": 390,
+        "height": 844,
+        "bytes": 516848,
+        "sha256": "1b61f5545809abd79505270f28bf63080879f3593568026886dd6c954712e037"
+      },
+      {
+        "name": "CP0R-R1B-F1-06-Free-Auto-Shuffle-390x844.png",
+        "status": "PASS",
+        "pngSignature": true,
+        "width": 390,
+        "height": 844,
+        "bytes": 512381,
+        "sha256": "8ec70bb3f5fcca8481a36f78d1bb8e49fbe6185467419c66aab9a9800da78de1"
+      },
+      {
+        "name": "CP0R-R1B-F1-07-Warm-Hotpot-Reveal-390x844.png",
+        "status": "PASS",
+        "pngSignature": true,
+        "width": 390,
+        "height": 844,
+        "bytes": 315637,
+        "sha256": "0efee13e2208d6fbef947bd598691dea9f18f01eb79a20a760abba5fe81cbe9b"
+      }
+    ],
+    "video": {
+      "name": "CP0R-R1B-F1-V01-Natural-Long-Link-390x844.mp4",
+      "status": "PASS",
+      "codec": "h264",
+      "width": 390,
+      "height": 844,
+      "fps": "30/1",
+      "averageFps": "30/1",
+      "frames": 360,
+      "durationSeconds": 12,
+      "sha256": "4055a2ef7d2439712b2e5ea751fd98903fe752ff4524bd493ac4543201137ad5",
+      "captureMethod": "One uncut sequence of successive frames from the final Cocos Creator 3.8.8 Web Mobile build. The natural-board long link, sticker feedback, all ingredient flights and settled pot state remain in temporal order."
+    },
+    "warmAsset": {
+      "path": "assets/resources/game/art/dishes/dish_warm_hotpot_mix.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1467401,
+      "sha256": "6ba41fdae66e0378d1869e3b30d7019741662b95abfb250303c4b4e4f83274eb",
+      "differsFromTomatoEgg": true
+    },
+    "verificationLog": "reports/cp0-r/r1b/f1/CP0R-R1B-F1-Verification.log",
+    "buildLog": "reports/cp0-r/r1b/f1/CP0R-R1B-F1-Cocos-Build-3.8.8.log",
+    "performanceRaw": "reports/cp0-r/r1b/f1/CP0R-R1B-F1-Performance-Raw.json"
+  },
+  "architecture": {
+    "canonicalDomain": "assets/game/scripts/domain/cp0b",
+    "playabilityProtection": "assets/game/scripts/application/r1b/BoardPlayabilityService.ts",
+    "naturalFixtures": "assets/game/scripts/application/r1b/NaturalResearchFixtures.ts",
+    "presentationTiming": "assets/game/scripts/application/r1b/R1BAnimationTiming.ts",
+    "protectedPaths": [
+      "assets/game/scripts/domain",
+      "assets/resources/game/config",
+      "assets/game/scenes",
+      "assets/game/prefabs"
+    ],
+    "protectedDiff": []
+  },
+  "commercializationBoundary": {
+    "manualReshufflePortReserved": true,
+    "manualReshuffleInvoked": false,
+    "visibleShuffleEntry": false,
+    "rewardGrantedForShuffle": false
+  },
+  "knownIssues": [],
+  "nextStage": "STOP — CP0-R2 has not started and is not authorized."
+}
