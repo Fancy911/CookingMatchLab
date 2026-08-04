@@ -1,0 +1,445 @@
+{
+  "reportId": "CP0-R-R1-B-TEST-REPORT",
+  "generatedAt": "2026-08-04T14:18:51.338Z",
+  "status": "PASS",
+  "scope": "CP0-R1-B playable research loop only; CP0-R2 not started",
+  "startCommit": "184161e3a82e33b929cfa3a709c65409a2ce44ba",
+  "directiveCommit": "e67705ea84bce65d39e2f0a9a89aba6f90b36805",
+  "baselineTag": "cp0-r1b-baseline",
+  "implementationCommit": "6952b14e250c0890ee533a3470d03a0f0969c46b",
+  "branch": "main",
+  "environment": {
+    "creatorVersion": "3.8.8",
+    "nodeVersion": "v22.22.2",
+    "platform": "darwin",
+    "architecture": "arm64"
+  },
+  "canonicalConfig": {
+    "schemaVersion": 2,
+    "hash": "a35691f9"
+  },
+  "verification": {
+    "checks": {
+      "commands": true,
+      "cocosBuild": true,
+      "screenshots": true,
+      "videos": true,
+      "performance": true,
+      "canonicalSchema": true,
+      "canonicalHash": true,
+      "protectedDomainAndConfigZeroDiff": true,
+      "effectPlanMigratedInPlace": true,
+      "exactR1BTests": true,
+      "noCommercialSdk": true,
+      "noVisibleCommercialEntry": true
+    },
+    "commands": {
+      "reportId": "CP0-R-R1-B-COMMAND-RESULTS",
+      "generatedAt": "2026-08-04T14:17:43.387Z",
+      "status": "PASS",
+      "nodeVersion": "v22.22.2",
+      "commands": [
+        {
+          "command": "npm test",
+          "startedAt": "2026-08-04T14:17:38.878Z",
+          "finishedAt": "2026-08-04T14:17:39.627Z",
+          "durationMs": 749,
+          "exitCode": 0,
+          "signal": null,
+          "status": "PASS",
+          "outputSha256": "f2317521469945fa15d5187a13d4e52433da333a093b4382fe559a6fc193993e"
+        },
+        {
+          "command": "npm run test:unit",
+          "startedAt": "2026-08-04T14:17:39.628Z",
+          "finishedAt": "2026-08-04T14:17:40.308Z",
+          "durationMs": 680,
+          "exitCode": 0,
+          "signal": null,
+          "status": "PASS",
+          "outputSha256": "0b6804a177e45f0bee1a3c5e55ddd55daeaa6fd0310eaeca23de34cecc99d420"
+        },
+        {
+          "command": "npm run test:scenarios",
+          "startedAt": "2026-08-04T14:17:40.308Z",
+          "finishedAt": "2026-08-04T14:17:40.893Z",
+          "durationMs": 585,
+          "exitCode": 0,
+          "signal": null,
+          "status": "PASS",
+          "outputSha256": "3aec25f6463ee309575d852a3edc9446c7fa823e2db54a057cf02e7907a3be24"
+        },
+        {
+          "command": "npm run test:r0",
+          "startedAt": "2026-08-04T14:17:40.893Z",
+          "finishedAt": "2026-08-04T14:17:41.513Z",
+          "durationMs": 620,
+          "exitCode": 0,
+          "signal": null,
+          "status": "PASS",
+          "outputSha256": "0203203cb7805cffdccd21ee1bd0d97f784698076d040987f9b037c1ff5a7a00"
+        },
+        {
+          "command": "npm run test:r1a",
+          "startedAt": "2026-08-04T14:17:41.513Z",
+          "finishedAt": "2026-08-04T14:17:42.030Z",
+          "durationMs": 517,
+          "exitCode": 0,
+          "signal": null,
+          "status": "PASS",
+          "outputSha256": "88ab1fdee635ce68820569d20db868e0ab1c42f06fd7868a4d0f991f99bc4b97"
+        },
+        {
+          "command": "npm run test:r1b",
+          "startedAt": "2026-08-04T14:17:42.030Z",
+          "finishedAt": "2026-08-04T14:17:42.629Z",
+          "durationMs": 598,
+          "exitCode": 0,
+          "signal": null,
+          "status": "PASS",
+          "outputSha256": "bbefebd2136779a701aae2a59e49c8a6fc070bb15fc4678792be7f10e90b45c0"
+        },
+        {
+          "command": "npm run typecheck",
+          "startedAt": "2026-08-04T14:17:42.629Z",
+          "finishedAt": "2026-08-04T14:17:43.386Z",
+          "durationMs": 758,
+          "exitCode": 0,
+          "signal": null,
+          "status": "PASS",
+          "outputSha256": "aae295b7a6d53a806fd95bbd8ac992dc8b13a1e291666431e0395f141e25078d"
+        }
+      ]
+    },
+    "cocosBuild": {
+      "reportId": "CP0-R-R1-B-COCOS-BUILD",
+      "generatedAt": "2026-08-04T14:17:10.049Z",
+      "status": "PASS",
+      "creatorVersion": "3.8.8",
+      "platform": "web-mobile",
+      "debug": false,
+      "command": {
+        "executable": "/Applications/CocosCreator.app/Contents/MacOS/CocosCreator",
+        "args": [
+          "--project",
+          "<PROJECT_ROOT>",
+          "--build",
+          "platform=web-mobile;debug=false;buildPath=project://build;outputName=cp0r-r1b-web-mobile"
+        ],
+        "startedAt": "2026-08-04T14:16:57.853Z",
+        "finishedAt": "2026-08-04T14:17:10.049Z",
+        "durationMs": 12214
+      },
+      "buildArtifact": {
+        "directory": "build/cp0r-r1b-web-mobile",
+        "fileCount": 150,
+        "manifestSha256": "5c00cf71856a7a0042d94abe33fca3e981f854c429f9ac7af58ef57f40d709f6"
+      },
+      "verification": {
+        "actualExitCode": 36,
+        "actualSignal": null,
+        "actualExitCodeAccepted": true,
+        "creatorVersionConfigured": true,
+        "shellRegistered": true,
+        "engineVersionConfirmed": true,
+        "buildFinished": true,
+        "artifactExists": true,
+        "artifactFileCount": 150,
+        "requiredFiles": [
+          {
+            "path": "application.js",
+            "exists": true
+          },
+          {
+            "path": "index.html",
+            "exists": true
+          },
+          {
+            "path": "index.js",
+            "exists": true
+          },
+          {
+            "path": "src/settings.json",
+            "exists": true
+          }
+        ],
+        "manifestSha256": "5c00cf71856a7a0042d94abe33fca3e981f854c429f9ac7af58ef57f40d709f6",
+        "failureMarkers": []
+      },
+      "rawOutputSha256": "b12df0ba34ee6023dc6ee01d6a3df21dca2d7e6385e5fdd468d7e4586a4669b7",
+      "retainedLog": "reports/cp0-r/r1b/CP0R-R1B-Cocos-Build-3.8.8.log"
+    },
+    "r1bTests": {
+      "ids": [
+        "B101",
+        "B102",
+        "B103",
+        "B104",
+        "B105",
+        "B106",
+        "B107",
+        "B108",
+        "B109",
+        "B110",
+        "B111",
+        "B112",
+        "B113",
+        "B114",
+        "B115",
+        "B116",
+        "B117",
+        "B118",
+        "B119",
+        "B120",
+        "B121",
+        "B122",
+        "B123",
+        "B124"
+      ],
+      "count": 24,
+      "status": "PASS"
+    },
+    "canonicalScenarioCases": [
+      {
+        "id": "RS01_TUTORIAL_REPEAT / TUTORIAL_TWO_POTS",
+        "status": "PASS"
+      },
+      {
+        "id": "RS02_MULTI_RECIPE / POTATO_THEN_MUSHROOM",
+        "status": "PASS"
+      },
+      {
+        "id": "RS03_LONG_LINKS / GOOD_GREAT_UNBELIEVABLE",
+        "status": "PASS"
+      },
+      {
+        "id": "RS04_AUTO_FIRE / SIXTH_THROW",
+        "status": "PASS"
+      },
+      {
+        "id": "RS05_TIMER_END / FIVE_UNITS_AUTO_FIRE",
+        "status": "PASS"
+      },
+      {
+        "id": "RS05_TIMER_END / THREE_UNITS_PARTIAL",
+        "status": "PASS"
+      }
+    ]
+  },
+  "evidence": {
+    "screenshots": [
+      {
+        "name": "CP0R-R1B-01-Ready-390x844.png",
+        "status": "PASS",
+        "pngSignature": true,
+        "width": 390,
+        "height": 844,
+        "sha256": "f8c7a03ffe9f22dae80b4ed8d9338770c38dc6f762a5ef8aa0896090f42606cf"
+      },
+      {
+        "name": "CP0R-R1B-02-Link-Good-390x844.png",
+        "status": "PASS",
+        "pngSignature": true,
+        "width": 390,
+        "height": 844,
+        "sha256": "4c002f9faedffdc5dab0593adcf65901ec400717de720526381d96aed02b5d33"
+      },
+      {
+        "name": "CP0R-R1B-03-Link-Great-Inspiration-390x844.png",
+        "status": "PASS",
+        "pngSignature": true,
+        "width": 390,
+        "height": 844,
+        "sha256": "c27ae20ad3808ae5d1ee0bee5de8d7b122a2f490b475f82fae03bed52a2212b4"
+      },
+      {
+        "name": "CP0R-R1B-04-Link-Unbelievable-390x844.png",
+        "status": "PASS",
+        "pngSignature": true,
+        "width": 390,
+        "height": 844,
+        "sha256": "5493602b3b96f981d2194fcd6e26cadad7f111901eb2bc49cbeb056c0a3f3291"
+      },
+      {
+        "name": "CP0R-R1B-05-Five-Throws-390x844.png",
+        "status": "PASS",
+        "pngSignature": true,
+        "width": 390,
+        "height": 844,
+        "sha256": "ed1781161e1c68d395562ab366f86e558ffeded74428609362846ae100dee9e4"
+      },
+      {
+        "name": "CP0R-R1B-06-Full-Pot-Auto-Fire-390x844.png",
+        "status": "PASS",
+        "pngSignature": true,
+        "width": 390,
+        "height": 844,
+        "sha256": "dd7f46e0e042e33306a3be94616a0d3a5a71a14760f73d8fc9fd04a477b1a74c"
+      },
+      {
+        "name": "CP0R-R1B-07-Potato-Cake-Reveal-390x844.png",
+        "status": "PASS",
+        "pngSignature": true,
+        "width": 390,
+        "height": 844,
+        "sha256": "f1a50ca0d8e5c29ac91a131eebea6077610f2f545b2b42d7a8f2578004b7627b"
+      },
+      {
+        "name": "CP0R-R1B-08-Next-Clue-Same-Board-390x844.png",
+        "status": "PASS",
+        "pngSignature": true,
+        "width": 390,
+        "height": 844,
+        "sha256": "4ca6b8e8b952abac005f7706d468a2f3562072007b413926d98bece9b2623a02"
+      },
+      {
+        "name": "CP0R-R1B-09-Mushroom-Soup-Reveal-390x844.png",
+        "status": "PASS",
+        "pngSignature": true,
+        "width": 390,
+        "height": 844,
+        "sha256": "15a18c70517c614e0ef6aac12564bf42235746b738f3cf063c63b688792520c6"
+      },
+      {
+        "name": "CP0R-R1B-10-Repeat-Quick-Reveal-X2-390x844.png",
+        "status": "PASS",
+        "pngSignature": true,
+        "width": 390,
+        "height": 844,
+        "sha256": "457c1cc4b2a8ab079752121806b948f4ac6c152c36f8609c714fa1d99a51cb62"
+      },
+      {
+        "name": "CP0R-R1B-11-Timeout-Partial-390x844.png",
+        "status": "PASS",
+        "pngSignature": true,
+        "width": 390,
+        "height": 844,
+        "sha256": "d32ba772ea6c30e6e727e709122db957bd17a00197404194d4daf0207a56aa39"
+      },
+      {
+        "name": "CP0R-R1B-12-Session-Summary-390x844.png",
+        "status": "PASS",
+        "pngSignature": true,
+        "width": 390,
+        "height": 844,
+        "sha256": "074da3d20656eeb9f694e7dc26662a99a87e50fd4b7b35081d0563c3f36ad742"
+      }
+    ],
+    "videos": [
+      {
+        "name": "CP0R-R1B-V01-Multi-Recipe-390x844.mp4",
+        "status": "PASS",
+        "codec": "h264",
+        "width": 390,
+        "height": 844,
+        "fps": "30/1",
+        "frames": 476,
+        "durationSeconds": 15.866667,
+        "sha256": "62ea28e17725f95de9ef7416d4e064eed292a7e12caf9489caed28521e320afa"
+      },
+      {
+        "name": "CP0R-R1B-V02-Repeat-Recipe-390x844.mp4",
+        "status": "PASS",
+        "codec": "h264",
+        "width": 390,
+        "height": 844,
+        "fps": "30/1",
+        "frames": 470,
+        "durationSeconds": 15.666667,
+        "sha256": "4d470453f5aa008ee6da32b5fcedf6ab73ca9b44dad186083d2ef8731a0e3cb3"
+      },
+      {
+        "name": "CP0R-R1B-V03-Long-Link-Feedback-390x844.mp4",
+        "status": "PASS",
+        "codec": "h264",
+        "width": 390,
+        "height": 844,
+        "fps": "30/1",
+        "frames": 163,
+        "durationSeconds": 5.433333,
+        "sha256": "616dc1d7577f2db0283f3359151942d8bafb004ec72f6833e25b806e3941a16b"
+      },
+      {
+        "name": "CP0R-R1B-V04-Timeout-390x844.mp4",
+        "status": "PASS",
+        "codec": "h264",
+        "width": 390,
+        "height": 844,
+        "fps": "30/1",
+        "frames": 5818,
+        "durationSeconds": 193.933333,
+        "sha256": "de17cb22a85a93626d7904f5b08e2cc4b4d0e8d96fc7c46445d52ce5213bec9b"
+      }
+    ],
+    "performance": {
+      "sampledAt": "2026-08-04T14:17:23.654Z",
+      "sampleFrames": 254,
+      "averageFps": 58.84260760913953,
+      "p50FrameMs": 16.700000047683716,
+      "p95FrameMs": 17.299999952316284,
+      "maxFrameMs": 105.59999990463257,
+      "longestFlightMs": 833.3333333333333,
+      "peakActiveFlightNodes": 9,
+      "menuId": "DEV_MENU_LONG",
+      "boardHash": "1f38a10d"
+    },
+    "captureMethod": "Successive raw viewport frames from one live Cocos Web Mobile instance per take; all link submissions were produced by real browser pointer drags. V04 preserves both complete countdowns as four consecutive raw capture spans, joined in original order without state jumps."
+  },
+  "generatedAssets": {
+    "tool": "OpenAI imagegen (model identifier not exposed by the tool)",
+    "assets": [
+      {
+        "path": "assets/resources/game/art/dishes/dish_scallion_potato_cake.png",
+        "width": 1254,
+        "height": 1254,
+        "sha256": "93f1702315475100db539fe7c48931d49aab0b8d7e29e00f9931f7d2d20068e5"
+      },
+      {
+        "path": "assets/resources/game/art/dishes/dish_garden_mushroom_soup.png",
+        "width": 1254,
+        "height": 1254,
+        "sha256": "4dd66b55de1b08857e5e79176853b8aef977ec82fbac12a972d4f95383e23a38"
+      },
+      {
+        "path": "assets/resources/game/art/pot/pot_potato.png",
+        "width": 1254,
+        "height": 1254,
+        "sha256": "446e97882b312abbd0af06543511206bbc5f086ef5c737924a3815e746cdc506"
+      },
+      {
+        "path": "assets/resources/game/art/pot/pot_carrot.png",
+        "width": 1254,
+        "height": 1254,
+        "sha256": "4d0443992d6c24f1319420886eacec3b6141843b4a7c376d8bf548535d2dcaeb"
+      },
+      {
+        "path": "assets/resources/game/art/pot/pot_mushroom.png",
+        "width": 1254,
+        "height": 1254,
+        "sha256": "ed2752339335faaa54afeb19e137521cd6b01c825481ce133bc40b9634e681ec"
+      }
+    ],
+    "processing": "Generated on chroma backgrounds using existing accepted G1-B assets as references; chroma was removed with the imagegen skill helper, including soft matte and despill. Final transparent PNGs were imported and inspected in the real Cocos build."
+  },
+  "architecture": {
+    "singleCanonicalDomain": "assets/game/scripts/domain/cp0b",
+    "applicationSession": "assets/game/scripts/application/r1b/ResearchGameplaySession.ts",
+    "schedulePort": "assets/game/scripts/application/r1b/ResearchPorts.ts",
+    "defaultMenu": "DEV_MENU_MULTI → RS02_MULTI_RECIPE",
+    "repeatMenu": "DEV_MENU_REPEAT → RS01_TUTORIAL_REPEAT",
+    "effectPlan": "assets/game/scripts/application/cp0c/EffectPlan.ts (v2 in-place migration)",
+    "protectedDomainDiff": [],
+    "cp0cDiff": [
+      "assets/game/scripts/application/cp0c/EffectPlan.ts"
+    ]
+  },
+  "commercializationBoundary": {
+    "sdkPresent": false,
+    "networkRequestPresent": false,
+    "rewardedPortInvoked": false,
+    "visiblePlayerEntryPresent": false
+  },
+  "knownIssues": [],
+  "workspaceStatusAtReportGeneration": "Evidence files are intentionally uncommitted while this report is generated; final delivery verifies a clean worktree after the archive commit.",
+  "nextStage": "STOP — CP0-R2 has not started and is not authorized."
+}
