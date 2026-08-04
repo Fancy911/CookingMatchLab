@@ -1,9 +1,11 @@
 import type {
+  AudioEvent,
   BoardGrid,
   Coord,
   IngredientId,
   ThrowRecord,
 } from '../../domain/cp0b/types';
+import type { SessionSnapshot } from '../../domain/cp0b/core';
 
 export interface BoardMove {
   from: Coord;
@@ -30,8 +32,22 @@ export interface EffectPlan {
   finalBoardHash: string;
   settledBoard: BoardGrid;
   finalBoard: BoardGrid;
-  remainingSteps: number;
+  throwRecords: ThrowRecord[];
+  remainingActiveTimeMs: number;
+  linkScoreDelta: number;
+  dishScoreDelta: number;
+  totalScore: number;
+  comboCount: number;
+  comboMultiplier: number;
+  audioEvent?: AudioEvent;
   canFire: boolean;
   potFull: boolean;
+  autoFireReady: boolean;
+  inspirationSpawned?: Coord;
+  inspirationCollected: boolean;
+  inspirationLanding?: Coord;
+  freeShuffleRequired: boolean;
   shuffled: boolean;
+  snapshot: SessionSnapshot;
+  snapshotHash: string;
 }

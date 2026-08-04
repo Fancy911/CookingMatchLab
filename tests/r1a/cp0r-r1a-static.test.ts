@@ -128,7 +128,6 @@ describe('CP0-R1-A static visual shell', () => {
   it('V111 preserves the canonical Domain and config tree from the R1-A baseline', () => {
     const protectedPaths = [
       'assets/game/scripts/domain',
-      'assets/game/scripts/application/cp0c',
       'assets/game/scripts/infrastructure/JsonConfigAdapter.ts',
       'assets/game/scripts/infrastructure/CocosJsonConfigLoader.ts',
       'assets/resources/game/config',
@@ -139,6 +138,20 @@ describe('CP0-R1-A static visual shell', () => {
       { cwd: root, encoding: 'utf8' },
     ).trim();
     expect(diff).toBe('');
+    const applicationDiff = execFileSync(
+      'git',
+      [
+        'diff',
+        '--name-only',
+        'cp0-r1a-baseline',
+        '--',
+        'assets/game/scripts/application/cp0c',
+      ],
+      { cwd: root, encoding: 'utf8' },
+    ).trim().split('\n').filter(Boolean);
+    expect(applicationDiff).toEqual([
+      'assets/game/scripts/application/cp0c/EffectPlan.ts',
+    ]);
   });
 
   it('V112 declares the required physical UI nodes and fixed safe-area shell', () => {

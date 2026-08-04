@@ -28,6 +28,10 @@ import {
   type R1AStateId,
   type R1AViewModel,
 } from './R1AStaticViewModels';
+import {
+  R1B_ASSETS,
+  R1BBattlePresenter,
+} from './R1BBattlePresenter';
 
 const { ccclass } = _decorator;
 const SCREEN_WIDTH = 390;
@@ -41,6 +45,7 @@ type AssetKey =
   | 'pause'
   | 'hudShell'
   | 'clueTray'
+  | 'orderTray'
   | 'throwTraySix'
   | 'pot'
   | 'potFront'
@@ -59,7 +64,9 @@ type AssetKey =
   | 'halo'
   | 'nameplate'
   | 'rarity'
-  | 'star';
+  | 'star'
+  | 'continueButton'
+  | keyof typeof R1B_ASSETS;
 
 const ASSETS: Record<AssetKey, string> = {
   background: 'game/art/background/kitchen_bg_base/spriteFrame',
@@ -87,6 +94,9 @@ const ASSETS: Record<AssetKey, string> = {
   nameplate: 'game/art/ui/reveal/reveal_nameplate/spriteFrame',
   rarity: 'game/art/ui/reveal/rarity_normal/spriteFrame',
   star: 'game/art/ui/reveal/star_on/spriteFrame',
+  continueButton: 'game/art/ui/reveal/continue_button/spriteFrame',
+  orderTray: 'game/art/ui/battle/order_tray/spriteFrame',
+  ...R1B_ASSETS,
 };
 
 const INGREDIENT_ASSET: Record<R1AIngredientId, AssetKey> = {
@@ -117,6 +127,7 @@ export class CP0ABattleShell extends Component {
   private fireSprite!: Sprite;
   private fireLabel!: Label;
   private quickRevealOverlay!: Node;
+  private playable?: R1BBattlePresenter;
 
   protected onLoad(): void {
     view.setDesignResolutionSize(
@@ -136,6 +147,11 @@ export class CP0ABattleShell extends Component {
 
   protected onDestroy(): void {
     input.off(Input.EventType.KEY_DOWN, this.onKeyDown, this);
+    this.playable?.destroy();
+  }
+
+  protected update(deltaTime: number): void {
+    this.playable?.update(deltaTime);
   }
 
   private async bootstrap(): Promise<void> {
@@ -146,11 +162,24 @@ export class CP0ABattleShell extends Component {
     if (registry.configHash !== 'a35691f9') {
       throw new Error(`Unexpected canonical config hash: ${registry.configHash}`);
     }
-    this.buildVisualShell();
-    this.state = this.readInitialState();
-    this.renderState(this.state);
-    console.info(
-      `[CP0-R1-A] static visual state ${this.state}; canonical config ${registry.configHash}`,
+    const staticState = this.readInitialState();
+    if (staticState) {
+      this.buildVisualShell();
+      this.state = staticState;
+      this.renderState(this.state);
+      console.info(
+        `[CP0-R1-A] static visual state ${this.state}; canonical config ${registry.configHash}`,
+      );
+      return;
+    }
+    this.playable = new R1BBattlePresenter(
+      this.node,
+      (key) => {
+        const frame = this.frames.get(key as AssetKey);
+        if (!frame) throw new Error(`Missing loaded frame ${key}`);
+        return frame;
+      },
+      registry,
     );
   }
 
@@ -169,17 +198,18 @@ export class CP0ABattleShell extends Component {
     }));
   }
 
-  private readInitialState(): R1AStateId {
+  private readInitialState(): R1AStateId | undefined {
     if (typeof globalThis.location === 'undefined') {
-      return 'READY';
+      return undefined;
     }
     const requested = new URLSearchParams(globalThis.location.search)
       .get('state')
       ?.toLowerCase();
-    return requested ? R1A_QUERY_STATE[requested] ?? 'READY' : 'READY';
+    return requested ? R1A_QUERY_STATE[requested] : undefined;
   }
 
   private onKeyDown(event: EventKeyboard): void {
+    if (this.playable) return;
     if (event.keyCode === KeyCode.DIGIT_1) {
       this.renderState('READY');
     } else if (event.keyCode === KeyCode.DIGIT_2) {

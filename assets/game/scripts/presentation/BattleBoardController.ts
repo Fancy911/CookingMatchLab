@@ -1,7 +1,9 @@
 import {
   Color,
+  EventMouse,
   EventTouch,
   Graphics,
+  Input,
   Label,
   LabelOutline,
   Layers,
@@ -11,6 +13,7 @@ import {
   tween,
   UITransform,
   Vec3,
+  input,
 } from 'cc';
 import type { EffectPlan } from '../application/cp0c/EffectPlan';
 import type { BoardGrid, Coord, IngredientId } from '../domain/cp0b/types';
@@ -40,6 +43,7 @@ const sameCoord = (left: Coord, right: Coord): boolean =>
 
 export class BattleBoardController {
   private readonly ingredientSprites: Sprite[][] = [];
+  private readonly inspirationSprites: Sprite[][] = [];
   private readonly basePositions: Vec3[][] = [];
   private readonly pathGraphics: Graphics;
   private readonly pathCountLabel: Label;
@@ -58,6 +62,7 @@ export class BattleBoardController {
     private readonly fxRoot: Node,
     tileFrame: SpriteFrame,
     private readonly ingredientFrames: Partial<Record<IngredientId, SpriteFrame>>,
+    inspirationFrame: SpriteFrame,
     makeSprite: SpriteFactory,
   ) {
     const transform = boardRoot.addComponent(UITransform);
@@ -82,6 +87,10 @@ export class BattleBoardController {
     ingredientRoot.layer = Layers.Enum.UI_2D;
     ingredientRoot.parent = boardRoot;
     ingredientRoot.addComponent(UITransform).setContentSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+    const inspirationRoot = new Node('BoardInspirationMarks');
+    inspirationRoot.layer = Layers.Enum.UI_2D;
+    inspirationRoot.parent = boardRoot;
+    inspirationRoot.addComponent(UITransform).setContentSize(SCREEN_WIDTH, SCREEN_HEIGHT);
 
     const countNode = new Node('LinkPathCount');
     countNode.layer = Layers.Enum.UI_2D;
@@ -112,6 +121,7 @@ export class BattleBoardController {
 
     for (let row = 0; row < 7; row += 1) {
       this.ingredientSprites[row] = [];
+      this.inspirationSprites[row] = [];
       this.basePositions[row] = [];
       for (let column = 0; column < 7; column += 1) {
         const x = GRID_LEFT + column * STEP;
@@ -128,6 +138,17 @@ export class BattleBoardController {
         );
         this.ingredientSprites[row][column] = sprite;
         this.basePositions[row][column] = sprite.node.position.clone();
+        const inspiration = makeSprite(
+          `Inspiration_${row}_${column}`,
+          inspirationFrame,
+          inspirationRoot,
+          x + 46,
+          y + 1,
+          24,
+          24,
+        );
+        inspiration.node.active = false;
+        this.inspirationSprites[row][column] = inspiration;
       }
     }
 
@@ -148,6 +169,16 @@ export class BattleBoardController {
     boardRoot.on(Node.EventType.TOUCH_MOVE, this.handleMove, this);
     boardRoot.on(Node.EventType.TOUCH_END, this.handleEnd, this);
     boardRoot.on(Node.EventType.TOUCH_CANCEL, this.handleEnd, this);
+    boardRoot.on(Node.EventType.MOUSE_DOWN, this.handleStart, this);
+    boardRoot.on(Node.EventType.MOUSE_MOVE, this.handleMove, this);
+    boardRoot.on(Node.EventType.MOUSE_UP, this.handleEnd, this);
+    input.on(Input.EventType.TOUCH_START, this.handleStart, this);
+    input.on(Input.EventType.TOUCH_MOVE, this.handleMove, this);
+    input.on(Input.EventType.TOUCH_END, this.handleEnd, this);
+    input.on(Input.EventType.TOUCH_CANCEL, this.handleEnd, this);
+    input.on(Input.EventType.MOUSE_DOWN, this.handleStart, this);
+    input.on(Input.EventType.MOUSE_MOVE, this.handleMove, this);
+    input.on(Input.EventType.MOUSE_UP, this.handleEnd, this);
   }
 
   public destroy(): void {
@@ -155,6 +186,16 @@ export class BattleBoardController {
     this.boardRoot.off(Node.EventType.TOUCH_MOVE, this.handleMove, this);
     this.boardRoot.off(Node.EventType.TOUCH_END, this.handleEnd, this);
     this.boardRoot.off(Node.EventType.TOUCH_CANCEL, this.handleEnd, this);
+    this.boardRoot.off(Node.EventType.MOUSE_DOWN, this.handleStart, this);
+    this.boardRoot.off(Node.EventType.MOUSE_MOVE, this.handleMove, this);
+    this.boardRoot.off(Node.EventType.MOUSE_UP, this.handleEnd, this);
+    input.off(Input.EventType.TOUCH_START, this.handleStart, this);
+    input.off(Input.EventType.TOUCH_MOVE, this.handleMove, this);
+    input.off(Input.EventType.TOUCH_END, this.handleEnd, this);
+    input.off(Input.EventType.TOUCH_CANCEL, this.handleEnd, this);
+    input.off(Input.EventType.MOUSE_DOWN, this.handleStart, this);
+    input.off(Input.EventType.MOUSE_MOVE, this.handleMove, this);
+    input.off(Input.EventType.MOUSE_UP, this.handleEnd, this);
   }
 
   public render(board: BoardGrid): void {
@@ -171,6 +212,8 @@ export class BattleBoardController {
         sprite.node.setPosition(this.basePositions[row][column]);
         sprite.node.setScale(1, 1, 1);
         sprite.color = Color.WHITE;
+        this.inspirationSprites[row][column].node.active =
+          Boolean(board[row][column].inspiration);
       }
     }
     this.clearPath();
@@ -189,6 +232,44 @@ export class BattleBoardController {
     this.tracking = false;
     this.touchIndicator.node.active = false;
     this.clearPath();
+  }
+
+  public pointerStart(x: number, y: number): void {
+    if (!this.inputEnabled || this.tracking) {
+      return;
+    }
+    const coord = this.coordFromPoint(x, y);
+    if (!coord) {
+      return;
+    }
+    this.tracking = true;
+    this.moveTouchIndicatorTo(x, y);
+    this.touchIndicator.node.active = true;
+    this.activePath = this.onBegin?.(coord) ?? [];
+    this.refreshSelection();
+  }
+
+  public pointerMove(x: number, y: number): void {
+    if (!this.tracking) {
+      return;
+    }
+    this.moveTouchIndicatorTo(x, y);
+    const coord = this.coordFromPoint(x, y);
+    if (!coord || this.activePath.some((item, index) =>
+      sameCoord(item, coord) && index !== this.activePath.length - 2)) {
+      return;
+    }
+    this.activePath = this.onExtend?.(coord) ?? this.activePath;
+    this.refreshSelection();
+  }
+
+  public pointerEnd(): void {
+    if (!this.tracking) {
+      return;
+    }
+    this.tracking = false;
+    this.touchIndicator.node.active = false;
+    this.onCommit?.();
   }
 
   public animate(
@@ -212,7 +293,9 @@ export class BattleBoardController {
       clone.setPosition(source.node.position);
       const start = clone.position.clone();
       const target = new Vec3(
-        (plan.throwSlotIndex - 1) * 9 + (index - (plan.flightOrder.length - 1) / 2) * 4,
+        -34
+          + (plan.throwSlotIndex % 3) * 34
+          + (index - (plan.flightOrder.length - 1) / 2) * 4,
         -184 + (index % 2) * 6,
         0,
       );
@@ -279,48 +362,26 @@ export class BattleBoardController {
       .start();
   }
 
-  private handleStart(event: EventTouch): void {
-    if (!this.inputEnabled) {
-      return;
-    }
-    const coord = this.coordFromTouch(event);
-    if (!coord) {
-      return;
-    }
-    this.tracking = true;
-    this.moveTouchIndicator(event);
-    this.touchIndicator.node.active = true;
-    this.activePath = this.onBegin?.(coord) ?? [];
-    this.refreshSelection();
+  private handleStart(event: EventTouch | EventMouse): void {
+    const point = this.pointFromInput(event);
+    this.pointerStart(point.x, point.y);
   }
 
-  private handleMove(event: EventTouch): void {
-    if (!this.tracking) {
-      return;
-    }
-    this.moveTouchIndicator(event);
-    const coord = this.coordFromTouch(event);
-    if (!coord || this.activePath.some((item, index) =>
-      sameCoord(item, coord) && index !== this.activePath.length - 2)) {
-      return;
-    }
-    this.activePath = this.onExtend?.(coord) ?? this.activePath;
-    this.refreshSelection();
+  private handleMove(event: EventTouch | EventMouse): void {
+    const point = this.pointFromInput(event);
+    this.pointerMove(point.x, point.y);
   }
 
   private handleEnd(): void {
-    if (!this.tracking) {
-      return;
-    }
-    this.tracking = false;
-    this.touchIndicator.node.active = false;
-    this.onCommit?.();
+    this.pointerEnd();
   }
 
-  private coordFromTouch(event: EventTouch): Coord | undefined {
+  private pointFromInput(event: EventTouch | EventMouse): { x: number; y: number } {
     const location = event.getUILocation();
-    const x = location.x;
-    const y = SCREEN_HEIGHT - location.y;
+    return { x: location.x, y: SCREEN_HEIGHT - location.y };
+  }
+
+  private coordFromPoint(x: number, y: number): Coord | undefined {
     let best: { coord: Coord; distance: number } | undefined;
     for (let row = 0; row < 7; row += 1) {
       for (let column = 0; column < 7; column += 1) {
@@ -335,11 +396,10 @@ export class BattleBoardController {
     return best?.coord;
   }
 
-  private moveTouchIndicator(event: EventTouch): void {
-    const location = event.getUILocation();
+  private moveTouchIndicatorTo(x: number, y: number): void {
     this.touchIndicator.node.setPosition(
-      location.x - SCREEN_WIDTH / 2,
-      location.y - SCREEN_HEIGHT / 2,
+      x - SCREEN_WIDTH / 2,
+      SCREEN_HEIGHT / 2 - y,
       0,
     );
   }

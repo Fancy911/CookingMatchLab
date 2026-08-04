@@ -3,6 +3,7 @@
   "include": [
     "assets/game/scripts/domain/cp0b/**/*.ts",
     "assets/game/scripts/application/cp0c/**/*.ts",
+    "assets/game/scripts/application/r1b/**/*.ts",
     "assets/game/scripts/infrastructure/JsonConfigAdapter.ts",
     "assets/game/scripts/infrastructure/LocalSaveRepository.ts",
     "assets/game/scripts/presentation/R1AStaticViewModels.ts",
