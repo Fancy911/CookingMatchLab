@@ -28,6 +28,11 @@ import type {
   ResolvedResearchMenu,
   ResearchSchedulePort,
 } from './ResearchPorts';
+import { createResearchBoardFixture } from './NaturalResearchFixtures';
+import {
+  ensureResearchBoardPlayable,
+  type PlayabilityResult,
+} from './BoardPlayabilityService';
 
 export interface ResearchClueViewModel {
   id: string;
@@ -76,6 +81,7 @@ export interface BattleViewModel {
   cooking?: CookPresentation;
   partialUnits: number;
   summary: ResearchSummaryViewModel;
+  autoShuffleNotice: boolean;
 }
 
 export interface LinkSubmission {
@@ -153,6 +159,8 @@ export class ResearchGameplaySession {
   private paused = false;
   private longestLink = 0;
   private highestComboMultiplier = 1;
+  private autoShuffleNotice = false;
+  private lastPlayabilityResult?: PlayabilityResult;
   private readonly completedAnimationOperations = new Set<string>();
   private readonly completedCookingOperations = new Set<string>();
   private readonly completedRevealResults = new Set<string>();
@@ -168,6 +176,7 @@ export class ResearchGameplaySession {
       forcedMenuId,
     });
     this.domain = this.createDomain();
+    this.applyInitialPlayabilityProtection();
   }
 
   private createDomain(): TimedResearchSession {
@@ -180,41 +189,22 @@ export class ResearchGameplaySession {
         `Resolved menu order ${this.menu.orderId} does not match scenario ${scenario.orderId}`,
       );
     }
-    const longLinkFixture = this.menu.acceptanceFixtureId === 'LONG_LINKS'
-      ? {
-        id: 'LONG_LINKS_ACCEPTANCE',
-        initialBoard: Array.from(
-          { length: this.registry.gameplay.board.rows },
-          () => Array.from(
-            { length: this.registry.gameplay.board.columns },
-            () => 'M',
-          ),
-        ),
-        columnQueues: Object.fromEntries(
-          Array.from(
-            { length: this.registry.gameplay.board.columns },
-            (_unused, column) => [
-              String(column),
-              Array.from({ length: 64 }, () => 'M'),
-            ],
-          ),
-        ),
-        researchClueQueue: ['CLUE_STAR'],
-      }
-      : undefined;
-    const scenarioCase = longLinkFixture ?? (this.menu.caseId
+    const configuredCase = this.menu.caseId
       ? scenario.cases.find(({ id }) => id === this.menu.caseId)
-      : scenario.cases[0]);
-    if (!scenarioCase) {
+      : scenario.cases[0];
+    if (!configuredCase) {
       throw new Error(`Resolved menu references missing case ${this.menu.caseId ?? '<first>'}`);
     }
+    const fixture = this.menu.boardFixtureId
+      ? createResearchBoardFixture(this.menu.boardFixtureId)
+      : undefined;
     return new TimedResearchSession(
       this.registry,
       scenario.id,
-      scenarioCase.id,
-      scenarioCase.initialBoard,
-      scenarioCase.columnQueues,
-      scenarioCase.researchClueQueue,
+      fixture?.id ?? configuredCase.id,
+      fixture?.initialBoard ?? configuredCase.initialBoard,
+      fixture?.columnQueues ?? configuredCase.columnQueues,
+      configuredCase.researchClueQueue,
       scenario.seed,
       new CookingHistoryModel(
         undefined,
@@ -223,8 +213,23 @@ export class ResearchGameplaySession {
     );
   }
 
+  private applyInitialPlayabilityProtection(): void {
+    this.lastPlayabilityResult = ensureResearchBoardPlayable(
+      this.domain.board,
+      this.registry.gameplay,
+      this.domain.rng,
+      3,
+    );
+    if (this.lastPlayabilityResult.shuffled) {
+      this.domain.eventLog.push('DEAD_BOARD_DETECTED');
+      this.domain.board = this.lastPlayabilityResult.board;
+      this.domain.eventLog.push('FREE_AUTO_SHUFFLE_COMPLETED');
+    }
+    this.autoShuffleNotice = this.lastPlayabilityResult.shuffled;
+  }
+
   public beginLink(coord: Coord): Coord[] {
-    if (this.paused || !this.domain.beginLink()) {
+    if (this.paused || this.autoShuffleNotice || !this.domain.beginLink()) {
       return [];
     }
     this.editor = new PathEditor(
@@ -264,6 +269,19 @@ export class ResearchGameplaySession {
     if (!result.committed || !result.throwRecord) {
       return { accepted: false, reason: result.reason };
     }
+    const settled = this.domain.snapshot();
+    this.lastPlayabilityResult = ensureResearchBoardPlayable(
+      this.domain.board,
+      this.registry.gameplay,
+      this.domain.rng,
+      3,
+    );
+    if (this.lastPlayabilityResult.shuffled) {
+      this.domain.eventLog.push('DEAD_BOARD_DETECTED');
+      this.domain.board = this.lastPlayabilityResult.board;
+      this.domain.eventLog.push('FREE_AUTO_SHUFFLE_COMPLETED');
+    }
+    this.autoShuffleNotice = this.lastPlayabilityResult.shuffled;
     const after = this.domain.snapshot();
     const operationId = `${this.menu.dailyMenuId}:link:${++this.operationCounter}`;
     const { survivorMoves, refillMoves } = deriveMoves(
@@ -287,9 +305,9 @@ export class ResearchGameplaySession {
       throwRecord: deepClone(result.throwRecord),
       throwSlotIndex: after.pot.throws.length - 1,
       beforeBoardHash: before.boardHash,
-      settledBoardHash: after.boardHash,
+      settledBoardHash: settled.boardHash,
       finalBoardHash: after.boardHash,
-      settledBoard: deepClone(after.board),
+      settledBoard: deepClone(settled.board),
       finalBoard: deepClone(after.board),
       throwRecords: deepClone(after.pot.throws),
       remainingActiveTimeMs: after.remainingActiveTimeMs,
@@ -309,8 +327,8 @@ export class ResearchGameplaySession {
       inspirationLanding: result.inspirationCoord
         ? deepClone(result.inspirationCoord)
         : undefined,
-      freeShuffleRequired: false,
-      shuffled: false,
+      freeShuffleRequired: this.lastPlayabilityResult.shuffled,
+      shuffled: this.lastPlayabilityResult.shuffled,
       snapshot: deepClone(after),
       snapshotHash: stableHash(after),
     };
@@ -434,7 +452,12 @@ export class ResearchGameplaySession {
   }
 
   public tick(milliseconds: number): number {
-    if (this.paused || this.cooking || this.domain.phase === 'ANIMATING') {
+    if (
+      this.paused
+      || this.autoShuffleNotice
+      || this.cooking
+      || this.domain.phase === 'ANIMATING'
+    ) {
       return 0;
     }
     if (this.domain.phase === 'TIMEOUT_GRACE') {
@@ -480,9 +503,12 @@ export class ResearchGameplaySession {
     this.paused = false;
     this.longestLink = 0;
     this.highestComboMultiplier = 1;
+    this.autoShuffleNotice = false;
+    this.lastPlayabilityResult = undefined;
     this.completedAnimationOperations.clear();
     this.completedCookingOperations.clear();
     this.completedRevealResults.clear();
+    this.applyInitialPlayabilityProtection();
   }
 
   public snapshot(): SessionSnapshot {
@@ -495,6 +521,20 @@ export class ResearchGameplaySession {
 
   public isPaused(): boolean {
     return this.paused;
+  }
+
+  public acknowledgeAutoShuffleNotice(): boolean {
+    if (!this.autoShuffleNotice) {
+      return false;
+    }
+    this.autoShuffleNotice = false;
+    return true;
+  }
+
+  public playabilityAudit(): PlayabilityResult | undefined {
+    return this.lastPlayabilityResult
+      ? deepClone(this.lastPlayabilityResult)
+      : undefined;
   }
 
   public viewModel(): BattleViewModel {
@@ -535,6 +575,7 @@ export class ResearchGameplaySession {
         longestLink: this.longestLink,
         highestComboMultiplier: this.highestComboMultiplier,
       },
+      autoShuffleNotice: this.autoShuffleNotice,
     };
   }
 

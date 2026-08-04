@@ -28,6 +28,9 @@
     "build-evidence:r1a:visual-fix": "node scripts/capture-cp0r-r1a-visual-fix-cocos-build.mjs",
     "build-evidence:r1b": "node scripts/capture-cp0r-r1b-cocos-build.mjs",
     "verify:r1b": "node scripts/run-cp0r-r1b-verification.mjs",
+    "build-evidence:r1b:f1": "CP0R_R1B_REPORT_SUBDIR=f1 CP0R_R1B_EVIDENCE_PREFIX=CP0R-R1B-F1 CP0R_R1B_BUILD_OUTPUT=cp0r-r1b-f1-web-mobile node scripts/capture-cp0r-r1b-cocos-build.mjs",
+    "verify:r1b:f1": "CP0R_R1B_REPORT_SUBDIR=f1 CP0R_R1B_EVIDENCE_PREFIX=CP0R-R1B-F1 node scripts/run-cp0r-r1b-verification.mjs",
+    "report:r1b:f1": "tsx scripts/generate-cp0r-r1b-f1-report.ts",
     "report:r1b": "tsx scripts/generate-cp0r-r1b-report.ts",
     "report:r1a": "tsx scripts/generate-cp0r-r1a-report.ts",
     "report:r1a:visual-fix": "tsx scripts/generate-cp0r-r1a-visual-fix-report.ts"

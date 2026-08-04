@@ -16,6 +16,7 @@ import {
   input,
 } from 'cc';
 import type { EffectPlan } from '../application/cp0c/EffectPlan';
+import { flightTimingMsFor } from '../application/r1b/R1BAnimationTiming';
 import type { BoardGrid, Coord, IngredientId } from '../domain/cp0b/types';
 import { stableHash } from '../domain/cp0b/stable';
 
@@ -278,15 +279,16 @@ export class BattleBoardController {
     onComplete: () => void,
   ): void {
     this.setInputEnabled(false);
-    const staggerSeconds = Math.max(24, Math.min(55, 420 / plan.path.length)) / 1000;
-    const flightSeconds = 0.46;
+    const timing = flightTimingMsFor(plan.path.length);
+    const staggerSeconds = timing.staggerMs / 1000;
+    const flightSeconds = timing.flightMs / 1000;
     let completedFlights = 0;
     plan.flightOrder.forEach((coord, index) => {
       const source = this.ingredientSprites[coord.row][coord.column];
       const clone = new Node(`Flight_${index}`);
       clone.layer = Layers.Enum.UI_2D;
       clone.parent = this.fxRoot;
-      clone.addComponent(UITransform).setContentSize(ICON_SIZE, ICON_SIZE);
+      clone.addComponent(UITransform).setContentSize(44, 44);
       const sprite = clone.addComponent(Sprite);
       sprite.sizeMode = Sprite.SizeMode.CUSTOM;
       sprite.spriteFrame = source.spriteFrame;
@@ -301,7 +303,7 @@ export class BattleBoardController {
       );
       const arc = new Vec3(
         (start.x + target.x) / 2 + (index % 2 === 0 ? -26 : 26),
-        Math.max(start.y, target.y) + 82,
+        Math.min(start.y, 132),
         0,
       );
       source.node.active = false;
@@ -309,11 +311,11 @@ export class BattleBoardController {
         .delay(index * staggerSeconds)
         .to(flightSeconds * 0.46, {
           position: arc,
-          scale: new Vec3(0.88, 0.88, 1),
+          scale: new Vec3(0.76, 0.76, 1),
         }, { easing: 'quadOut' })
         .to(flightSeconds * 0.54, {
           position: target,
-          scale: new Vec3(0.48, 0.48, 1),
+          scale: new Vec3(0.4, 0.4, 1),
         }, { easing: 'quadIn' })
         .call(() => {
           clone.destroy();
@@ -325,8 +327,12 @@ export class BattleBoardController {
         .start();
     });
 
-    const flightSpan = (plan.flightOrder.length - 1) * staggerSeconds + flightSeconds;
-    const settlementStartSeconds = Math.max(0.26, Math.min(0.34, flightSpan * 0.45));
+    const flightSpan = timing.totalMs / 1000;
+    const settlementStartSeconds = Math.max(0.18, Math.min(0.24, flightSpan * 0.45));
+    const finalDelaySeconds = Math.max(
+      0.3,
+      flightSpan - settlementStartSeconds + 0.05,
+    );
     const timeline = new Node('EffectTimeline');
     timeline.parent = this.fxRoot;
     tween(timeline)
@@ -345,13 +351,19 @@ export class BattleBoardController {
             const node = this.ingredientSprites[row][column].node;
             const target = this.basePositions[row][column];
             node.setPosition(target.x, target.y + 76, 0);
-            tween(node).to(0.42, { position: target }, { easing: 'backOut' }).start();
+            tween(node).to(0.28, { position: target }, { easing: 'backOut' }).start();
           }
         }
       })
-      .delay(0.58)
+      .delay(finalDelaySeconds)
       .call(() => {
         this.render(plan.finalBoard);
+        if (plan.shuffled) {
+          this.boardRoot.setScale(0.97, 0.97, 1);
+          tween(this.boardRoot)
+            .to(0.2, { scale: Vec3.ONE }, { easing: 'backOut' })
+            .start();
+        }
         if (stableHash(this.currentBoard) !== plan.finalBoardHash) {
           throw new Error('Visible board hash diverged from Domain effect plan');
         }

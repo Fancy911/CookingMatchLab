@@ -10,7 +10,7 @@ export interface ResolvedResearchMenu {
   dailyMenuId: string;
   scenarioId: ScenarioId;
   caseId?: string;
-  acceptanceFixtureId?: 'LONG_LINKS';
+  boardFixtureId?: import('./NaturalResearchFixtures').ResearchBoardFixtureId;
   orderId: OrderId;
   ingredientPool: IngredientId[];
   recipePool: RecipeId[];
@@ -46,7 +46,8 @@ export type RewardedPlacementId =
   | 'TIME_EXTENSION'
   | 'SETTLEMENT_DOUBLE'
   | 'CLUE_HINT'
-  | 'DAILY_CHEST';
+  | 'DAILY_CHEST'
+  | 'MANUAL_RESHUFFLE';
 
 export type RewardedAdStatus = 'COMPLETED' | 'CANCELLED' | 'FAILED';
 

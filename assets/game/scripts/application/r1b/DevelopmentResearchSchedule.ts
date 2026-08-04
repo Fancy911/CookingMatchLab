@@ -1,7 +1,6 @@
 import type { ResolvedResearchMenu, ResearchSchedulePort } from './ResearchPorts';
 
-const INGREDIENT_POOL: ResolvedResearchMenu['ingredientPool'] = [
-  'ING_TOMATO',
+const RS02_INGREDIENT_POOL: ResolvedResearchMenu['ingredientPool'] = [
   'ING_EGG',
   'ING_POTATO',
   'ING_CARROT',
@@ -14,8 +13,9 @@ const MENUS: Record<string, ResolvedResearchMenu> = {
     contentPackId: 'DEV_RESEARCH_PACK_V1',
     dailyMenuId: 'DEV_MENU_MULTI',
     scenarioId: 'RS02_MULTI_RECIPE',
+    boardFixtureId: 'NATURAL_RS02',
     orderId: 'ORD_02',
-    ingredientPool: INGREDIENT_POOL,
+    ingredientPool: RS02_INGREDIENT_POOL,
     recipePool: [
       'RCP_SCALLION_POTATO_CAKE',
       'RCP_GARDEN_MUSHROOM_SOUP',
@@ -27,7 +27,7 @@ const MENUS: Record<string, ResolvedResearchMenu> = {
     dailyMenuId: 'DEV_MENU_REPEAT',
     scenarioId: 'RS01_TUTORIAL_REPEAT',
     orderId: 'ORD_01',
-    ingredientPool: INGREDIENT_POOL,
+    ingredientPool: ['ING_TOMATO', 'ING_EGG', 'ING_SCALLION'],
     recipePool: ['RCP_TOMATO_EGG'],
     clueIds: ['CLUE_TOMATO_EGG_A', 'CLUE_TOMATO_EGG_B'],
   },
@@ -35,9 +35,9 @@ const MENUS: Record<string, ResolvedResearchMenu> = {
     contentPackId: 'DEV_RESEARCH_PACK_V1',
     dailyMenuId: 'DEV_MENU_LONG',
     scenarioId: 'RS04_INSPIRATION',
-    acceptanceFixtureId: 'LONG_LINKS',
+    boardFixtureId: 'NATURAL_LONG_LINKS',
     orderId: 'ORD_03',
-    ingredientPool: INGREDIENT_POOL,
+    ingredientPool: RS02_INGREDIENT_POOL,
     recipePool: ['RCP_STAR_MUSHROOM_EGG_CUP', 'RCP_TOMATO_EGG'],
     clueIds: ['CLUE_STAR', 'CLUE_TOMATO_EGG_C'],
   },
@@ -47,7 +47,7 @@ const MENUS: Record<string, ResolvedResearchMenu> = {
     scenarioId: 'RS05_TIMER_END',
     caseId: 'FIVE_UNITS_AUTO_FIRE',
     orderId: 'ORD_01',
-    ingredientPool: INGREDIENT_POOL,
+    ingredientPool: ['ING_TOMATO', 'ING_EGG', 'ING_SCALLION'],
     recipePool: ['RCP_TOMATO_EGG'],
     clueIds: ['CLUE_TOMATO_EGG_A'],
   },
@@ -57,9 +57,44 @@ const MENUS: Record<string, ResolvedResearchMenu> = {
     scenarioId: 'RS05_TIMER_END',
     caseId: 'THREE_UNITS_PARTIAL',
     orderId: 'ORD_01',
-    ingredientPool: INGREDIENT_POOL,
+    ingredientPool: ['ING_TOMATO', 'ING_EGG', 'ING_SCALLION'],
     recipePool: ['RCP_TOMATO_EGG'],
     clueIds: ['CLUE_TOMATO_EGG_A'],
+  },
+  DEV_MENU_DEAD: {
+    contentPackId: 'DEV_RESEARCH_PACK_V1',
+    dailyMenuId: 'DEV_MENU_DEAD',
+    scenarioId: 'RS02_MULTI_RECIPE',
+    boardFixtureId: 'DEAD_BOARD',
+    orderId: 'ORD_02',
+    ingredientPool: RS02_INGREDIENT_POOL,
+    recipePool: [
+      'RCP_SCALLION_POTATO_CAKE',
+      'RCP_GARDEN_MUSHROOM_SOUP',
+    ],
+    clueIds: ['CLUE_POTATO_CAKE', 'CLUE_GARDEN_SOUP'],
+  },
+  DEV_TEST_ROW_LINKS: {
+    contentPackId: 'DEV_RESEARCH_PACK_V1',
+    dailyMenuId: 'DEV_TEST_ROW_LINKS',
+    scenarioId: 'RS04_INSPIRATION',
+    boardFixtureId: 'ROW_LINKS_TEST_ONLY',
+    orderId: 'ORD_03',
+    ingredientPool: ['ING_MUSHROOM'],
+    recipePool: ['RCP_STAR_MUSHROOM_EGG_CUP', 'RCP_WARM_HOTPOT_MIX'],
+    clueIds: ['CLUE_STAR'],
+  },
+  DEV_TEST_RS02_ROWS: {
+    contentPackId: 'DEV_RESEARCH_PACK_V1',
+    dailyMenuId: 'DEV_TEST_RS02_ROWS',
+    scenarioId: 'RS02_MULTI_RECIPE',
+    orderId: 'ORD_02',
+    ingredientPool: RS02_INGREDIENT_POOL,
+    recipePool: [
+      'RCP_SCALLION_POTATO_CAKE',
+      'RCP_GARDEN_MUSHROOM_SOUP',
+    ],
+    clueIds: ['CLUE_POTATO_CAKE', 'CLUE_GARDEN_SOUP'],
   },
 };
 
@@ -87,6 +122,9 @@ export class DevelopmentResearchSchedule implements ResearchSchedulePort {
   }
 
   public listMenuIds(): string[] {
-    return Object.keys(MENUS);
+    return Object.keys(MENUS).filter((menuId) =>
+      !menuId.startsWith('DEV_TEST_')
+      && menuId !== 'DEV_MENU_DEAD'
+      && menuId !== 'DEV_MENU_LONG');
   }
 }

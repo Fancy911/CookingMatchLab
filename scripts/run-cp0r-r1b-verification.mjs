@@ -4,7 +4,15 @@ import { mkdirSync, writeFileSync } from 'node:fs';
 import { join, relative } from 'node:path';
 
 const root = process.cwd();
-const reportDirectory = join(root, 'reports', 'cp0-r', 'r1b');
+const reportSubdirectory = process.env.CP0R_R1B_REPORT_SUBDIR ?? '';
+const evidencePrefix = process.env.CP0R_R1B_EVIDENCE_PREFIX ?? 'CP0R-R1B';
+const reportDirectory = join(
+  root,
+  'reports',
+  'cp0-r',
+  'r1b',
+  reportSubdirectory,
+);
 mkdirSync(reportDirectory, { recursive: true });
 
 const commands = [
@@ -57,18 +65,18 @@ for (const [executable, args] of commands) {
 }
 
 const summary = {
-  reportId: 'CP0-R-R1-B-COMMAND-RESULTS',
+  reportId: `${evidencePrefix}-COMMAND-RESULTS`,
   generatedAt: new Date().toISOString(),
   status: records.every(({ status }) => status === 'PASS') ? 'PASS' : 'FAIL',
   nodeVersion: process.version,
   commands: records,
 };
 writeFileSync(
-  join(reportDirectory, 'CP0R-R1B-Command-Results.json'),
+  join(reportDirectory, `${evidencePrefix}-Command-Results.json`),
   `${JSON.stringify(summary, null, 2)}\n`,
 );
 writeFileSync(
-  join(reportDirectory, 'CP0R-R1B-Verification.log'),
+  join(reportDirectory, `${evidencePrefix}-Verification.log`),
   `${log.join('\n').trimEnd()}\n`,
 );
 console.log(`CP0-R1-B command verification: ${summary.status}`);

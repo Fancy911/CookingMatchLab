@@ -28,6 +28,7 @@ import {
   type CookPresentation,
 } from '../application/r1b/ResearchGameplaySession';
 import { SystemClock } from '../application/r1b/ResearchPorts';
+import { flightTimingMsFor } from '../application/r1b/R1BAnimationTiming';
 import type {
   AudioEvent,
   IngredientId,
@@ -47,6 +48,7 @@ export const R1B_ASSETS = {
   potMushroom: 'game/art/pot/pot_mushroom/spriteFrame',
   dishPotatoCake: 'game/art/dishes/dish_scallion_potato_cake/spriteFrame',
   dishMushroomSoup: 'game/art/dishes/dish_garden_mushroom_soup/spriteFrame',
+  dishWarmHotpotMix: 'game/art/dishes/dish_warm_hotpot_mix/spriteFrame',
   lid: 'game/art/pot/pot_lid/spriteFrame',
 } as const;
 
@@ -74,6 +76,7 @@ const DISH_FRAME: Partial<Record<RecipeId, string>> = {
   RCP_TOMATO_EGG: 'dish',
   RCP_SCALLION_POTATO_CAKE: 'dishPotatoCake',
   RCP_GARDEN_MUSHROOM_SOUP: 'dishMushroomSoup',
+  RCP_WARM_HOTPOT_MIX: 'dishWarmHotpotMix',
 };
 
 const PROCESSING_MARK: Record<ProcessingLevel, string> = {
@@ -105,6 +108,7 @@ export class R1BBattlePresenter {
   private readonly feedbackRoot: Node;
   private readonly feedbackOpacity: UIOpacity;
   private readonly feedbackLabel: Label;
+  private readonly shuffleNoticeRoot: Node;
   private readonly potRoot: Node;
   private readonly potIngredientLayer: Node;
   private readonly slotContentLayer: Node;
@@ -350,6 +354,30 @@ export class R1BBattlePresenter {
     );
     this.feedbackRoot.active = false;
 
+    this.shuffleNoticeRoot = this.makeRoot('AutoShuffleNotice', this.safeArea);
+    this.sprite(
+      'AutoShuffleNoticeShell',
+      'hudShell',
+      this.shuffleNoticeRoot,
+      79,
+      405,
+      232,
+      62,
+      true,
+    );
+    this.label(
+      'AutoShuffleNoticeText',
+      '研究台已自动整理！',
+      this.shuffleNoticeRoot,
+      96,
+      418,
+      198,
+      34,
+      19,
+      new Color(255, 249, 218, 255),
+    );
+    this.shuffleNoticeRoot.active = false;
+
     this.potRoot = this.makeRoot('ResearchPot', this.safeArea);
     this.sprite('ResearchPotBack', 'pot', this.potRoot, 45, 525, 300, 224);
     this.potIngredientLayer = this.makeRoot('PotIngredientLayer', this.potRoot);
@@ -504,7 +532,11 @@ export class R1BBattlePresenter {
     input.off(Input.EventType.MOUSE_UP, this.routeGlobalPointerEnd, this);
     this.unbindWebPointerFallback();
     this.boardController.destroy();
-    [this.activeCookingTimeline, this.autoFireTimeline, this.quickRevealTimeline]
+    [
+      this.activeCookingTimeline,
+      this.autoFireTimeline,
+      this.quickRevealTimeline,
+    ]
       .forEach((node) => {
         if (!node) return;
         Tween.stopAllByTarget(node);
@@ -525,9 +557,8 @@ export class R1BBattlePresenter {
       this.peakActiveFlightNodes,
       plan.flightOrder.length,
     );
-    const staggerMs = Math.max(24, Math.min(55, 420 / plan.path.length));
-    const totalFlightMs = (plan.path.length - 1) * staggerMs + 460;
-    this.longestFlightMs = Math.max(this.longestFlightMs, totalFlightMs);
+    const flightTiming = flightTimingMsFor(plan.path.length);
+    this.longestFlightMs = Math.max(this.longestFlightMs, flightTiming.totalMs);
     if (plan.audioEvent) {
       this.showFeedback(plan.audioEvent);
     }
@@ -542,6 +573,9 @@ export class R1BBattlePresenter {
       () => {
         if (!this.session.completeAnimation(plan.operationId)) return;
         this.render(true);
+        if (plan.shuffled) {
+          this.showAutoShuffleNotice();
+        }
         if (this.session.viewModel().phase === 'AUTO_FIRE_READY') {
           this.scheduleAutoFire();
         }
@@ -726,16 +760,30 @@ export class R1BBattlePresenter {
     tween(this.feedbackRoot)
       .to(0.2, { scale: new Vec3(1.08, 1.08, 1) }, { easing: 'backOut' })
       .to(0.08, { scale: Vec3.ONE })
-      .delay(0.48)
-      .to(0.18, { scale: new Vec3(0.92, 0.92, 1) })
+      .delay(0.28)
+      .to(0.14, { scale: new Vec3(0.92, 0.92, 1) })
       .call(() => {
         this.feedbackRoot.active = false;
         this.feedbackOpacity.opacity = 255;
       })
       .start();
     tween(this.feedbackOpacity)
-      .delay(0.76)
-      .to(0.18, { opacity: 0 })
+      .delay(0.56)
+      .to(0.14, { opacity: 0 })
+      .start();
+  }
+
+  private showAutoShuffleNotice(): void {
+    if (
+      !this.session.viewModel().autoShuffleNotice
+      || this.shuffleNoticeRoot.active
+    ) {
+      return;
+    }
+    this.shuffleNoticeRoot.active = true;
+    this.shuffleNoticeRoot.setScale(0.78, 0.78, 1);
+    tween(this.shuffleNoticeRoot)
+      .to(0.2, { scale: Vec3.ONE }, { easing: 'backOut' })
       .start();
   }
 
@@ -776,8 +824,14 @@ export class R1BBattlePresenter {
       this.renderSlots(view.throwRecords);
     }
     this.renderFire(view);
+    if (view.autoShuffleNotice) {
+      this.showAutoShuffleNotice();
+    } else {
+      this.shuffleNoticeRoot.active = false;
+    }
     this.boardController.setInputEnabled(
       !this.session.isPaused()
+      && !view.autoShuffleNotice
       && (view.phase === 'READY' || view.phase === 'LINKING'),
     );
     if (view.phase === 'PARTIAL_RESULT') {
@@ -984,6 +1038,21 @@ export class R1BBattlePresenter {
 
   private routePointerEndAt(x: number, y: number): void {
     const view = this.session.viewModel();
+    if (view.autoShuffleNotice) {
+      if (
+        safeQuery().get('evidence') === null
+        && x >= 79
+        && x <= 311
+        && y >= 405
+        && y <= 467
+      ) {
+        this.session.acknowledgeAutoShuffleNotice();
+        this.shuffleNoticeRoot.active = false;
+        this.lastActiveTickAt = globalThis.performance?.now?.() ?? Date.now();
+        this.render(true);
+      }
+      return;
+    }
     if (view.phase === 'PAUSED') {
       if (x >= 74 && x <= 316 && y >= 346 && y <= 404) {
         this.resume();
@@ -1072,7 +1141,11 @@ export class R1BBattlePresenter {
   }
 
   private cancelTimelines(): void {
-    [this.activeCookingTimeline, this.autoFireTimeline, this.quickRevealTimeline]
+    [
+      this.activeCookingTimeline,
+      this.autoFireTimeline,
+      this.quickRevealTimeline,
+    ]
       .forEach((timeline) => {
         if (!timeline) return;
         Tween.stopAllByTarget(timeline);
@@ -1083,6 +1156,7 @@ export class R1BBattlePresenter {
     this.quickRevealTimeline = undefined;
     Tween.stopAllByTarget(this.potRoot);
     Tween.stopAllByTarget(this.feedbackRoot);
+    Tween.stopAllByTarget(this.shuffleNoticeRoot);
   }
 
   private makeRevealOverlay(): Node {
@@ -1370,6 +1444,7 @@ export class R1BBattlePresenter {
       sorted[Math.min(sorted.length - 1, Math.floor(sorted.length * ratio))];
     const averageFrameMs =
       this.frameTimes.reduce((sum, value) => sum + value, 0) / this.frameTimes.length;
+    const playability = this.session.playabilityAudit();
     const performanceSample = {
       sampledAt: new Date().toISOString(),
       sampleFrames: this.frameTimes.length,
@@ -1381,6 +1456,15 @@ export class R1BBattlePresenter {
       peakActiveFlightNodes: this.peakActiveFlightNodes,
       menuId: this.session.menu.dailyMenuId,
       boardHash: this.session.viewModel().boardHash,
+      autoShuffleNotice: this.session.viewModel().autoShuffleNotice,
+      playability: playability
+        ? {
+          shuffled: playability.shuffled,
+          beforeBoardHash: playability.beforeBoardHash,
+          afterBoardHash: playability.afterBoardHash,
+          legalIngredientIds: playability.legalIngredientIds,
+        }
+        : undefined,
     };
     (globalThis as typeof globalThis & {
       __CP0R1B_PERF__?: Record<string, unknown>;
@@ -1388,6 +1472,10 @@ export class R1BBattlePresenter {
     if (typeof document !== 'undefined') {
       document.documentElement.dataset.cp0r1bPerf =
         JSON.stringify(performanceSample);
+      if (safeQuery().has('evidence')) {
+        document.documentElement.dataset.cp0r1bBoard =
+          JSON.stringify(this.session.viewModel().board);
+      }
     }
   }
 

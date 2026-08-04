@@ -3,6 +3,7 @@ import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { DevelopmentResearchSchedule } from '../../assets/game/scripts/application/r1b/DevelopmentResearchSchedule';
 import { ResearchGameplaySession } from '../../assets/game/scripts/application/r1b/ResearchGameplaySession';
+import { NATURAL_LONG_LINK_PATHS } from '../../assets/game/scripts/application/r1b/NaturalResearchFixtures';
 import {
   FixedClock,
   type RewardedAdPort,
@@ -22,7 +23,7 @@ const path = (...pairs: Array<[number, number]>): Coord[] =>
 const rowPath = (length: number, row = 0, start = 0): Coord[] =>
   Array.from({ length }, (_unused, index) => ({ row, column: start + index }));
 
-const create = (menu = 'DEV_MENU_MULTI') =>
+const create = (menu = 'DEV_TEST_ROW_LINKS') =>
   new ResearchGameplaySession(registry, schedule, fixedClock, menu);
 
 const link = (session: ResearchGameplaySession, coords: Coord[]) => {
@@ -47,6 +48,54 @@ const prepareFiveThrows = (session: ResearchGameplaySession) => {
   for (let index = 0; index < 5; index += 1) {
     link(session, rowPath(3));
   }
+};
+
+const findIngredientPath = (
+  session: ResearchGameplaySession,
+  ingredientId: string,
+  length = 3,
+): Coord[] => {
+  const board = session.viewModel().board;
+  const search = (current: Coord[], targetLength: number): Coord[] | undefined => {
+    if (current.length >= targetLength) return current;
+    const tail = current.at(-1)!;
+    for (let rowDelta = -1; rowDelta <= 1; rowDelta += 1) {
+      for (let columnDelta = -1; columnDelta <= 1; columnDelta += 1) {
+        if (rowDelta === 0 && columnDelta === 0) continue;
+        const next = {
+          row: tail.row + rowDelta,
+          column: tail.column + columnDelta,
+        };
+        if (
+          next.row < 0
+          || next.row >= board.length
+          || next.column < 0
+          || next.column >= board[0].length
+          || board[next.row][next.column].ingredientId !== ingredientId
+          || current.some(({ row, column }) => row === next.row && column === next.column)
+        ) continue;
+        const result = search([...current, next], targetLength);
+        if (result) return result;
+      }
+    }
+    return undefined;
+  };
+  for (let row = 0; row < board.length; row += 1) {
+    for (let column = 0; column < board[0].length; column += 1) {
+      if (board[row][column].ingredientId !== ingredientId) continue;
+      const result = search([{ row, column }], length);
+      if (result) return result;
+    }
+  }
+  throw new Error(`No ${length}-cell path for ${ingredientId}`);
+};
+
+const throwIngredients = (
+  session: ResearchGameplaySession,
+  ingredientIds: string[],
+): void => {
+  ingredientIds.forEach((ingredientId) =>
+    link(session, findIngredientPath(session, ingredientId)));
 };
 
 describe('CP0-R1-B playable research loop', () => {
@@ -81,7 +130,7 @@ describe('CP0-R1-B playable research loop', () => {
   });
 
   it('B104 real initial ViewModel is 90 seconds, zero score, empty pot and first clue', () => {
-    const view = create().viewModel();
+    const view = create('DEV_MENU_MULTI').viewModel();
     expect(view.timerText).toBe('01:30');
     expect(view.remainingActiveTimeMs).toBe(90_000);
     expect(view.totalScore).toBe(0);
@@ -103,8 +152,8 @@ describe('CP0-R1-B playable research loop', () => {
   it('B106 3, 5, 7 and 9 links each render exactly one throw unit', () => {
     const three = link(create('DEV_MENU_REPEAT'), rowPath(3));
     const five = link(create('DEV_MENU_REPEAT'), rowPath(5));
-    const seven = link(create('DEV_MENU_LONG'), rowPath(7));
-    const nine = link(create('DEV_MENU_LONG'), [
+    const seven = link(create(), rowPath(7));
+    const nine = link(create(), [
       ...rowPath(7, 1),
       { row: 0, column: 6 },
       { row: 0, column: 5 },
@@ -230,12 +279,9 @@ describe('CP0-R1-B playable research loop', () => {
 
   it('B114 GOOD, GREAT and UNBELIEVABLE come exactly from Domain audioEvent', () => {
     expect(link(create('DEV_MENU_REPEAT'), rowPath(5)).audioEvent).toBe('GOOD');
-    expect(link(create('DEV_MENU_LONG'), rowPath(7)).audioEvent).toBe('GREAT');
-    expect(link(create('DEV_MENU_LONG'), [
-      ...rowPath(7, 1),
-      { row: 0, column: 6 },
-      { row: 0, column: 5 },
-    ]).audioEvent).toBe('UNBELIEVABLE');
+    expect(link(create('DEV_MENU_LONG'), NATURAL_LONG_LINK_PATHS.GREAT).audioEvent).toBe('GREAT');
+    expect(link(create('DEV_MENU_LONG'), NATURAL_LONG_LINK_PATHS.UNBELIEVABLE
+    ).audioEvent).toBe('UNBELIEVABLE');
   });
 
   it('B115 combo active-time window pauses during animation and reveal', () => {
@@ -251,7 +297,7 @@ describe('CP0-R1-B playable research loop', () => {
   });
 
   it('B116 RS02 cooks potato cake then mushroom soup and advances two clues', () => {
-    const target = create();
+    const target = create('DEV_TEST_RS02_ROWS');
     prepareFiveThrows(target);
     const first = cookAndReveal(target);
     prepareFiveThrows(target);
@@ -264,7 +310,7 @@ describe('CP0-R1-B playable research loop', () => {
   });
 
   it('B117 board, queue, score and remaining time continue between RS02 pots', () => {
-    const target = create();
+    const target = create('DEV_TEST_RS02_ROWS');
     target.tick(2_500);
     prepareFiveThrows(target);
     const beforeFire = target.snapshot();
@@ -334,10 +380,10 @@ describe('CP0-R1-B playable research loop', () => {
   });
 
   it('B122 restart restores fixed board, queue, time, score, pot and clue', () => {
-    const target = create();
+    const target = create('DEV_MENU_MULTI');
     const initial = target.snapshot();
     target.tick(4_200);
-    link(target, rowPath(3));
+    link(target, NATURAL_LONG_LINK_PATHS.GOOD.slice(0, 3));
     target.restart();
     const restarted = target.snapshot();
     expect(restarted.boardHash).toBe(initial.boardHash);

@@ -12,11 +12,19 @@ import {
 import { join, relative } from 'node:path';
 
 const root = process.cwd();
-const reportDirectory = join(root, 'reports', 'cp0-r', 'r1b');
-const outputName = 'cp0r-r1b-web-mobile';
+const reportSubdirectory = process.env.CP0R_R1B_REPORT_SUBDIR ?? '';
+const evidencePrefix = process.env.CP0R_R1B_EVIDENCE_PREFIX ?? 'CP0R-R1B';
+const reportDirectory = join(
+  root,
+  'reports',
+  'cp0-r',
+  'r1b',
+  reportSubdirectory,
+);
+const outputName = process.env.CP0R_R1B_BUILD_OUTPUT ?? 'cp0r-r1b-web-mobile';
 const buildDirectory = join(root, 'build', outputName);
-const resultPath = join(reportDirectory, 'CP0R-R1B-Cocos-Build-Result.json');
-const logPath = join(reportDirectory, 'CP0R-R1B-Cocos-Build-3.8.8.log');
+const resultPath = join(reportDirectory, `${evidencePrefix}-Cocos-Build-Result.json`);
+const logPath = join(reportDirectory, `${evidencePrefix}-Cocos-Build-3.8.8.log`);
 const creatorBinary = process.env.COCOS_CREATOR_BIN
   ?? '/Applications/CocosCreator.app/Contents/MacOS/CocosCreator';
 const buildArgument =
@@ -98,7 +106,7 @@ const passed = verification.creatorVersionConfigured
   && requiredFiles.every((item) => item.exists)
   && failureMarkers.length === 0;
 const record = {
-  reportId: 'CP0-R-R1-B-COCOS-BUILD',
+  reportId: `${evidencePrefix}-COCOS-BUILD`,
   generatedAt: finishedAt.toISOString(),
   status: passed ? 'PASS' : 'FAIL',
   creatorVersion: '3.8.8',
